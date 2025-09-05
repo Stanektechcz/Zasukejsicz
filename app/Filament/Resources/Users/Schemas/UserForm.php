@@ -28,13 +28,6 @@ class UserForm
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
 
-                Select::make('gender')
-                    ->options([
-                        'male' => 'Male',
-                        'female' => 'Female',
-                    ])
-                    ->placeholder('Select gender'),
-
                 TextInput::make('password')
                     ->password()
                     ->required(fn (string $operation): bool => $operation === 'create')

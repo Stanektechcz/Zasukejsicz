@@ -22,7 +22,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'phone',
-        'gender',
         'password',
     ];
 
@@ -55,21 +54,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profile()
     {
         return $this->hasOne(Profile::class);
-    }
-
-    /**
-     * Check if the user is a woman.
-     */
-    public function isWoman(): bool
-    {
-        return $this->gender === 'female';
-    }
-
-    /**
-     * Check if the user is a man.
-     */
-    public function isMan(): bool
-    {
-        return $this->gender === 'male';
     }
 }

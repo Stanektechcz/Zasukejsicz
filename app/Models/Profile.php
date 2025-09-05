@@ -18,6 +18,7 @@ class Profile extends Model
      */
     protected $fillable = [
         'user_id',
+        'gender',
         'display_name',
         'age',
         'city',
@@ -111,5 +112,21 @@ class Profile extends Model
         $this->save();
 
         return $this;
+    }
+
+    /**
+     * Check if the profile belongs to a woman.
+     */
+    public function isWoman(): bool
+    {
+        return $this->gender === 'female';
+    }
+
+    /**
+     * Check if the profile belongs to a man.
+     */
+    public function isMan(): bool
+    {
+        return $this->gender === 'male';
     }
 }

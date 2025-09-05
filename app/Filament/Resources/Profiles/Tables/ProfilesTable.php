@@ -29,6 +29,14 @@ class ProfilesTable
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('gender')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'male' => 'blue',
+                        'female' => 'pink',
+                        default => 'gray',
+                    }),
+
                 TextColumn::make('age')
                     ->numeric()
                     ->sortable(),

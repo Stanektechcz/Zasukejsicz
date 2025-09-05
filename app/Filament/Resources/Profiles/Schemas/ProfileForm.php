@@ -29,6 +29,14 @@ class ProfileForm
                     ->visible($isAdmin)
                     ->columnSpanFull(),
 
+                Select::make('gender')
+                    ->options([
+                        'male' => 'Male',
+                        'female' => 'Female',
+                    ])
+                    ->required()
+                    ->columnSpanFull(),
+
                 TextInput::make('display_name')
                     ->required()
                     ->maxLength(255),

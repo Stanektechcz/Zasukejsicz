@@ -13,7 +13,7 @@ class ProfilePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->roles()->whereIn('name', ['admin', 'woman', 'man'])->exists();
+        return $user->roles()->whereIn('name', ['admin', 'user'])->exists();
     }
 
     /**
@@ -31,8 +31,8 @@ class ProfilePolicy
             return true;
         }
 
-        // Men can view approved public profiles
-        if ($user->roles()->where('name', 'man')->exists() && $profile->status === 'approved' && $profile->is_public) {
+        // Users can view approved public profiles
+        if ($user->roles()->where('name', 'user')->exists() && $profile->status === 'approved' && $profile->is_public) {
             return true;
         }
 
@@ -44,8 +44,8 @@ class ProfilePolicy
      */
     public function create(User $user): bool
     {
-        // Only women can create profiles (and only one)
-        return $user->roles()->where('name', 'woman')->exists() && !$user->profile;
+        // Only regular users can create profiles (and only one)
+        return $user->roles()->where('name', 'user')->exists() && !$user->profile;
     }
 
     /**
@@ -58,8 +58,8 @@ class ProfilePolicy
             return true;
         }
 
-        // Women can update their own profile
-        if ($user->roles()->where('name', 'woman')->exists() && $user->id === $profile->user_id) {
+        // Users can update their own profile
+        if ($user->roles()->where('name', 'user')->exists() && $user->id === $profile->user_id) {
             return true;
         }
 
@@ -76,8 +76,8 @@ class ProfilePolicy
             return true;
         }
 
-        // Women can delete their own profile
-        if ($user->roles()->where('name', 'woman')->exists() && $user->id === $profile->user_id) {
+        // Users can delete their own profile
+        if ($user->roles()->where('name', 'user')->exists() && $user->id === $profile->user_id) {
             return true;
         }
 

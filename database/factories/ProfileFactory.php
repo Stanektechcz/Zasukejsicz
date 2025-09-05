@@ -20,6 +20,7 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
+            'gender' => fake()->randomElement(['male', 'female']),
             'display_name' => fake()->firstName() . ' ' . fake()->lastName(),
             'age' => fake()->numberBetween(18, 65),
             'city' => fake()->city(),

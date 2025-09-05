@@ -25,15 +25,8 @@ class UsersTable
                     ->sortable(),
 
                 TextColumn::make('phone')
-                    ->searchable(),
-
-                TextColumn::make('gender')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'female' => 'pink',
-                        'male' => 'blue',
-                        default => 'gray',
-                    }),
+                    ->searchable()
+                    ->placeholder('No phone'),
 
                 IconColumn::make('email_verified_at')
                     ->label('Email Verified')
@@ -41,12 +34,12 @@ class UsersTable
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle'),
 
-                TextColumn::make('profile.display_name')
+                IconColumn::make('has_profile')
                     ->label('Has Profile')
-                    ->badge()
-                    ->color('success')
-                    ->formatStateUsing(fn ($state) => $state ? 'Yes' : 'No')
-                    ->getStateUsing(fn ($record) => $record->profile ? 'Yes' : 'No'),
+                    ->getStateUsing(fn ($record) => !is_null($record->profile))
+                    ->boolean()
+                    ->trueIcon('heroicon-o-user')
+                    ->falseIcon('heroicon-o-user-minus'),
 
                 TextColumn::make('roles.name')
                     ->badge()
@@ -58,12 +51,6 @@ class UsersTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('gender')
-                    ->options([
-                        'male' => 'Male',
-                        'female' => 'Female',
-                    ]),
-
                 SelectFilter::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()
