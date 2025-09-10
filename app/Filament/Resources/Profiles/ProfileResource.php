@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Profiles;
 use App\Filament\Resources\Profiles\Pages\CreateProfile;
 use App\Filament\Resources\Profiles\Pages\EditProfile;
 use App\Filament\Resources\Profiles\Pages\ListProfiles;
+use App\Filament\Resources\Profiles\Pages\ViewProfile;
 use App\Filament\Resources\Profiles\Schemas\ProfileForm;
 use App\Filament\Resources\Profiles\Tables\ProfilesTable;
 use App\Models\Profile;
@@ -23,7 +24,20 @@ class ProfileResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationLabel = 'Profiles';
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.navigation.profiles');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.Profile');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.Profiles');
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -63,6 +77,7 @@ class ProfileResource extends Resource
         return [
             'index' => ListProfiles::route('/'),
             'create' => CreateProfile::route('/create'),
+            'view' => ViewProfile::route('/{record}'),
             'edit' => EditProfile::route('/{record}/edit'),
         ];
     }

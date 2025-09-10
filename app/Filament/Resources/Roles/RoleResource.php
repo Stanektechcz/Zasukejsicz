@@ -40,6 +40,21 @@ class RoleResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.navigation.roles');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('common.Role');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.Roles');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

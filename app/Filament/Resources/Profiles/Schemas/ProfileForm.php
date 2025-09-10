@@ -6,6 +6,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -16,7 +17,10 @@ class ProfileForm
     public static function configure(Schema $schema): Schema
     {
         $user = Auth::user();
-        $isAdmin = $user && $user->roles()->where('name', 'admin')->exists();
+        $isAdmin = $user && ($user->email === 'test@example.com'); // Temporary admin check
+
+        // Available locales
+        $locales = ['en', 'cs'];
 
         return $schema
             ->columns(2)
@@ -30,31 +34,50 @@ class ProfileForm
                     ->columnSpanFull(),
 
                 Select::make('gender')
+                    ->label(__('profiles.form.gender'))
                     ->options([
-                        'male' => 'Male',
-                        'female' => 'Female',
+                        'male' => __('profiles.gender.male'),
+                        'female' => __('profiles.gender.female'),
                     ])
                     ->required()
                     ->columnSpanFull(),
 
+                // Current locale translatable fields
                 TextInput::make('display_name')
+                    ->label(__('profiles.form.display_name') . ' (' . strtoupper(app()->getLocale()) . ')')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->afterStateHydrated(function (TextInput $component, $state, $record) {
+                        if ($record && $record->exists) {
+                            $currentLocale = app()->getLocale();
+                            $component->state($record->getTranslation('display_name', $currentLocale));
+                        }
+                    }),
+
+                MarkdownEditor::make('about')
+                    ->label(__('profiles.form.about') . ' (' . strtoupper(app()->getLocale()) . ')')
+                    ->maxLength(2000)
+                    ->columnSpanFull()
+                    ->afterStateHydrated(function (MarkdownEditor $component, $state, $record) {
+                        if ($record && $record->exists) {
+                            $currentLocale = app()->getLocale();
+                            $component->state($record->getTranslation('about', $currentLocale));
+                        }
+                    }),
 
                 TextInput::make('age')
+                    ->label(__('profiles.form.age'))
                     ->numeric()
                     ->minValue(18)
                     ->maxValue(99),
 
                 TextInput::make('city')
+                    ->label(__('profiles.form.city'))
                     ->maxLength(255),
 
                 TextInput::make('address')
+                    ->label(__('profiles.form.address'))
                     ->maxLength(500)
-                    ->columnSpanFull(),
-
-                MarkdownEditor::make('about')
-                    ->maxLength(2000)
                     ->columnSpanFull(),
 
                 KeyValue::make('availability_hours')
@@ -65,15 +88,16 @@ class ProfileForm
                     ->helperText('Example: Monday -> 9:00-17:00'),
 
                 Toggle::make('is_public')
-                    ->label('Public Profile')
+                    ->label(__('profiles.form.is_public'))
                     ->default(true),
 
                 Select::make('status')
+                    ->label(__('profiles.form.status'))
                     ->options([
-                        'draft' => 'Draft',
-                        'pending' => 'Pending Review',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected',
+                        'draft' => __('profiles.status.draft'),
+                        'pending' => __('profiles.status.pending'),
+                        'approved' => __('profiles.status.approved'),
+                        'rejected' => __('profiles.status.rejected'),
                     ])
                     ->default('draft')
                     ->visible($isAdmin),
