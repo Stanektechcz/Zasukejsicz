@@ -1,15 +1,12 @@
 @props(['cities' => collect()])
 
-<x-card class="w-full shadow-2xl p-8 overflow-visible" :hover="false">
+<div class="card w-full shadow-3xl shadow p-8 overflow-visible" :hover="false">
     <div class="space-y-6">
         <!-- Heading -->
-        <x-heading size="h4" class="text-center mb-6">
-            <svg class="inline-block w-8 h-8 text-primary-500 mr-2 align-middle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-            
-            {{ __('Find Profiles') }}
-        </x-heading>
+        <h4 class="mb-6 flex items-center ">
+            <x-icons name="heart" class="w-6  h-6 inline-block mr-3 text-primary-500" />
+            {{ __('front.landing.findprofiles') }}
+        </h4>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('profiles.index') }}" class="space-y-6" id="search-form">
@@ -79,7 +76,7 @@
             </div>
         </form>
     </div>
-</x-card>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

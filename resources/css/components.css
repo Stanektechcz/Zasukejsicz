@@ -1,0 +1,94 @@
+/* Form Input Styles */
+input,
+textarea,
+select {
+  @apply block w-full px-4 py-3 text-base leading-6 rounded-lg bg-white outline-none transition-all duration-200 ease-in-out;
+  border: 3px solid rgb(var(--color-gray-300));
+  color: rgb(var(--color-gray-700));
+}
+
+
+select {
+  @apply appearance-none cursor-pointer pr-10;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+label {
+  @apply block text-sm pb-1 font-medium;
+  color: rgb(var(--color-text-default));
+}
+
+
+
+
+/* Custom Button Styles */
+.btn-primary {
+  @apply py-3 px-4 lg:py-4 md:px-6 text-sm md:text-base bg-primary text-white inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none;
+  border: 2px solid rgb(var(--color-primary-500));
+}
+
+
+.btn-light {
+  @apply py-4 px-5 inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none;
+  background-color: white;
+  border: 1.5px solid var(--color-primary-500);
+  color: var(--color-primary);
+}
+
+.btn-light:active {
+  transform: translateY(0);
+}
+
+
+.btn-light-green {
+  @apply py-3 px-5 bg-green-50 text-primary inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none hover:bg-green-100;
+}
+
+.btn-transparent {
+  @apply py-3 px-5 bg-transparent text-gray-400 inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none hover:bg-gray-50;
+}
+
+.nav-link {
+  @apply px-2 xl:px-3 text-sm xl:text-base text-text-default hover:text-primary-600 transition-colors;
+}
+
+.nav-link-mobile {
+  @apply w-full block px-3 py-2 text-text-default hover:text-primary-600 font-medium relative;
+
+  .underline {
+    @apply absolute bottom-0 left-3 w-[40%] h-0.5 bg-primary-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left;
+  }
+}
+
+
+/* Icon Select Styles */
+.icon-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  @apply inline-flex p-4 items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none cursor-pointer;
+  background-color: var(--color-gray);
+  background-image: none;
+  text-align: center;
+
+}
+
+.icon-select option {
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+/* Card Component Styles */
+.card {
+  @apply bg-white rounded-2xl shadow overflow-hidden;
+}

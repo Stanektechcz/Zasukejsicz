@@ -4,6 +4,7 @@ return [
     'landing' => [
         'wearecommunity' => 'We are community of people who like to',
         'fucking' => 'fuck',
-        'girlsregisternow' => 'Girls register now and get new customers.'
+        'girlsregisternow' => 'Girls register now and get new customers.',
+        'findprofiles' => 'Find profiles'
     ]
 ];
