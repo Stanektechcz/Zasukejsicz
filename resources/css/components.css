@@ -1,19 +1,23 @@
 /* Form Input Styles */
+.input-control,
 input,
 textarea,
 select {
-  @apply block w-full px-4 py-3 text-base leading-6 rounded-lg bg-white outline-none transition-all duration-200 ease-in-out;
-  border: 3px solid rgb(var(--color-gray-300));
-  color: rgb(var(--color-gray-700));
+  @apply block w-full px-5 py-3.5 text-base leading-5 rounded-lg bg-white outline-none transition-all duration-200 ease-in-out;
+  border: 2px solid var(--color-gray-100);
+  color: var(--color-gray-600);
+  font-weight: 600;
 }
+
+
 
 
 select {
   @apply appearance-none cursor-pointer pr-10;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
+  background-image: url("../images/arrow.png");
+  background-position: right 3px center;
   background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
+  background-size: 42px;
 }
 
 select::-ms-expand {
@@ -30,7 +34,7 @@ label {
 
 /* Custom Button Styles */
 .btn-primary {
-  @apply py-3 px-4 lg:py-4 md:px-6 text-sm md:text-base bg-primary text-white inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none;
+  @apply py-3 px-4 lg:py-4 md:px-6 text-sm md:text-base bg-primary text-white inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none hover:shadow-xl hover:-translate-y-px;
   border: 2px solid rgb(var(--color-primary-500));
 }
 
@@ -44,6 +48,23 @@ label {
 
 .btn-light:active {
   transform: translateY(0);
+}
+
+.btn-small {
+  @apply py-3 px-5 rounded-md text-sm;
+}
+
+
+
+.nav-button {
+  @apply flex items-center p-4 py-3 border-2 border-gray-200 font-semibold rounded-xl text-gray-700  transition-all duration-200;
+}
+
+.nav-button.active, .nav-button:hover {
+  @apply border-primary-500 bg-primary-500 !text-white;
+}
+.nav-button:hover svg, .nav-button.active svg{
+  @apply text-white transition-all duration-200;
 }
 
 
@@ -68,27 +89,177 @@ label {
 }
 
 
-/* Icon Select Styles */
-.icon-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  @apply inline-flex p-4 items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none cursor-pointer;
-  background-color: var(--color-gray);
-  background-image: none;
-  text-align: center;
-
+/* Custom Language Dropdown Styles */
+.language-dropdown {
+  @apply relative inline-block;
 }
 
-.icon-select option {
+.language-dropdown-toggle {
+  @apply inline-flex items-center justify-center p-4 bg-gray-200 border-0 rounded-lg cursor-pointer hover:bg-gray-50 transition-all duration-200 ease-in-out outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+  width: 58px;
+  height: 58px;
+}
+
+.language-dropdown-toggle img {
+  @apply w-full h-full object-contain;
+}
+
+.language-dropdown-toggle .dropdown-arrow {
+  @apply ml-2 w-4 h-4 text-gray-500 transition-transform duration-200;
+}
+
+.language-dropdown.open .dropdown-arrow {
+  @apply transform rotate-180;
+}
+
+.language-dropdown-menu {
+  @apply absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 invisible transform -translate-y-2 transition-all duration-200 ease-out;
+  width: 58px;
+}
+
+.language-dropdown.open .language-dropdown-menu {
+  @apply opacity-100 visible translate-y-0;
+}
+
+.language-dropdown-item {
+  @apply flex items-center justify-center py-4 hover:bg-gray-100 cursor-pointer transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg;
+  height: 58px;
+}
+
+.language-dropdown-item img {
+  @apply w-full h-full object-contain;
+}
+
+.language-dropdown-item.active {
+  @apply bg-primary-50 text-primary-700;
+}
+
+
+
+/* Custom Checkbox Styles */
+input[type="checkbox"] {
+  @apply appearance-none w-5 h-5 p-2 rounded-md cursor-pointer transition-all duration-200 ease-in-out outline-none hover:ring-[2px] hover:ring-primary-500 hover:ring-offset-[1.5px];
+  border: 2px solid var(--color-gray-300);
+  background-color: white;
+  position: relative;
+}
+
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: var(--color-primary);
+  border-radius: 3px;
+}
+
+/* Firefox compatibility */
+input[type="checkbox"]::-moz-focus-inner {
+  border: 0;
   padding: 0;
-  margin: 0;
 }
 
+/* IE/Edge compatibility */
+input[type="checkbox"]::-ms-check {
+  display: none;
+}
+
+
+
+
+
+/* Radial Blur Background */
+.radial-blur, .radial-blur-secondary {
+  height: 400px;
+  z-index: -1;
+  position: relative;
+}
+
+.radial-blur::before, .radial-blur-secondary::before {
+  content: '';
+  position: absolute;
+  left: -260px;
+  width: 400px;
+  height: 400px;
+  top: 100px;
+  background: radial-gradient(
+    circle at center,
+    rgba(221, 56, 136, 0.4) 0%,
+    rgba(221, 56, 136, 0.4) 0%,
+    rgba(221, 56, 136, 0.2) 30%,
+    rgba(221, 56, 136, 0.1) 80%,
+    transparent 100%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.radial-blur-secondary::before {
+  background: radial-gradient(
+    circle at center,
+    rgba(92, 45, 98, 0.4) 0%,
+    rgba(92, 45, 98, 0.2) 30%,
+    rgba(92, 45, 98, 0.1) 60%,
+    transparent 100%
+  );
+}
+
+.radial-blur-right::before {
+  left: auto;
+  right: -260px;
+}
+
+.radial-blur-large::before {
+  width: 400px;
+  height: 400px;
+  filter: blur(40px);
+}
+
+.radial-blur-small::before {
+  width: 100px;
+  height: 100px;
+  filter: blur(10px);
+}
 
 
 
 /* Card Component Styles */
 .card {
-  @apply bg-white rounded-2xl shadow overflow-hidden;
+  @apply bg-white rounded-2xl p-8 px-6;
+}
+
+/* Alert Component Styles */
+.alert {
+  @apply rounded-lg p-4 border;
+}
+
+.alert-success {
+  @apply bg-green-50 border-green-200 text-green-800;
+}
+
+.alert-warning {
+  @apply bg-yellow-50 border-yellow-200 text-yellow-800;
+}
+
+.alert-error {
+  @apply bg-red-50 border-red-200 text-red-800;
+}
+
+.alert-info {
+  @apply bg-blue-50 border-blue-200 text-blue-800;
+}
+
+
+
+/* Form Validation Error Styles */
+.input-error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+hr {
+  @apply border-t border-gray-300;
 }

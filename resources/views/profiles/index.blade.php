@@ -3,11 +3,11 @@
 @section('title', __('Find Your Perfect Massage Therapist'))
 
 @section('content')
-<!-- Hero Section -->
-<div class="max-h-[650px] rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
-    <div class="container mx-auto px-4 pt-24" >
-        <div class="max-w-2xl py-16">
-            <h1 class="text-secondary text-4xl md:text-6xl py-5">
+<!-- Hero Section  max-w-[1331px] -->
+<div class="max-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
+    <div class="container mx-auto px-4 pt-24">
+        <div class="max-w-2xl pl-16 py-16">
+            <h1 class="text-secondary  text-4xl md:text-6xl py-5">
                 {{ __('front.landing.wearecommunity') }}
                 <span class="text-primary-500">{{ __('front.landing.fucking') }}.</span>
             </h1>
@@ -17,9 +17,7 @@
             </p>
         </div>
         <!-- Search Card -->
-        <div>
-            <x-search-card :cities="$cities" />
-        </div>
+        <livewire:search-profiles />
 
     </div>
 </div>
@@ -27,8 +25,14 @@
 <!-- Profiles Section -->
 
 <div class="container mx-auto px-4 pt-20">
-    <!-- Alpine.js Reactive Profile List -->
-    <x-profile-list :initialProfiles="$profiles" />
+    <livewire:profile-list />
+</div>
+
+
+<div class="-z-10 absolute top-[620px] left-0 right-0 -bottom-1 overflow-x-hidden">
+    <div class="radial-blur"></div>
+    <div class="radial-blur-secondary radial-blur-right"></div>
+    <div class="radial-blur-secondary "></div>
 </div>
 
 @endsection

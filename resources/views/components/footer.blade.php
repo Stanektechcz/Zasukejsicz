@@ -1,4 +1,4 @@
-<footer class="bg-gray-50 py-12 pt-20">
+<footer class="py-12 pt-20">
     <div class="container mx-auto px-4">
         <!-- Logo -->
         <div class="text-center mb-8">

@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
-class Profile extends Model
+class Profile extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\ProfileFactory> */
-    use HasFactory, SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations, InteractsWithMedia;
 
     /**
      * The attributes that are translatable.
@@ -136,5 +139,71 @@ class Profile extends Model
     public function isMan(): bool
     {
         return $this->gender === 'male';
+    }
+
+    /**
+     * Register media collections for profile images.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile-images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+            ->useDisk('public');
+    }
+
+    /**
+     * Register media conversions for different image sizes.
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(300)
+            ->height(300)
+            ->sharpen(10)
+            ->performOnCollections('profile-images');
+
+        $this->addMediaConversion('medium')
+            ->width(600)
+            ->height(600)
+            ->sharpen(10)
+            ->performOnCollections('profile-images');
+    }
+
+    /**
+     * Get the first profile image URL.
+     */
+    public function getFirstImageUrl($conversion = null): ?string
+    {
+        $firstImage = $this->getFirstMedia('profile-images');
+        
+        if (!$firstImage) {
+            return null;
+        }
+        
+        return $conversion ? $firstImage->getUrl($conversion) : $firstImage->getUrl();
+    }
+
+    /**
+     * Get the first profile image as thumbnail.
+     */
+    public function getFirstImageThumbUrl(): ?string
+    {
+        return $this->getFirstImageUrl('thumb');
+    }
+
+    /**
+     * Get all profile images.
+     */
+    public function getAllImages()
+    {
+        return $this->getMedia('profile-images');
+    }
+
+    /**
+     * Check if profile has multiple images.
+     */
+    public function hasMultipleImages(): bool
+    {
+        return $this->getMedia('profile-images')->count() > 1;
     }
 }

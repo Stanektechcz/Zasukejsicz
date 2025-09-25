@@ -15,9 +15,8 @@ class ProfileController extends Controller
     public function index(Request $request): View
     {
         $profiles = $this->getPublicProfiles($request);
-        $cities = $this->getAvailableCities();
 
-        return view('profiles.index', compact('profiles', 'cities'));
+        return view('profiles.index', compact('profiles'));
     }
 
     /**

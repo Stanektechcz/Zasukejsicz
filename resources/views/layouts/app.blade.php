@@ -10,7 +10,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-poppins antialiased bg-light-bg text-text-default">
+<body class="font-poppins antialiased text-text-default relative">
     <div id="app">
         <!-- Navigation -->
         <x-navbar /> 
@@ -23,5 +23,8 @@
         <!-- Footer -->
         <x-footer />
     </div>
+
+    <!-- Additional Scripts -->
+    @stack('scripts')
 </body>
 </html>

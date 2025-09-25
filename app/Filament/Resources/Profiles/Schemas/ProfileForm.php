@@ -11,6 +11,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ProfileForm
 {
@@ -40,6 +42,15 @@ class ProfileForm
                         'female' => __('profiles.gender.female'),
                     ])
                     ->required()
+                    ->columnSpanFull(),
+
+                SpatieMediaLibraryFileUpload::make('images')
+                    ->label('Profile Images')
+                    ->collection('profile-images')
+                    ->multiple()
+                    ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png'])
+                    ->maxFiles(10)
+                    ->imageEditor()
                     ->columnSpanFull(),
 
                 // Current locale translatable fields
