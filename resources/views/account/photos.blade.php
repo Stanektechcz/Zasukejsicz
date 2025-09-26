@@ -1,6 +1,6 @@
 @extends('layouts.account')
 
-@section('title', 'Fotografie')
+@section('title', __('front.account.photos.title'))
 
 @php
     $activeItem = 'photos';
@@ -8,12 +8,10 @@
 
 @section('account-content')
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-text-default">
-            {{ __('Fotografie') }}
+        <h1 class="text-4xl font-semibold text-secondary py-6 text-center">
+            {{ __('front.account.photos.title') }}
         </h1>
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __('Spravujte své fotografie a profilové obrázky.') }}
-        </p>
+        <hr>
     </div>
 
     @livewire('photos-manager')

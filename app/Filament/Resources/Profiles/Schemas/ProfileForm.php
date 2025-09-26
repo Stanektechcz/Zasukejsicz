@@ -21,9 +21,6 @@ class ProfileForm
         $user = Auth::user();
         $isAdmin = $user && ($user->email === 'test@example.com'); // Temporary admin check
 
-        // Available locales
-        $locales = ['en', 'cs'];
-
         return $schema
             ->columns(2)
             ->components([

@@ -13,10 +13,10 @@
                 <!-- City Picker -->
                         <x-autocomplete-select
                             name="city"
-                            label="{{ __('City') }}"
+                            label="{{ __('front.profiles.search.city') }}"
                             :options="collect($this->filteredCities)->mapWithKeys(fn($city) => [$city => $city])->toArray()"
                             :value="$city"
-                            placeholder="{{ __('Enter or select a city...') }}"
+                            placeholder="{{ __('front.profiles.search.entercity') }}"
                             wire-model="city"
                             wire-focus="showDropdown"
                             wire-click="clearAndShowDropdown"
@@ -26,7 +26,7 @@
                             :searchable="true" />                <!-- Age Range -->
                 <div class="flex-1">
                     <label>
-                        {{ __('Age Range') }}
+                        {{ __('front.profiles.search.agerange') }}
                     </label>
                     <div class="grid grid-cols-2 gap-x-4">
                         <!-- Min Age -->
@@ -35,7 +35,7 @@
                             label=""
                             :options="$this->ageMinOptions"
                             :value="$age_min"
-                            placeholder="{{ __('Min Age') }}"
+                            placeholder="{{ __('front.profiles.search.minage') }}"
                             wire-click="clearAndShowAgeMinDropdown"
                             dropdown-open="{{ $showAgeMinDropdown }}"
                             close-dropdown="$wire.set('showAgeMinDropdown', false)"
@@ -48,7 +48,7 @@
                             label=""
                             :options="$this->ageMaxOptions"
                             :value="$age_max"
-                            placeholder="{{ __('Max Age') }}"
+                            placeholder="{{ __('front.profiles.search.maxage') }}"
                             wire-click="clearAndShowAgeMaxDropdown"
                             dropdown-open="{{ $showAgeMaxDropdown }}"
                             close-dropdown="$wire.set('showAgeMaxDropdown', false)"
@@ -74,10 +74,10 @@
                         </span>
 
                         <span wire:loading.remove wire:target="search">
-                            {{ __('Search') }}
+                            {{ __('front.profiles.search.search') }}
                         </span>
                         <span wire:loading wire:target="search">
-                            {{ __('Searching...') }}
+                            {{ __('front.profiles.search.searching') }}
                         </span>
                         
                         <!-- Search Icon -->

@@ -13,19 +13,19 @@
                 <!-- Navigation Links - Desktop -->
                 <div class="hidden lg:flex items-center space-x-5 xl:space-x-6">
                     <a href="{{ route('profiles.index') }}" class="nav-link" id="nav-link-1">
-                        {{ __('Úvod') }}
+                        {{ __('front.nav.home') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-2">
-                        {{ __('VIP a Premium') }}
+                        {{ __('front.nav.vip') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-3">
-                        {{ __('FAQ') }}
+                        {{ __('front.nav.faq') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-3">
-                        {{ __('Etika') }}
+                        {{ __('front.nav.ethics') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-3">
-                        {{ __('Kontakt') }}
+                        {{ __('front.nav.contact') }}
                     </a>
                 </div>
             </div>
@@ -36,14 +36,14 @@
                     <!-- Icon Buttons -->
                     <div class="flex items-center space-x-2">
                         <!-- Notifications Button -->
-                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('Notifications') }}">
+                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.notifications') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                         </button>
                         
                         <!-- Mail Button -->
-                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('Mail') }}">
+                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.mail') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
@@ -52,7 +52,7 @@
 
                     <!-- Account Dropdown (Profile Button) -->
                     <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('Profile') }}">
+                        <button @click="open = !open" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.profile') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
@@ -62,19 +62,19 @@
                              class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-lg shadow-lg border-2 border-gray-200 z-50">
                             <div>
                                 <a href="{{ route('account.dashboard') }}" class="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">
-                                    {{ __('My account') }}
+                                    {{ __('front.nav.myaccount') }}
                                 </a>
                                 @can('access-filament-admin')
                                     <div class="border-t border-gray-200"></div>
                                     <a href="/admin" target="_blank" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('Admin Panel') }}
+                                        {{ __('front.nav.adminpanel') }}
                                     </a>
                                 @endcan
                                 <div class="border-t border-gray-200"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('Logout') }}
+                                        {{ __('front.nav.logout') }}
                                     </button>
                                 </form>
                             </div>
@@ -83,13 +83,13 @@
                 @else
                     <!-- Register Button -->
                     <a href="{{ route('register') }}" class="btn-primary">
-                        {{ __('Register Now') }}
+                        {{ __('front.nav.register') }}
                     </a>
 
                     <!-- Login Link -->
                     <div class="hidden lg:inline">
                          <a href="{{ route('login') }}" class="btn-light" id="nav-login">
-                             {{ __('Login') }}
+                             {{ __('front.nav.login') }}
                          </a>
                     </div>
                 @endauth
@@ -135,44 +135,44 @@
         <div class="lg:hidden hidden" id="mobile-menu">
             <div class="flex flex-wrap p-4 py-5 pt-6 space-y-2 bg-gray-100 rounded-2xl">
                 <a href="{{ route('profiles.index') }}" class="nav-link-mobile group">
-                    {{ __('Úvod') }}
+                    {{ __('front.nav.home') }}
                     <span class="underline"></span>
                 </a>
                 <a href="#" class="nav-link-mobile group">
-                    {{ __('VIP a Premium') }}
+                    {{ __('front.nav.vip') }}
                     <span class="underline"></span>
                 </a>
                 <a href="#" class="nav-link-mobile group">
-                    {{ __('FAQ') }}
+                    {{ __('front.nav.faq') }}
                     <span class="underline"></span>
                 </a>
                 <a href="#" class="nav-link-mobile group">
-                    {{ __('Etika') }}
+                    {{ __('front.nav.ethics') }}
                     <span class="underline"></span>
                 </a>
                 <a href="#" class="nav-link-mobile group">
-                    {{ __('Kontakt') }}
+                    {{ __('front.nav.contact') }}
                     <span class="underline"></span>
                 </a>
                 @auth
                     <a href="{{ route('account.dashboard') }}" class="nav-link-mobile group">
-                        {{ __('Account Dashboard') }}
+                        {{ __('front.nav.accountdashboard') }}
                         <span class="underline"></span>
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
                         <button type="submit" class="nav-link-mobile group text-left w-full">
-                            {{ __('Logout') }}
+                            {{ __('front.nav.logout') }}
                             <span class="underline"></span>
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="nav-link-mobile group">
-                        {{ __('Login') }}
+                        {{ __('front.nav.login') }}
                         <span class="underline"></span>
                     </a>
                     <a href="{{ route('register') }}" class="nav-link-mobile group">
-                        {{ __('Register') }}
+                        {{ __('front.nav.register') }}
                         <span class="underline"></span>
                     </a>
                 @endauth

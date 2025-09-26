@@ -261,5 +261,5 @@ input[type="checkbox"]::-ms-check {
 }
 
 hr {
-  @apply border-t border-gray-300;
+  @apply border-t rounded-full border-gray-300;
 }

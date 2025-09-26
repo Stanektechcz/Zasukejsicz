@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('Find Your Perfect Massage Therapist'))
+@section('title', __('front.title'))
 
 @section('content')
 <!-- Hero Section  max-w-[1331px] -->
 <div class="max-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
     <div class="container mx-auto px-4 pt-24">
         <div class="max-w-2xl pl-16 py-16">
-            <h1 class="text-secondary  text-4xl md:text-6xl py-5">
+            <h1 class="text-secondary leading-tight  text-4xl md:text-6xl py-5">
                 {{ __('front.landing.wearecommunity') }}
                 <span class="text-primary-500">{{ __('front.landing.fucking') }}.</span>
             </h1>

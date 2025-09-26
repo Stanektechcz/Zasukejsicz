@@ -11,22 +11,22 @@ class SearchProfiles extends Component
     public $city = '';
     public $age_min = '';
     public $age_max = '';
-    
+
     // UI state
     public $showCityDropdown = false;
     public $showAgeMinDropdown = false;
     public $showAgeMaxDropdown = false;
     public $allCities = [];
-    
+
     public function mount()
     {
         $this->city = request('city', '');
         $this->age_min = request('age_min', '');
         $this->age_max = request('age_max', '');
-        
+
         $this->loadCities();
     }
-    
+
     public function loadCities()
     {
         $this->allCities = Profile::approved()
@@ -38,85 +38,85 @@ class SearchProfiles extends Component
             ->values()
             ->toArray();
     }
-    
+
     public function updatedCity()
     {
         $this->showCityDropdown = !empty($this->city);
     }
-    
+
     public function selectCity($city)
     {
         $this->city = $city;
         $this->showCityDropdown = false;
     }
-    
+
     public function showDropdown()
     {
         $this->showCityDropdown = true;
     }
-    
+
     public function clearAndShowDropdown()
     {
         $this->city = '';
         $this->showCityDropdown = true;
     }
-    
+
     // Age Min methods
     public function clearAndShowAgeMinDropdown()
     {
         $this->age_min = '';
         $this->showAgeMinDropdown = true;
     }
-    
+
     public function selectAgeMin($age)
     {
         $this->age_min = $age;
         $this->showAgeMinDropdown = false;
     }
-    
+
     // Age Max methods
     public function clearAndShowAgeMaxDropdown()
     {
         $this->age_max = '';
         $this->showAgeMaxDropdown = true;
     }
-    
+
     public function selectAgeMax($age)
     {
         $this->age_max = $age;
         $this->showAgeMaxDropdown = false;
     }
-    
+
     public function getFilteredCitiesProperty()
     {
         if (empty($this->city)) {
             return $this->allCities;
         }
-        
+
         return collect($this->allCities)
             ->filter(fn($cityOption) => str_contains(strtolower($cityOption), strtolower($this->city)))
             ->values()
             ->toArray();
     }
-    
+
     public function getAgeMinOptionsProperty()
     {
         $options = [];
         for ($age = 20; $age <= 60; $age += 5) {
-            $options[$age] = $age . ' ' . __('years');
+            $options[$age] = $age . ' ' . __('front.profiles.list.years');
         }
         return $options;
     }
-    
+
     public function getAgeMaxOptionsProperty()
     {
         $options = [];
         for ($age = 25; $age <= 65; $age += 5) {
-            $options[$age] = $age . ' ' . __('years');
+            $options[$age] = $age . ' ' . __('front.profiles.list.years');
         }
         return $options;
     }
-    
+
     /**
      * Execute search - emit event to update profile list
      */
@@ -127,11 +127,11 @@ class SearchProfiles extends Component
             'age_min' => $this->age_min,
             'age_max' => $this->age_max,
         ]);
-        
+
         // Emit event to profile list component
         $this->dispatch('profile-search-updated', $filters);
     }
-    
+
     public function render()
     {
         return view('livewire.search-profiles');

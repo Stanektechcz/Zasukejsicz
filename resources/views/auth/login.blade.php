@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', __('front.auth.login.title'))
 
 @section('content')
 <!-- Add top padding to account for fixed navbar -->
-<div class="pt-28 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="pt-28 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="p-10 rounded-3xl max-w-2xl w-full space-y-8 border-2 border-gray-200">
         <div class="text-center">
             <h2 class="text-3xl font-extrabold text-text-default">
-                {{ __('Sign in to your account') }}
+                {{ __('front.auth.login.signin') }}
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                {{ __('Welcome back! Please sign in to continue.') }}
+                {{ __('front.auth.login.welcome') }}
             </p>
         </div>
 
@@ -21,10 +21,10 @@
 
                 <!-- Email Address -->
                 <div>
-                    <label for="email">{{ __('Email address') }}</label>
+                    <label for="email">{{ __('front.auth.login.email') }}</label>
                     <input id="email" name="email" type="email" autocomplete="email" required 
                            class="input-control mt-1 @error('email') border-red-500 @enderror" 
-                           placeholder="{{ __('Enter your email') }}" 
+                           placeholder="{{ __('front.auth.login.enteremail') }}" 
                            value="{{ old('email') }}">
                     @error('email')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -33,10 +33,10 @@
 
                 <!-- Password -->
                 <div>
-                    <label for="password">{{ __('Password') }}</label>
+                    <label for="password">{{ __('front.auth.login.password') }}</label>
                     <input id="password" name="password" type="password" autocomplete="current-password" required 
                            class="input-control mt-1 @error('password') border-red-500 @enderror" 
-                           placeholder="{{ __('Enter your password') }}">
+                           placeholder="{{ __('front.auth.login.enterpassword') }}">
                     @error('password')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -51,20 +51,20 @@
                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                         </div>
                         <label for="remember" class="ml-2 block text-sm text-gray-700 min-w-30">
-                            {{ __('Remember me') }}
+                            {{ __('front.auth.login.remember') }}
                         </label>
                     </div>
                     <button type="submit" class="btn-primary btn-small justify-center">
-                        {{ __('Sign in') }}
+                        {{ __('front.auth.login.signinbutton') }}
                     </button>
                 </div>
 
                 <!-- Register Link -->
                 <div class="text-center">
                     <p class="text-sm text-gray-600">
-                        {{ __("Don't have an account?") }}
+                        {{ __('front.auth.login.noaccount') }}
                         <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:text-primary-500">
-                            {{ __('Register here') }}
+                            {{ __('front.auth.login.registerhere') }}
                         </a>
                     </p>
                 </div>

@@ -18,36 +18,35 @@
     <form wire:submit="save" class="space-y-8">
         <!-- Personal Information Section -->
         <div class="space-y-6">
-            <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Osobní údaje</h3>
-
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Jméno *</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.name') }} *</label>
                     <input
                         type="text"
                         id="name"
                         wire:model="name"
                         class="input-control mt-1 @error('name') border-red-500 @enderror"
-                        placeholder="Vaše jméno">
+                        placeholder="{{ __('front.profiles.form.name') }}">
                     @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">E-mail *</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.email') }} *</label>
                     <input
                         type="email"
                         id="email"
                         wire:model="email"
                         class="input-control mt-1 @error('email') border-red-500 @enderror"
-                        placeholder="vas@email.cz">
+                        placeholder="your@email.com">
                     @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Phone -->
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.phone') }}</label>
                     <input
                         type="tel"
                         id="phone"
@@ -60,31 +59,31 @@
         </div>
 
         <!-- Profile Section -->
-        <div class="space-y-6">
-            <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Můj profil</h3>
+        <div class="space-y-6 pt-10">
+            <h3 class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-2">{{ __('front.profiles.form.profile') }}</h3>
 
             @if($hasProfile)
             <div class="space-y-6">
                 <!-- Display Name -->
                 <div>
-                    <label for="display_name" class="block text-sm font-medium text-gray-700 mb-2">Zobrazované jméno</label>
+                    <label for="display_name" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.displayname') }}</label>
                     <input
                         type="text"
                         id="display_name"
                         wire:model="display_name"
                         class="input-control mt-1 @error('display_name') border-red-500 @enderror"
-                        placeholder="Jak se máte zobrazovat na profilu">
+                        placeholder="{{ __('front.profiles.form.displayname') }}">
                     @error('display_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Gender -->
                     <div>
-                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Pohlaví</label>
+                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.gender') }}</label>
                         <x-autocomplete-select
                             name="gender"
                             label=""
-                            placeholder="Vyberte pohlaví"
+                            placeholder="{{ __('front.profiles.form.selectgender') }}"
                             :searchable="false"
                             :value="$gender"
                             :options="$genders"
@@ -97,7 +96,7 @@
 
                     <!-- Age -->
                     <div>
-                        <label for="age" class="block text-sm font-medium text-gray-700 mb-2">Věk</label>
+                        <label for="age" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.age') }}</label>
                         <input
                             type="number"
                             id="age"
@@ -111,64 +110,64 @@
 
                     <!-- City -->
                     <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Město</label>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.city') }}</label>
                         <input
                             type="text"
                             id="city"
                             wire:model="city"
                             class="input-control mt-1 @error('city') border-red-500 @enderror"
-                            placeholder="Vaše město">
+                            placeholder="{{ __('front.profiles.form.city') }}">
                         @error('city') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 <!-- Address -->
                 <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Adresa</label>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.address') }}</label>
                     <input
                         type="text"
                         id="address"
                         wire:model="address"
                         class="input-control mt-1 @error('address') border-red-500 @enderror"
-                        placeholder="Ulice a číslo popisné">
+                        placeholder="{{ __('front.profiles.form.street') }}">
                     @error('address') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- About -->
                 <div>
-                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">O mně</label>
+                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.aboutme') }}</label>
                     <textarea
                         id="about"
                         wire:model="about"
                         rows="4"
                         class="input-control mt-1 @error('about') border-red-500 @enderror"
-                        placeholder="Napište něco o sobě..."></textarea>
+                        placeholder="{{ __('front.profiles.form.aboutmeplaceholder') }}"></textarea>
                     @error('about') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Availability Hours -->
                 <div>
-                    <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">Dostupné hodiny</label>
+                    <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.availability') }}</label>
                     <input
                         type="text"
                         id="availability_hours"
                         wire:model="availability_hours"
                         class="input-control mt-1 @error('availability_hours') border-red-500 @enderror"
-                        placeholder="Například: Po-Pá 9:00-17:00">
+                        placeholder="{{ __('front.profiles.form.availabilityplaceholder') }}">
                     @error('availability_hours') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Profile Status -->
                 <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Stav profilu</label>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.status') }}</label>
                     <select
                         id="status"
                         wire:model="status"
                         class="input-control mt-1 @error('status') border-red-500 @enderror">
-                        <option value="">Vyberte stav</option>
-                        <option value="pending">Čeká na schválení</option>
-                        <option value="approved">Schváleno</option>
-                        <option value="rejected">Zamítnuto</option>
+                        <option value="">{{ __('front.profiles.form.selectstatus') }}</option>
+                        <option value="pending">{{ __('front.profiles.form.pending') }}</option>
+                        <option value="approved">{{ __('front.profiles.form.approved') }}</option>
+                        <option value="rejected">{{ __('front.profiles.form.rejected') }}</option>
                     </select>
                     @error('status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
@@ -176,8 +175,8 @@
                 <!-- Public Profile Toggle -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <label for="is_public" class="text-sm font-medium text-gray-700">Veřejný profil</label>
-                        <p class="text-xs text-gray-500">Můj profil je viditelný pro ostatní uživatele</p>
+                        <label for="is_public" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.public') }}</label>
+                        <p class="text-xs text-gray-500">{{ __('front.profiles.form.publicdesc') }}</p>
                     </div>
                     <x-toggle-switch
                         name="is_public"
@@ -193,31 +192,31 @@
                     <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    <p class="text-gray-600 text-lg">Zatím nemáte vytvořený profil</p>
-                    <p class="text-gray-500 text-sm mt-2">Vyplňte níže uvedené údaje a vytvořte si svůj profil</p>
+                    <p class="text-gray-600 text-lg">{{ __('front.profiles.form.noprofile') }}</p>
+                    <p class="text-gray-500 text-sm mt-2">{{ __('front.profiles.form.createprofile') }}</p>
                 </div>
 
                 <!-- Profile Creation Form -->
                 <!-- Display Name -->
                 <div>
-                    <label for="display_name" class="block text-sm font-medium text-gray-700 mb-2">Zobrazované jméno</label>
+                    <label for="display_name" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.displayname') }}</label>
                     <input
                         type="text"
                         id="display_name"
                         wire:model="display_name"
                         class="input-control mt-1 @error('display_name') border-red-500 @enderror"
-                        placeholder="Jak se máte zobrazovat na profilu">
+                        placeholder="{{ __('front.profiles.form.displayname') }}">
                     @error('display_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Gender -->
                     <div>
-                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Pohlaví</label>
+                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.gender') }}</label>
                         <x-autocomplete-select
                             name="gender"
                             label=""
-                            placeholder="Vyberte pohlaví"
+                            placeholder="{{ __('front.profiles.form.selectgender') }}"
                             :searchable="false"
                             :value="$gender"
                             :options="$genders"
@@ -230,7 +229,7 @@
 
                     <!-- Age -->
                     <div>
-                        <label for="age" class="block text-sm font-medium text-gray-700 mb-2">Věk</label>
+                        <label for="age" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.age') }}</label>
                         <input
                             type="number"
                             id="age"
@@ -244,58 +243,58 @@
 
                     <!-- City -->
                     <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Město</label>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.city') }}</label>
                         <input
                             type="text"
                             id="city"
                             wire:model="city"
                             class="input-control mt-1 @error('city') border-red-500 @enderror"
-                            placeholder="Vaše město">
+                            placeholder="{{ __('front.profiles.form.city') }}">
                         @error('city') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 <!-- Address -->
                 <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Adresa</label>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.address') }}</label>
                     <input
                         type="text"
                         id="address"
                         wire:model="address"
                         class="input-control mt-1 @error('address') border-red-500 @enderror"
-                        placeholder="Ulice a číslo popisné">
+                        placeholder="{{ __('front.profiles.form.street') }}">
                     @error('address') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- About -->
                 <div>
-                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">O mně</label>
+                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.aboutme') }}</label>
                     <textarea
                         id="about"
                         wire:model="about"
                         rows="4"
                         class="input-control mt-1 @error('about') border-red-500 @enderror"
-                        placeholder="Napište něco o sobě..."></textarea>
+                        placeholder="{{ __('front.profiles.form.aboutmeplaceholder') }}"></textarea>
                     @error('about') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Availability Hours -->
                 <div>
-                    <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">Dostupné hodiny</label>
+                    <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.availability') }}</label>
                     <input
                         type="text"
                         id="availability_hours"
                         wire:model="availability_hours"
                         class="input-control mt-1 @error('availability_hours') border-red-500 @enderror"
-                        placeholder="Například: Po-Pá 9:00-17:00">
+                        placeholder="{{ __('front.profiles.form.availabilityplaceholder') }}">
                     @error('availability_hours') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Public Profile Toggle -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <label for="is_public" class="text-sm font-medium text-gray-700">Veřejný profil</label>
-                        <p class="text-xs text-gray-500">Můj profil je viditelný pro ostatní uživatele</p>
+                        <label for="is_public" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.public') }}</label>
+                        <p class="text-xs text-gray-500">{{ __('front.profiles.form.publicdesc') }}</p>
                     </div>
                     <x-toggle-switch
                         name="is_public"
@@ -317,8 +316,8 @@
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span wire:loading.remove>Uložit změny</span>
-                <span wire:loading>Ukládám...</span>
+                <span wire:loading.remove>{{ __('front.profiles.form.savechanges') }}</span>
+                <span wire:loading>{{ __('front.profiles.form.saving') }}</span>
             </button>
         </div>
     </form>

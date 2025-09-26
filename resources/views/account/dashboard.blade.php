@@ -1,6 +1,6 @@
 @extends('layouts.account')
 
-@section('title', 'Profil')
+@section('title', __('front.account.dashboard.title'))
 
 @php
     $activeItem = 'dashboard';
@@ -9,7 +9,7 @@
 @section('account-content')
     <div class="mb-8">
         <h1 class="text-4xl font-semibold text-secondary py-6 text-center">
-            {{ __('Základní údaje') }}
+            {{ __('front.account.dashboard.basic_info') }}
         </h1>
         <hr>
     </div>

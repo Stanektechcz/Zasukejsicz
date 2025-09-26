@@ -6,22 +6,29 @@
         <div class="flex items-center gap-4">
             <!-- VIP Profile Badge -->
             <div class="bg-gold-500 text-white px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-2">
-                <x-icons name="star" class="w-4 h-4"/>
-                VIP
+                <x-icons name="star" class="w-4 h-4" />
+                {{ __('front.profiles.detail_page.vip') }}
             </div>
 
             <!-- Unverified Photo Badge -->
+            @if(!$profile->isVerified())
             <div class="bg-gray-400 text-white px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                <x-icons name="camera" class="w-4 h-4"/>
-                FOTO NEOVĚŘENO
+                <x-icons name="camera" class="w-4 h-4" />
+                {{ __('front.profiles.detail_page.photos_unverified') }}
             </div>
+            @else
+            <div class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
+                <x-icons name="camera" class="w-4 h-4" />
+                {{ __('front.profiles.list.verified') }}
+            </div>
+            @endif
         </div>
 
         <!-- Top Right Actions -->
         <div class="flex items-center gap-3">
             <!-- Rating Badge -->
             <div class="flex items-center text-pink-500 text-sm font-medium">
-                <span>Dát hodnocení</span>
+                <span>{{ __('front.profiles.detail_page.give_rating') }}</span>
             </div>
 
             <!-- Refresh Access Button -->
@@ -29,7 +36,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                Obnovit přístup
+                {{ __('front.profiles.detail_page.refresh_access') }}
             </button>
 
             <!-- Report Profile -->
@@ -37,7 +44,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.866-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
-                Nahlásit profil
+                {{ __('front.profiles.detail_page.report_profile') }}
             </button>
         </div>
     </div>
@@ -54,8 +61,8 @@
                     <!-- Rating Section -->
                     <div class="bg-gray-100 rounded-lg p-4 mb-4">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium text-gray-700">Rating:</span>
-                            <x-icons name="lock" class="w-5 h-5 text-pink-500"/>
+                            <span class="text-sm font-medium text-gray-700">{{ __('front.profiles.list.rating') }}</span>
+                            <x-icons name="lock" class="w-5 h-5 text-pink-500" />
                         </div>
                     </div>
                 </div>
@@ -70,31 +77,29 @@
                         <span>{{ $profile->city ?? 'Jihomoravský kraj' }}</span>
                     </div>
 
-
                     <!-- Profile Stats -->
                     <div class="space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-gray-200">
-                            <span class="text-pink-500 font-medium">Věk</span>
-                            <span class=" text-gray-900">{{ $profile->age ?? '19' }} let</span>
+                            <span class="text-pink-500 font-medium">{{ __('front.profiles.detail_page.age') }}</span>
+                            <span class="text-gray-900">{{ $profile->age ?? '19' }} {{ __('front.profiles.detail_page.years') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-2 border-b border-gray-200">
-                            <span class="text-pink-500 font-medium">Váha</span>
-                            <span class=" text-gray-900">{{ $profile->weight ?? '57' }} kg / {{ $profile->weight_lbs ?? '126' }} lbs</span>
+                            <span class="text-pink-500 font-medium">{{ __('front.profiles.detail_page.weight') }}</span>
+                            <span class="text-gray-900">{{ $profile->weight ?? '57' }} {{ __('front.profiles.detail_page.kg') }} / {{ $profile->weight_lbs ?? '126' }} {{ __('front.profiles.detail_page.lbs') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-2 border-b border-gray-200">
-                            <span class="text-pink-500 font-medium">Výška</span>
-                            <span class=" text-gray-900">{{ $profile->height ?? '168' }} cm / {{ $profile->height_feet ?? "5'9\"" }}</span>
+                            <span class="text-pink-500 font-medium">{{ __('front.profiles.detail_page.height') }}</span>
+                            <span class="text-gray-900">{{ $profile->height ?? '168' }} {{ __('front.profiles.detail_page.cm') }} / {{ $profile->height_feet ?? "5'9\"" }}</span>
                         </div>
                         <div class="flex justify-between items-center py-2 border-b border-gray-200">
-                            <span class="text-pink-500 font-medium">Prsa</span>
-                            <span class=" text-gray-900">{{ $profile->bust_size ?? 'C' }}</span>
+                            <span class="text-pink-500 font-medium">{{ __('front.profiles.detail_page.bust') }}</span>
+                            <span class="text-gray-900">{{ $profile->bust_size ?? 'C' }}</span>
                         </div>
                         <div class="flex justify-between items-center py-2">
-                            <span class="text-pink-500 font-medium">Jazyky</span>
-                            <span class=" text-gray-900 text-right">{{ $profile->languages ?? 'Česky, Rusky, Anglicky' }}</span>
+                            <span class="text-pink-500 font-medium">{{ __('front.profiles.detail_page.languages') }}</span>
+                            <span class="text-gray-900 text-right">{{ $profile->languages ?? 'Česky, Rusky, Anglicky' }}</span>
                         </div>
                     </div>
-
 
                     <!-- Action Buttons -->
                     <div class="space-y-3 pt-4">
@@ -104,19 +109,19 @@
                                 <svg class="w-4 h-4 text-green-600 fill-current" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
-                                InCall
+                                {{ __('front.profiles.detail_page.incall') }}
                             </button>
                             <button class="btn-transparent flex items-center justify-center gap-2">
                                 <svg class="w-4 h-4 text-gray-400 fill-current" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
-                                OutCall
+                                {{ __('front.profiles.detail_page.outcall') }}
                             </button>
                         </div>
 
                         <!-- Send Message Button -->
                         <button class="btn-primary w-full">
-                            Poslat zprávu
+                            {{ __('front.profiles.detail_page.send_message') }}
                         </button>
 
                         <!-- Contact Info -->
@@ -147,28 +152,58 @@
         <div class="lg:col-span-2">
             <div class="p-6">
                 <!-- Photo Gallery -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <!-- Main large photo -->
-                    <div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
-                        <img src="{{ $profile->photo_url ?? 'https://mockmind-api.uifaces.co/content/human/108.jpg' }}"
-                            alt="{{ $profile->display_name }}"
+                @if($profile->getAllImages()->count() > 0)
+                <div class="">
+                    @if($profile->hasMultipleImages())
+                    <!-- Swiper gallery for main images -->
+                    <div class="bg-gradient-to-brrounded-2xl overflow-hidden">
+                        <div class="swiper profile-detail-swiper w-full">
+                            <div class="swiper-wrapper">
+                                @foreach($profile->getAllImages() as $image)
+                                <div class="swiper-slide h-full px-2">
+                                    <img src="{{ $image->getUrl() }}" alt="{{ $profile->display_name }}"
+                                        class="object-cover h-full">
+                                </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Navigation buttons -->
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                    @else
+                    <!-- Single image display if only one image -->
+                    <div class="col-span-2 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
+                        <img src="{{ $profile->getFirstImageUrl() }}" alt="{{ $profile->display_name }}"
                             class="w-full h-full object-cover">
                     </div>
-
-                    <!-- Main large photo -->
-                    <div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
-                        <img src="{{ $profile->photo_url ?? 'https://mockmind-api.uifaces.co/content/human/108.jpg' }}"
-                            alt="{{ $profile->display_name }}"
-                            class="w-full h-full object-cover">
+                    @endif
+                </div>
+                @else
+                <!-- No images placeholder -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden flex items-center justify-center">
+                        <svg class="w-16 h-16 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden flex items-center justify-center">
+                        <svg class="w-16 h-16 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                     </div>
                 </div>
+                @endif
 
                 <!-- About Section -->
                 <div>
-                    <h2 class="text-xl font-bold text-secondary mb-4">Více o mně</h2>
+                    <h2 class="text-xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.about_me') }}</h2>
                     <div class="prose prose-gray max-w-none">
                         <p class="text-gray-700 leading-relaxed">
-                            {{ $profile->about }}
+                            {{ $profile->about ?? 'No description available.' }}
                         </p>
                     </div>
                 </div>
@@ -176,3 +211,40 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if Swiper is available
+        if (typeof Swiper === 'undefined') {
+            console.error('Swiper is not loaded. Make sure to build assets with npm run build');
+            return;
+        }
+
+        // Initialize Swiper for profile detail
+        const profileDetailSwiper = new Swiper('.profile-detail-swiper', {
+            loop: true,
+            slidesPerView: 3,
+            spaceBetween: 10,
+            centeredSlides: true,
+
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            
+            preloadImages: true,
+        });
+
+        // Add click event for thumbnails to change the main swiper slide
+        document.querySelectorAll('.image-thumbnail').forEach(function(thumbnail) {
+            thumbnail.addEventListener('click', function() {
+                const slideIndex = parseInt(this.dataset.index);
+                if (profileDetailSwiper) {
+                    profileDetailSwiper.slideTo(slideIndex + 1); // +1 because of loop mode
+                }
+            });
+        });
+    });
+</script>
+@endpush

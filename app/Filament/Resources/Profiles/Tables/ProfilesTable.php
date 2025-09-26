@@ -55,32 +55,6 @@ class ProfilesTable
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make('city')
-                    ->label(__('profiles.table.city'))
-                    ->searchable(),
-
-                TextColumn::make('about')
-                    ->label(__('profiles.table.about'))
-                    ->limit(50)
-                    ->getStateUsing(function ($record) {
-                        $currentLocale = app()->getLocale();
-                        $fallbackLocale = config('app.fallback_locale', 'en');
-                        
-                        // Try to get translation for current locale, fallback to English if not available
-                        return $record->getTranslation('about', $currentLocale) 
-                            ?: $record->getTranslation('about', $fallbackLocale)
-                            ?: $record->about; // Final fallback
-                    })
-                    ->tooltip(function ($record) {
-                        $currentLocale = app()->getLocale();
-                        $fallbackLocale = config('app.fallback_locale', 'en');
-                        
-                        return $record->getTranslation('about', $currentLocale) 
-                            ?: $record->getTranslation('about', $fallbackLocale)
-                            ?: $record->about;
-                    })
-                    ->toggleable(),
-
                 TextColumn::make('status')
                     ->label(__('profiles.table.status'))
                     ->badge()
@@ -145,8 +119,6 @@ class ProfilesTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
                 Action::make('verify')
                     ->label(__('profiles.actions.verify'))
                     ->icon('heroicon-o-check-badge')
@@ -157,11 +129,11 @@ class ProfilesTable
                 
                 Action::make('unverify')
                     ->label(__('profiles.actions.unverify'))
-                    ->icon('heroicon-o-x-mark')
                     ->color('danger')
                     ->action(fn ($record) => $record->markAsUnverified())
                     ->visible(fn ($record) => $record->isVerified())
                     ->requiresConfirmation(),
+                EditAction::make()
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
