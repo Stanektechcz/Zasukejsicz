@@ -22,9 +22,30 @@
 
         <!-- Footer -->
         <x-footer />
+
+        <!-- Auth Modals -->
+        @guest
+            <livewire:login-modal />
+            <livewire:register-modal />
+        @endguest
     </div>
 
     <!-- Additional Scripts -->
     @stack('scripts')
+
+    <!-- Auth Modal Scripts -->
+    @guest
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle escape key to close modals
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    Livewire.dispatch('hide-login-modal');
+                    Livewire.dispatch('hide-register-modal');
+                }
+            });
+        });
+    </script>
+    @endguest
 </body>
 </html>

@@ -87,6 +87,7 @@ return [
             'enterpassword' => 'Zadejte své heslo',
             'remember' => 'Zapamatovat si mě',
             'signinbutton' => 'Přihlásit se',
+            'signing_in' => 'Přihlašování...',
             'noaccount' => 'Nemáte účet?',
             'registerhere' => 'Zaregistrujte se zde'
         ],
@@ -94,6 +95,14 @@ return [
             'title' => 'Registrace',
             'create' => 'Vytvořit účet',
             'join' => 'Připojte se k nám a objevte úžasné masérky.',
+            'step' => 'Krok',
+            'of' => 'z',
+            'choose_gender' => 'Vyberte vaše pohlaví',
+            'gender_description' => 'Vyberte prosím vaše pohlaví pro pokračování v registraci.',
+            'male' => 'Muž',
+            'female' => 'Žena',
+            'back' => 'Zpět',
+            'next' => 'Další',
             'fullname' => 'Celé jméno',
             'entername' => 'Zadejte své celé jméno',
             'email' => 'E-mailová adresa',
@@ -110,6 +119,7 @@ return [
             'and' => 'a',
             'privacy' => 'Zásadami ochrany osobních údajů',
             'createbutton' => 'Vytvořit účet',
+            'creating' => 'Vytváření účtu...',
             'haveaccount' => 'Již máte účet?',
             'signinhere' => 'Přihlaste se zde'
         ]

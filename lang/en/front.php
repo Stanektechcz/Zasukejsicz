@@ -85,6 +85,7 @@ return [
             'enterpassword' => 'Enter your password',
             'remember' => 'Remember me',
             'signinbutton' => 'Sign in',
+            'signing_in' => 'Signing in...',
             'noaccount' => 'Don\'t have an account?',
             'registerhere' => 'Register here'
         ],
@@ -92,6 +93,14 @@ return [
             'title' => 'Register',
             'create' => 'Create your account',
             'join' => 'Join us and discover amazing massage therapists.',
+            'step' => 'Step',
+            'of' => 'of',
+            'choose_gender' => 'Choose Your Gender',
+            'gender_description' => 'Please select your gender to continue with registration.',
+            'male' => 'Male',
+            'female' => 'Female',
+            'back' => 'Back',
+            'next' => 'Next',
             'fullname' => 'Full Name',
             'entername' => 'Enter your full name',
             'email' => 'Email Address',
@@ -108,6 +117,7 @@ return [
             'and' => 'and',
             'privacy' => 'Privacy Policy',
             'createbutton' => 'Create account',
+            'creating' => 'Creating account...',
             'haveaccount' => 'Already have an account?',
             'signinhere' => 'Sign in here'
         ]

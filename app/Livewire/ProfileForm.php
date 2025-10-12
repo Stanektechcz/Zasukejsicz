@@ -181,6 +181,9 @@ class ProfileForm extends Component
 
 
         session()->flash('message', 'Profil byl úspěšně uložen!');
+        
+        // Scroll to top after successful save
+        $this->js('window.scrollTo({top: 0, behavior: "smooth"})');
     }
 
     public function render()

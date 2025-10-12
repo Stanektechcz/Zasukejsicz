@@ -82,15 +82,15 @@
                     </div>
                 @else
                     <!-- Register Button -->
-                    <a href="{{ route('register') }}" class="btn-primary">
+                    <button @click="$dispatch('show-register-modal')" class="btn-primary">
                         {{ __('front.nav.register') }}
-                    </a>
+                    </button>
 
                     <!-- Login Link -->
                     <div class="hidden lg:inline">
-                         <a href="{{ route('login') }}" class="btn-light" id="nav-login">
+                         <button @click="$dispatch('show-login-modal')" class="btn-light" id="nav-login">
                              {{ __('front.nav.login') }}
-                         </a>
+                         </button>
                     </div>
                 @endauth
 
@@ -167,14 +167,14 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="nav-link-mobile group">
+                    <button @click="$dispatch('show-login-modal')" class="nav-link-mobile group">
                         {{ __('front.nav.login') }}
                         <span class="underline"></span>
-                    </a>
-                    <a href="{{ route('register') }}" class="nav-link-mobile group">
+                    </button>
+                    <button @click="$dispatch('show-register-modal')" class="nav-link-mobile group">
                         {{ __('front.nav.register') }}
                         <span class="underline"></span>
-                    </a>
+                    </button>
                 @endauth
             </div>
         </div>
