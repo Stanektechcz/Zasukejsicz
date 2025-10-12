@@ -291,6 +291,7 @@
                 </div>
 
                 <!-- Public Profile Toggle -->
+                <!-- 
                 <div class="flex items-center justify-between">
                     <div>
                         <label for="is_public" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.public') }}</label>
@@ -301,7 +302,7 @@
                         id="is_public"
                         wire-model="is_public"
                         :checked="$is_public" />
-                </div>
+                </div> -->
             </div>
             @endif
         </div>

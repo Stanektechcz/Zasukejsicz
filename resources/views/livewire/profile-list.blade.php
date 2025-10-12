@@ -4,6 +4,87 @@
         <h1 class="text-4xl font-bold text-secondary">{{ __('front.profiles.list.topresults') }}</h1>
     </div>
 
+    <!-- Quick Filters -->
+    <div class="mb-8">
+        <!-- Age Group Filters -->
+        <div class="flex flex-wrap gap-3 mb-4">
+            <!-- All Girls Filter -->
+            <button wire:click="toggleAgeGroup('')" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === '' ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <x-icons name="users" class="w-4 h-4 mr-2 {{ $ageGroup === '' ? 'text-primary' : 'text-gray-500' }}" />
+                All Girls
+            </button>
+
+            @foreach(['18-25' => '18-25 yo', '26-30' => '26-30 yo', '31-35' => '31-35 yo', '36-40' => '36-40 yo', '40-50' => '40-50 yo', '50+' => '50 yo +'] as $value => $label)
+            <button wire:click="toggleAgeGroup('{{ $value }}')" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === $value ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                {{ $label }}
+            </button>
+            @endforeach
+        </div>
+
+        <!-- Feature Filters -->
+        <div class="flex flex-wrap gap-3">
+            <!-- Verified Photo Filter -->
+            <button wire:click="toggleVerifiedPhoto" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVerifiedPhoto ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <svg class="w-4 h-4 mr-2 {{ $hasVerifiedPhoto ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Verified photo
+            </button>
+
+            <!-- Video Filter -->
+            <button wire:click="toggleVideo" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVideo ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <svg class="w-4 h-4 mr-2 {{ $hasVideo ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                Video
+            </button>
+
+            <!-- Porn Actress Filter -->
+            <button wire:click="togglePornActress" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isPornActress ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <svg class="w-4 h-4 mr-2 {{ $isPornActress ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+                Porno actress
+            </button>
+
+            <!-- New Filter -->
+            <button wire:click="toggleNew" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isNew ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <svg class="w-4 h-4 mr-2 {{ $isNew ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                New
+            </button>
+
+            <!-- Rating Filter -->
+            <button wire:click="toggleRating" 
+                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasRating ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
+                <svg class="w-4 h-4 mr-2 {{ $hasRating ? 'text-primary' : 'text-gray-500' }}" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                </svg>
+                Rating
+            </button>
+        </div>
+
+        <!-- Active Filters Count & Clear -->
+        @if($this->activeFiltersCount > 0)
+        <div class="mt-4 flex items-center justify-between">
+            <span class="text-sm text-gray-600">
+                {{ $this->activeFiltersCount }} filter(s) active
+            </span>
+            <button wire:click="resetFilters" 
+                    class="text-sm text-primary hover:text-primary-700 font-medium">
+                Clear all filters
+            </button>
+        </div>
+        @endif
+    </div>
+
 
     <!-- Loading State -->
     <div wire:loading.delay wire:target="loadProfiles,updateFilters" class="text-center py-8">
