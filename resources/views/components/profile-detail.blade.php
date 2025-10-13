@@ -153,28 +153,37 @@
             <div class="p-6">
                 <!-- Photo Gallery -->
                 @if($profile->getAllImages()->count() > 0)
-                <div class="">
+                <div class="mb-6">
                     @if($profile->hasMultipleImages())
                     <!-- Swiper gallery for main images -->
-                    <div class="bg-gradient-to-brrounded-2xl overflow-hidden">
-                        <div class="swiper profile-detail-swiper w-full">
+                    <div class="relative bg-gradient-to-br ">
+                        <div class="swiper profile-detail-swiper w-full h-96 rounded-xl">
                             <div class="swiper-wrapper">
                                 @foreach($profile->getAllImages() as $image)
-                                <div class="swiper-slide h-full px-2">
+                                <div class="swiper-slide">
                                     <img src="{{ $image->getUrl() }}" alt="{{ $profile->display_name }}"
-                                        class="object-cover h-full">
+                                        class="w-full h-full object-cover">
                                 </div>
                                 @endforeach
                             </div>
-
-                            <!-- Navigation buttons -->
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
                         </div>
+
+                        <!-- Custom Navigation buttons -->
+                        <div class="swiper-button-next-custom absolute top-1/2 -right-5 transform -translate-y-1/2 z-10 cursor-pointer">
+                            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                                 ⏵
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev-custom absolute top-1/2 -left-5 transform -translate-y-1/2 z-10 cursor-pointer">
+                            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center  hover:shadow-lg transition-all duration-200">
+                               ⏴
+                            </div>
+                        </div>
+
                     </div>
                     @else
                     <!-- Single image display if only one image -->
-                    <div class="col-span-2 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
+                    <div class="h-96 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
                         <img src="{{ $profile->getFirstImageUrl() }}" alt="{{ $profile->display_name }}"
                             class="w-full h-full object-cover">
                     </div>
@@ -225,15 +234,35 @@
         const profileDetailSwiper = new Swiper('.profile-detail-swiper', {
             loop: true,
             slidesPerView: 3,
-            spaceBetween: 10,
+            spaceBetween: 16,
             centeredSlides: true,
+            
+            // Responsive breakpoints
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 12
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 16
+                }
+            },
 
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
             },
             
             preloadImages: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
         });
 
         // Add click event for thumbnails to change the main swiper slide

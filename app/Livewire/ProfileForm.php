@@ -37,7 +37,7 @@ class ProfileForm extends Component
     #[Rule('nullable|string|max:255')]
     public $address = '';
 
-    #[Rule('nullable|string|max:500')]
+    #[Rule('nullable|string|max:1200')]
     public $about = '';
 
     #[Rule('nullable|string')]
@@ -128,7 +128,7 @@ class ProfileForm extends Component
             'age' => 'nullable|integer|min:18|max:120',
             'city' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
-            'about' => 'nullable|string|max:500',
+            'about' => 'nullable|string|max:1200',
             'availability_hours' => 'nullable|string',
             'status' => 'nullable|in:pending,approved,rejected',
         ]);

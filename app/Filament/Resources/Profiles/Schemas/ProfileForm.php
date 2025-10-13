@@ -85,7 +85,7 @@ class ProfileForm
 
                 TextInput::make('address')
                     ->label(__('profiles.form.address'))
-                    ->maxLength(500)
+                    ->maxLength(1200)
                     ->columnSpanFull(),
 
                 KeyValue::make('availability_hours')
