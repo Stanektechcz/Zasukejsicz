@@ -9,16 +9,22 @@
         <!-- Age Group Filters -->
         <div class="flex flex-wrap gap-3 mb-4">
             <!-- All Girls Filter -->
-            <button wire:click="toggleAgeGroup('')" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === '' ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <x-icons name="users" class="w-4 h-4 mr-2 {{ $ageGroup === '' ? 'text-primary' : 'text-gray-500' }}" />
+            <button wire:click="toggleAgeGroup('')"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === '' ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleAgeGroup">
+                <span wire:target="toggleAgeGroup">
+                    <x-icons name="users" class="w-4 h-4 mr-2 {{ $ageGroup === '' ? 'text-primary' : 'text-gray-500' }}" />
+                </span>
                 All Girls
             </button>
 
             @foreach(['18-25' => '18-25 yo', '26-30' => '26-30 yo', '31-35' => '31-35 yo', '36-40' => '36-40 yo', '40-50' => '40-50 yo', '50+' => '50 yo +'] as $value => $label)
-            <button wire:click="toggleAgeGroup('{{ $value }}')" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === $value ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                {{ $label }}
+            <button wire:click="toggleAgeGroup('{{ $value }}')"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === $value ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleAgeGroup">
+                <span wire:target="toggleAgeGroup">{{ $label }}</span>
             </button>
             @endforeach
         </div>
@@ -26,45 +32,55 @@
         <!-- Feature Filters -->
         <div class="flex flex-wrap gap-3">
             <!-- Verified Photo Filter -->
-            <button wire:click="toggleVerifiedPhoto" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVerifiedPhoto ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <svg class="w-4 h-4 mr-2 {{ $hasVerifiedPhoto ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="toggleVerifiedPhoto"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVerifiedPhoto ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleVerifiedPhoto">
+                <svg wire:target="toggleVerifiedPhoto" class="w-4 h-4 mr-2 {{ $hasVerifiedPhoto ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 Verified photo
             </button>
 
             <!-- Video Filter -->
-            <button wire:click="toggleVideo" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVideo ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <svg class="w-4 h-4 mr-2 {{ $hasVideo ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="toggleVideo"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVideo ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleVideo">
+                <svg wire:target="toggleVideo" class="w-4 h-4 mr-2 {{ $hasVideo ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
                 Video
             </button>
 
             <!-- Porn Actress Filter -->
-            <button wire:click="togglePornActress" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isPornActress ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <svg class="w-4 h-4 mr-2 {{ $isPornActress ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="togglePornActress"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isPornActress ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="togglePornActress">
+                <svg wire:target="togglePornActress" class="w-4 h-4 mr-2 {{ $isPornActress ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                 </svg>
                 Porno actress
             </button>
 
             <!-- New Filter -->
-            <button wire:click="toggleNew" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isNew ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <svg class="w-4 h-4 mr-2 {{ $isNew ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="toggleNew"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isNew ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleNew">
+                <svg wire:target="toggleNew" class="w-4 h-4 mr-2 {{ $isNew ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
                 New
             </button>
 
             <!-- Rating Filter -->
-            <button wire:click="toggleRating" 
-                    class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasRating ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200">
-                <svg class="w-4 h-4 mr-2 {{ $hasRating ? 'text-primary' : 'text-gray-500' }}" fill="currentColor" viewBox="0 0 24 24">
+            <button wire:click="toggleRating"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasRating ? 'border-gray-100 text-gray-700 bg-gray-100' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleRating">
+                <svg wire:target="toggleRating" class="w-4 h-4 mr-2 {{ $hasRating ? 'text-primary' : 'text-gray-500' }}" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                 </svg>
                 Rating
@@ -72,36 +88,37 @@
         </div>
 
         <!-- Active Filters Count & Clear -->
-        @if($this->activeFiltersCount > 0)
+        @if($this->activeFiltersCount() > 0)
         <div class="mt-4 flex items-center justify-between">
             <span class="text-sm text-gray-600">
-                {{ $this->activeFiltersCount }} filter(s) active
+                {{ $this->activeFiltersCount() }} filter(s) active
             </span>
-            <button wire:click="resetFilters" 
-                    class="text-sm text-primary hover:text-primary-700 font-medium">
+            <button wire:click="resetFilters"
+                wire:loading.attr="disabled"
+                wire:target="resetFilters"
+                class="text-sm text-primary hover:text-primary-700 font-medium inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 Clear all filters
             </button>
         </div>
         @endif
     </div>
 
-
-    <!-- Loading State -->
-    <div wire:loading.delay wire:target="loadProfiles,updateFilters" class="text-center py-8">
-        <div class="inline-flex items-center px-4 py-2 text-gray-600">
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            {{ __('front.profiles.list.loading') }}
-        </div>
-    </div>
-
-    @if($profiles && $profiles->count() > 0)
+    @if($this->profiles() && $this->profiles()->count() > 0)
     <!-- Profiles Grid -->
-    <div class="space-y-6">
+    <div class="space-y-6 relative">
+        <!-- Loading Overlay -->
+        <div wire:loading wire:target="toggleAgeGroup,toggleVerifiedPhoto,toggleVideo,togglePornActress,toggleNew,toggleRating,resetFilters,updateFilters"
+            class="absolute inset-0 bg-white/75 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+            <div class="inline-flex items-center px-6 py-4 bg-white rounded-lg shadow-lg text-gray-700">
+                <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="font-medium">{{ __('front.profiles.list.loading') }}</span>
+            </div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            @foreach($profiles as $profile)
+            @foreach($this->profiles() as $profile)
             <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group">
                 <!-- Profile Image -->
                 <div class="relative">
@@ -209,7 +226,7 @@
         </div>
 
         <!-- Load More Button -->
-        @if($profiles->hasMorePages())
+        @if($this->profiles()->hasMorePages())
         <div class="text-center mt-8">
             <button wire:click="loadMore"
                 wire:loading.attr="disabled"
@@ -218,7 +235,7 @@
                 <span wire:loading wire:target="loadMore" class="inline-flex items-center">
                     <svg class="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     {{ __('front.profiles.list.loadingmore') }}
                 </span>
@@ -228,7 +245,7 @@
 
         <!-- Results Count -->
         <div class="text-center text-sm text-gray-600 mt-4">
-            <span>{{ __('front.profiles.list.showing') }} {{ $profiles->count() }} {{ __('front.profiles.list.of') }} {{ $profiles->total() }} {{ __('front.profiles.list.profiles') }}</span>
+            <span>{{ __('front.profiles.list.showing') }} {{ $this->profiles()->count() }} {{ __('front.profiles.list.of') }} {{ $this->profiles()->total() }} {{ __('front.profiles.list.profiles') }}</span>
         </div>
     </div>
     @else

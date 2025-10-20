@@ -53,6 +53,15 @@ return [
             'title' => 'Photos',
             'manage' => 'Manage your photos and profile images.'
         ],
+        'services' => [
+            'page_title' => 'My Services & Prices',
+            'title' => 'Available Services',
+            'description' => 'Select the services you offer. Enabled services will be displayed on your profile.',
+            'noservices' => 'No services are currently available',
+            'noservices_desc' => 'The administrator has not yet created any services. Please try again later.',
+            'noprofile' => 'Activating your first service will automatically create your profile.',
+            'success' => 'Service has been successfully updated!'
+        ],
         'password' => [
             'title' => 'Change Password',
             'update' => 'Update Password',

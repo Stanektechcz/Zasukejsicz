@@ -6,6 +6,7 @@ use App\Models\Profile;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Computed;
 
 class ProfileList extends Component
 {
@@ -126,7 +127,8 @@ class ProfileList extends Component
     /**
      * Get active filters count for UI
      */
-    public function getActiveFiltersCountProperty()
+    #[Computed]
+    public function activeFiltersCount()
     {
         $count = 0;
         if ($this->ageGroup) $count++;
@@ -138,7 +140,8 @@ class ProfileList extends Component
         return $count;
     }
 
-    public function getProfilesProperty()
+    #[Computed]
+    public function profiles()
     {
         $query = Profile::with(['user:id,name', 'media'])
             ->approved()
@@ -225,9 +228,7 @@ class ProfileList extends Component
 
     public function render()
     {
-        return view('livewire.profile-list', [
-            'profiles' => $this->profiles
-        ]);
+        return view('livewire.profile-list');
     }
 
     /**

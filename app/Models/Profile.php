@@ -64,6 +64,35 @@ class Profile extends Model implements HasMedia
     }
 
     /**
+     * Get the services associated with this profile.
+     */
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'profile_service')
+            ->withTimestamps();
+    }
+
+    /**
+     * Check if profile has a specific service.
+     */
+    public function hasService($serviceId): bool
+    {
+        return $this->services()->where('service_id', $serviceId)->exists();
+    }
+
+    /**
+     * Toggle a service for this profile.
+     */
+    public function toggleService($serviceId): void
+    {
+        if ($this->hasService($serviceId)) {
+            $this->services()->detach($serviceId);
+        } else {
+            $this->services()->attach($serviceId);
+        }
+    }
+
+    /**
      * Scope a query to only include public profiles.
      */
     public function scopePublic($query)
