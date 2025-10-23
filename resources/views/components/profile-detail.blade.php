@@ -159,10 +159,11 @@
                     <div class="relative bg-gradient-to-br ">
                         <div class="swiper profile-detail-swiper w-full h-96 rounded-xl">
                             <div class="swiper-wrapper">
-                                @foreach($profile->getAllImages() as $image)
+                                @foreach($profile->getAllImages() as $index => $image)
                                 <div class="swiper-slide">
                                     <img src="{{ $image->getUrl() }}" alt="{{ $profile->display_name }}"
-                                        class="w-full h-full object-cover">
+                                        class="w-full h-full object-cover cursor-pointer lightbox-trigger"
+                                        data-index="{{ $index }}">
                                 </div>
                                 @endforeach
                             </div>
@@ -171,12 +172,12 @@
                         <!-- Custom Navigation buttons -->
                         <div class="swiper-button-next-custom absolute top-1/2 -right-5 transform -translate-y-1/2 z-10 cursor-pointer">
                             <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
-                                 ⏵
+                                ⏵
                             </div>
                         </div>
                         <div class="swiper-button-prev-custom absolute top-1/2 -left-5 transform -translate-y-1/2 z-10 cursor-pointer">
                             <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center  hover:shadow-lg transition-all duration-200">
-                               ⏴
+                                ⏴
                             </div>
                         </div>
 
@@ -185,7 +186,8 @@
                     <!-- Single image display if only one image -->
                     <div class="h-96 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg overflow-hidden">
                         <img src="{{ $profile->getFirstImageUrl() }}" alt="{{ $profile->display_name }}"
-                            class="w-full h-full object-cover">
+                            class="w-full h-full object-cover cursor-pointer lightbox-trigger"
+                            data-index="0">
                     </div>
                     @endif
                 </div>
@@ -221,6 +223,67 @@
     </div>
 </div>
 
+<!-- Lightbox Modal -->
+@if($profile->getAllImages()->count() > 0)
+<div id="lightbox-modal" class="fixed inset-0 z-50 backdrop-blur-lg hidden items-center justify-center" style="background-color: rgba(255, 255, 255, 0.7);">
+    <div class="relative w-full h-full flex items-center justify-center p-4">
+        <!-- Close Button -->
+        <button id="lightbox-close" class="absolute top-12 right-12 z-60 cursor-pointer">
+            <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </button>
+
+
+        <!-- Lightbox Swiper -->
+        <div class="swiper lightbox-swiper w-full h-full flex items-center justify-center">
+            <div class="swiper-wrapper">
+                @foreach($profile->getAllImages() as $index => $image)
+                <div class="swiper-slide !flex items-center justify-center w-full h-full">
+                    <img src="{{ $image->getUrl() }}"
+                        alt="{{ $profile->display_name }}"
+                        class="max-w-[90vw] max-h-[90vh] rounded-2xl object-contain mx-auto"
+                        data-index="{{ $index }}">
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="lightbox-button-prev absolute left-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
+            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                ⏴
+            </div>
+        </div>
+
+        <div class="lightbox-button-next absolute right-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
+            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                ⏵
+            </div>
+        </div>
+
+        <!-- Thumbnail Navigation -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-60 w-full max-w-md px-4">
+            <div class="swiper lightbox-thumbs-swiper">
+                <div class="swiper-wrapper">
+                    @foreach($profile->getAllImages() as $index => $image)
+                    <div class="swiper-slide">
+                        <div class="lightbox-thumb w-16 h-18 rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-white transition-all duration-200" data-index="{{ $index }}">
+                            <img src="{{ $image->getUrl() }}"
+                                alt="{{ $profile->display_name }}"
+                                class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -236,7 +299,7 @@
             slidesPerView: 3,
             spaceBetween: 16,
             centeredSlides: true,
-            
+
             // Responsive breakpoints
             breakpoints: {
                 320: {
@@ -257,12 +320,159 @@
                 nextEl: '.swiper-button-next-custom',
                 prevEl: '.swiper-button-prev-custom',
             },
-            
+
             preloadImages: true,
             autoplay: {
                 delay: 4000,
                 disableOnInteraction: false,
             },
+        });
+
+        // Initialize Lightbox Swiper
+        let lightboxSwiper = null;
+        let lightboxThumbsSwiper = null;
+        const lightboxModal = document.getElementById('lightbox-modal');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        function initializeLightboxSwiper() {
+            if (!lightboxSwiper && lightboxModal) {
+                // Initialize thumbnails swiper first
+                lightboxThumbsSwiper = new Swiper('.lightbox-thumbs-swiper', {
+                    spaceBetween: 0,
+                    slidesPerView: 5,
+                    centeredSlides: true,
+                    watchSlidesProgress: true,
+                    slideToClickedSlide: true,
+                });
+
+                // Initialize main lightbox swiper
+                lightboxSwiper = new Swiper('.lightbox-swiper', {
+                    loop: true,
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    centeredSlides: true,
+                    initialSlide: 0, // Always start at first slide, we'll manually navigate
+                    
+                    navigation: {
+                        nextEl: '.lightbox-button-next',
+                        prevEl: '.lightbox-button-prev',
+                    },
+
+                    keyboard: {
+                        enabled: true,
+                    },
+
+                    thumbs: {
+                        swiper: lightboxThumbsSwiper,
+                    },
+
+                    on: {
+                        slideChange: function() {
+                            console.log('Slide changed to realIndex:', this.realIndex); // Debug log
+                            updateThumbActiveState(this.realIndex);
+                        },
+                        init: function() {
+                            console.log('Swiper initialized with realIndex:', this.realIndex); // Debug log
+                            updateThumbActiveState(this.realIndex || 0);
+                        }
+                    }
+                });                // Add click handlers for thumbnails
+                document.querySelectorAll('.lightbox-thumb').forEach(function(thumb, index) {
+                    thumb.addEventListener('click', function() {
+                        const targetIndex = parseInt(this.dataset.index);
+                        if (lightboxSwiper) {
+                            lightboxSwiper.slideTo(targetIndex + 1, 300); // +1 for loop mode
+                        }
+                    });
+                });
+            }
+        }
+
+        function updateThumbActiveState(activeIndex) {
+            document.querySelectorAll('.lightbox-thumb').forEach(function(thumb, index) {
+                if (index === activeIndex) {
+                    thumb.classList.add('border-white', 'opacity-100');
+                    thumb.classList.remove('border-transparent', 'opacity-60');
+                } else {
+                    thumb.classList.add('border-transparent', 'opacity-60');
+                    thumb.classList.remove('border-white', 'opacity-100');
+                }
+            });
+        }
+
+        // Open lightbox when image is clicked
+        document.querySelectorAll('.lightbox-trigger').forEach(function(trigger) {
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get the clicked image index
+                const targetIndex = parseInt(this.dataset.index);
+                console.log('Clicked image index:', targetIndex); // Debug log
+                
+                if (lightboxModal) {
+                    // Show modal first
+                    lightboxModal.classList.remove('hidden');
+                    lightboxModal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Initialize swiper after modal is shown with longer delay
+                    setTimeout(() => {
+                        initializeLightboxSwiper();
+                        
+                        if (lightboxSwiper) {
+                            // Force update and then go to target slide
+                            lightboxSwiper.update();
+                            
+                            // For loop mode, we need to account for cloned slides
+                            const slideToIndex = targetIndex + 1; // +1 for loop mode
+                            console.log('Going to slide:', slideToIndex); // Debug log
+                            
+                            lightboxSwiper.slideTo(slideToIndex, 0);
+                            
+                            // Update thumbnail active state
+                            updateThumbActiveState(targetIndex);
+                        }
+                    }, 100); // Increased delay to ensure proper initialization
+                }
+            });
+        });        // Close lightbox function
+        function closeLightbox() {
+            if (lightboxModal) {
+                lightboxModal.classList.add('hidden');
+                lightboxModal.classList.remove('flex');
+                document.body.style.overflow = '';
+
+                // Destroy swiper instances to prevent memory leaks
+                if (lightboxSwiper) {
+                    lightboxSwiper.destroy(true, true);
+                    lightboxSwiper = null;
+                }
+                if (lightboxThumbsSwiper) {
+                    lightboxThumbsSwiper.destroy(true, true);
+                    lightboxThumbsSwiper = null;
+                }
+            }
+        }
+
+        // Close lightbox on close button click
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', closeLightbox);
+        }
+
+        // Close lightbox on background click
+        if (lightboxModal) {
+            lightboxModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeLightbox();
+                }
+            });
+        }
+
+        // Close lightbox on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightboxModal && !lightboxModal.classList.contains('hidden')) {
+                closeLightbox();
+            }
         });
 
         // Add click event for thumbnails to change the main swiper slide
