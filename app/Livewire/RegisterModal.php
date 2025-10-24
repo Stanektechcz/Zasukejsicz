@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Validate;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
+#[Lazy]
 class RegisterModal extends Component
 {
     // Modal state
@@ -55,11 +57,18 @@ class RegisterModal extends Component
      */
     public function hide()
     {
+        // Immediately hide modal without server round trip
         $this->showModal = false;
-        $this->reset([
-            'currentStep', 'gender', 'name', 'email', 
-            'phone', 'password', 'password_confirmation'
-        ]);
+        
+        // Reset form data without triggering loading states
+        $this->currentStep = 1;
+        $this->gender = '';
+        $this->name = '';
+        $this->email = '';
+        $this->phone = '';
+        $this->password = '';
+        $this->password_confirmation = '';
+        
         $this->resetErrorBag();
         $this->dispatch('modal-closed', 'register');
     }
@@ -102,49 +111,49 @@ class RegisterModal extends Component
      */
     public function register()
     {
-        $phoneValidation = ['nullable', 'string', 'max:20'];
-        
-        // Only add unique validation if phone is not empty
-        if (!empty($this->phone)) {
-            $phoneValidation[] = 'unique:users,phone';
-        }
-
-        $this->validate([
+        // Validate all fields at once for better performance
+        $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => $phoneValidation,
+            'phone' => ['nullable', 'string', 'max:20', 'unique:users,phone'],
             'password' => ['required', 'string', Rules\Password::defaults()],
             'password_confirmation' => ['required', 'string', 'same:password'],
             'gender' => ['required', 'in:male,female'],
         ]);
 
-        // Create the user
-        $user = User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => !empty($this->phone) ? $this->phone : null,
-            'password' => Hash::make($this->password),
-        ]);
+        try {
+            // Create the user
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => !empty($validated['phone']) ? $validated['phone'] : null,
+                'password' => Hash::make($validated['password']),
+            ]);
 
-        // Create the profile with gender
-        Profile::create([
-            'user_id' => $user->id,
-            'gender' => $this->gender,
-            'display_name' => $this->name,
-            'status' => 'pending',
-            'is_public' => false,
-        ]);
+            // Create the profile with gender
+            Profile::create([
+                'user_id' => $user->id,
+                'gender' => $validated['gender'],
+                'display_name' => $validated['name'],
+                'status' => 'pending',
+                'is_public' => false,
+            ]);
 
-        // Fire the registered event
-        event(new Registered($user));
+            // Fire the registered event
+            event(new Registered($user));
 
-        // Log the user in
-        Auth::login($user);
+            // Log the user in
+            Auth::login($user);
 
-        $this->hide();
+            // Hide modal immediately
+            $this->showModal = false;
 
-        // Redirect to profile completion or dashboard
-        $this->redirect(route('account.dashboard'));
+            // Redirect to profile completion or dashboard
+            $this->redirect(route('account.dashboard'));
+            
+        } catch (\Exception $e) {
+            $this->addError('registration', __('auth.register.error'));
+        }
     }
 
     /**
@@ -158,5 +167,22 @@ class RegisterModal extends Component
     public function render()
     {
         return view('livewire.register-modal');
+    }
+
+    public function placeholder()
+    {
+        $loadingText = __('auth.register.loading') ?: 'Loading...';
+
+        return <<<HTML
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-2">
+            <div class="fixed inset-0 backdrop-blur-lg" style="background-color: rgba(92, 45, 98, 0.8);"></div>
+            <div class="relative w-lg bg-white rounded-3xl p-10 py-16 pb-7 shadow-xl">
+                <div class="text-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <p class="mt-4 text-gray-600">{$loadingText}</p>
+                </div>
+            </div>
+        </div>
+        HTML;
     }
 }

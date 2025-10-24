@@ -3,11 +3,21 @@
     @if($showModal)
     <div x-data="{ 
         show: true,
+        closing: false,
         init() {
             document.body.style.overflow = 'hidden';
         },
         destroy() {
             document.body.style.overflow = '';
+        },
+        closeModal() {
+            this.closing = true;
+            this.show = false;
+            document.body.style.overflow = '';
+            // Call Livewire hide without waiting
+            setTimeout(() => {
+                $wire.call('hide');
+            }, 1);
         }
     }"
         x-show="show"
@@ -18,7 +28,7 @@
         <!-- Modal Backdrop -->
         <div class="fixed inset-0 backdrop-blur-lg"
             style="background-color: rgba(92, 45, 98, 0.8);"
-            @click="$wire.hide()"></div>
+            @click="closeModal()"></div>
 
         <!-- Modal Content -->
         <div class="relative w-lg bg-white rounded-3xl p-10 py-16 pb-7 shadow-xl">
@@ -33,7 +43,7 @@
             @endif
 
             <!-- Close Button -->
-            <button @click="$wire.hide()"
+            <button @click="closeModal()"
                 class="absolute top-7 right-7 w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary/80 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -45,7 +55,7 @@
             <div class="text-center">
                 <!-- Header -->
                 <div class="mb-8">
-                    <h1 class="text-4xl font-bold text-secondary mb-1">Registrace</h1>
+                    <h1 class="text-4xl font-bold text-secondary mb-1">{{ __('auth.register.title') }}</h1>
                 </div>
 
                 <!-- Gender Options -->
@@ -55,8 +65,8 @@
                         class="w-full p-6 rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl {{ $gender === 'female' ? 'border-primary-500' : 'border-gray-200' }}">
                         <div class="flex items-center justify-between">
                             <div class="text-left">
-                                <h3 class="text-lg m-0 font-bold text-secondary">Jsem žena</h3>
-                                <p class="text-sm text-gray-500">a chci si přivydělat...</p>
+                                <h3 class="text-lg m-0 font-bold text-secondary">{{ __('auth.register.gender_selection.female_title') }}</h3>
+                                <p class="text-sm text-gray-500">{{ __('auth.register.gender_selection.female_subtitle') }}</p>
                             </div>
                             <div class="flex items-center">
                                 <span class="bg-gray-100 rounded-full p-2 flex items-center justify-center">
@@ -73,8 +83,8 @@
                         class="w-full p-6 rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl {{ $gender === 'male' ? 'border-primary-500' : 'border-gray-200' }}">
                         <div class="flex items-center justify-between">
                             <div class="text-left">
-                                <h3 class="text-lg m-0 font-bold text-secondary">Jsem muž</h3>
-                                <p class="text-sm text-gray-500">a chci si společnost...</p>
+                                <h3 class="text-lg m-0 font-bold text-secondary">{{ __('auth.register.gender_selection.male_title') }}</h3>
+                                <p class="text-sm text-gray-500">{{ __('auth.register.gender_selection.male_subtitle') }}</p>
                             </div>
                             <div class="flex items-center">
                                 <span class="bg-gray-100 rounded-full p-2 flex items-center justify-center">
@@ -97,21 +107,27 @@
             <div>
                 <!-- Header -->
                 <div class="text-center mb-8">
-                    <h1 class="text-4xl font-bold text-secondary mb-1">Registrace</h1>
+                    <h1 class="text-4xl font-bold text-secondary mb-1">{{ __('auth.register.title') }}</h1>
                     <h2 class="text-4xl font-bold text-primary">
                         @if($gender === 'female')
-                            pro ženy
+                            {{ __('auth.register.subtitle_female') }}
                         @elseif($gender === 'male')
-                            pro muže
+                            {{ __('auth.register.subtitle_male') }}
                         @endif
                     </h2>
                 </div>
 
                 <!-- Form -->
                 <form wire:submit="register" class="space-y-3 bg-gray-100 p-6 rounded-xl">
+                    <!-- Registration Error -->
+                    @error('registration')
+                    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+                        {{ $message }}
+                    </div>
+                    @enderror
                     <!-- Name -->
                     <div>
-                        <label class="block text-xs text-gray-600 mb-1">Uživatelské jméno</label>
+                        <label class="block text-xs text-gray-600 mb-1">{{ __('auth.register.form.username_label') }}</label>
                         <input wire:model="name"
                             type="text"
                             required
@@ -123,7 +139,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-xs text-gray-600 mb-1">Váš email</label>
+                        <label class="block text-xs text-gray-600 mb-1">{{ __('auth.register.form.email_label') }}</label>
                         <input wire:model="email"
                             type="email"
                             required
@@ -135,7 +151,7 @@
 
                     <!-- Password -->
                     <div>
-                        <label class="block text-xs text-gray-600 mb-1">Heslo</label>
+                        <label class="block text-xs text-gray-600 mb-1">{{ __('auth.register.form.password_label') }}</label>
                         <input wire:model="password"
                             type="password"
                             required
@@ -147,7 +163,7 @@
 
                     <!-- Confirm Password -->
                     <div>
-                        <label class="block text-xs text-gray-600 mb-1">Potvrďte heslo</label>
+                        <label class="block text-xs text-gray-600 mb-1">{{ __('auth.register.form.password_confirmation_label') }}</label>
                         <input wire:model="password_confirmation"
                             type="password"
                             required
@@ -159,16 +175,18 @@
 
                     <!-- Terms -->
                     <div class="text-[10px] text-gray-600 px-2">
-                        Pokračování a registrací souhlasíte s Oprávněné aniž i odstoupil o snadno osoby vede grafikou osobami úmyslu 60 % poskytovat, dělí způsobem, § 36 veletrhu pověřit spravují zřejmém, k před platbě státu zvláštních tuzemsku. Dohodnou zvláštní provádí.
+                        {{ __('auth.register.terms') }}
                     </div>
 
                     <!-- Submit Button -->
                     <div class="pt-3">
                         <button type="submit"
                             wire:loading.attr="disabled"
+                            wire:target="register"
+                            x-bind:disabled="closing"
                             class="w-full bg-primary text-white font-semibold py-4 rounded-lg hover:bg-primary/80 transition-colors disabled:opacity-50">
-                            <span wire:loading.remove>Registrovat se ZDARMA</span>
-                            <span wire:loading>Vytváření...</span>
+                            <span wire:loading.remove wire:target="register">{{ __('auth.register.register_button') }}</span>
+                            <span wire:loading wire:target="register">{{ __('auth.register.creating') }}</span>
                         </button>
                     </div>
                 </form>
