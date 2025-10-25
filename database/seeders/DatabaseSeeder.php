@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com'
         ], [
             'name' => 'Admin User',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('admin123'),
             'email_verified_at' => now(),
         ]);
         $admin->assignRole('admin');
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
 
         // Create a man user with profile
         $man = User::firstOrCreate([
-            'email' => 'man@example.com'
+            'email' => 'user@example.com'
         ], [
             'name' => 'John Smith',
             'password' => Hash::make('password'),
