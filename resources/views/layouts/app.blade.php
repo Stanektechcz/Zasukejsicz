@@ -27,6 +27,7 @@
         @guest
             <livewire:login-modal />
             <livewire:register-modal />
+            <livewire:reset-modal />
         @endguest
     </div>
 
@@ -42,6 +43,7 @@
                 if (e.key === 'Escape') {
                     Livewire.dispatch('hide-login-modal');
                     Livewire.dispatch('hide-register-modal');
+                    Livewire.dispatch('hide-reset-modal');
                 }
             });
         });

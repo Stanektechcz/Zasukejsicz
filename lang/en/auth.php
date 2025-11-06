@@ -39,7 +39,19 @@ return [
         'error' => 'Registration failed. Please try again.',
         'terms' => 'By continuing and registering you agree to the Terms and Conditions and Privacy Policy. You acknowledge that you have read and understood all terms.',
     ],
-
+    'reset' => [
+        'title' => 'Reset Password',
+        'subtitle' => 'Forgot Password?',
+        'description' => 'Enter your email address and we\'ll send you a link to reset your password.',
+        'email_label' => 'Email Address',
+        'send_button' => 'Reset password',
+        'sending' => 'Sending...',
+        'back_to_login' => 'Back to Login',
+        'success_title' => 'Email Sent!',
+        'success_message' => 'We\'ve sent you a password reset link. Please check your email inbox and follow the instructions.',
+        'close' => 'Close',
+        'loading' => 'Loading...'
+    ],
     // Common
     'close' => 'Close',
     'back' => 'Back',

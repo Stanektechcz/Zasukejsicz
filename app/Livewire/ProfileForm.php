@@ -90,6 +90,43 @@ class ProfileForm extends Component
         $this->loadGenders();
     }
 
+    /**
+     * Check if the current user is an admin.
+     */
+    public function isAdmin(): bool
+    {
+        $user = \App\Models\User::with('roles')->find(Auth::id());
+        return $user->roles()->where('name', 'admin')->exists();
+    }
+
+    /**
+     * Get the status label with translation.
+     */
+    public function getStatusLabel(): string
+    {
+        $statusLabels = [
+            'pending' => __('front.profiles.form.pending'),
+            'approved' => __('front.profiles.form.approved'),
+            'rejected' => __('front.profiles.form.rejected'),
+        ];
+
+        return $statusLabels[$this->status] ?? $statusLabels['pending'];
+    }
+
+    /**
+     * Get the status color for display.
+     */
+    public function getStatusColor(): string
+    {
+        $statusColors = [
+            'pending' => 'text-yellow-600 bg-yellow-50 border-yellow-200',
+            'approved' => 'text-green-600 bg-green-50 border-green-200',
+            'rejected' => 'text-red-600 bg-red-50 border-red-200',
+        ];
+
+        return $statusColors[$this->status] ?? $statusColors['pending'];
+    }
+
 
 
     public function loadGenders()
@@ -117,9 +154,10 @@ class ProfileForm extends Component
     {
         $user = Auth::user();
         $user = \App\Models\User::find($user->id);
+        $isAdmin = $this->isAdmin();
         
-        // Custom validation for phone uniqueness (exclude current user)
-        $this->validate([
+        // Build validation rules - exclude status for non-admin users
+        $validationRules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20|unique:users,phone,' . $user->id,
@@ -130,8 +168,14 @@ class ProfileForm extends Component
             'address' => 'nullable|string|max:255',
             'about' => 'nullable|string|max:1200',
             'availability_hours' => 'nullable|string',
-            'status' => 'nullable|in:pending,approved,rejected',
-        ]);
+        ];
+
+        // Add status validation only for admin users
+        if ($isAdmin) {
+            $validationRules['status'] = 'nullable|in:pending,approved,rejected';
+        }
+
+        $this->validate($validationRules);
 
         // Track email change before update
         $emailChanged = $user->email !== $this->email;
@@ -157,9 +201,16 @@ class ProfileForm extends Component
             'address' => $this->address ?: null,
             'about' => $this->about ?: null,
             'availability_hours' => $this->availability_hours ? explode(', ', $this->availability_hours) : null,
-            'status' => $this->status ?: 'pending',
             'is_public' => $this->is_public,
         ];
+
+        // Only include status if user is admin, otherwise set default for new profiles
+        if ($isAdmin) {
+            $profileData['status'] = $this->status ?: 'pending';
+        } elseif (!$user->profile) {
+            // For new profiles by non-admin users, set default status
+            $profileData['status'] = 'pending';
+        }
 
         if ($user->profile) {
             // Update existing profile

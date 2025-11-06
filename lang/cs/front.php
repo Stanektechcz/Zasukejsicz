@@ -9,6 +9,7 @@ return [
     ],
     'nav' => [
         'home' => 'Úvod',
+        'countries' => 'Země',
         'vip' => 'VIP a Premium',
         'faq' => 'FAQ',
         'ethics' => 'Etika',
@@ -35,6 +36,15 @@ return [
         'ecological' => 'Náš projekt je Ekologický',
         'verification' => '- Díky systému ověření dívek nepojedete nikam zbytečně',
         'copyright' => '© 2025 ZasukejSi.cz'
+    ],
+    'countries' => [
+        'title' => 'Procházení podle zemí',
+        'subtitle' => 'Najděte profily z vaší preferované lokace',
+        'all_countries' => 'Všechny země',
+        'profiles_from' => 'Profily z',
+        'all_profiles' => 'Všechny profily',
+        'profiles_found' => 'profilů nalezeno',
+        'profiles' => 'profilů'
     ],
     'title' => 'Najděte si dokonalou masérku',
     'account' => [
@@ -117,7 +127,13 @@ return [
             'signinbutton' => 'Přihlásit se',
             'signing_in' => 'Přihlašování...',
             'noaccount' => 'Nemáte účet?',
-            'registerhere' => 'Zaregistrujte se zde'
+            'registerhere' => 'Zaregistrujte se zde',
+            'forgot_password' => 'Zapomněli jste heslo?',
+            'back_to_login' => 'Zpět na přihlášení',
+            'reset_password' => 'Obnovit heslo',
+            'new_password' => 'Nové heslo',
+            'confirm_password' => 'Potvrdit heslo',
+            'new_password_instruction' => 'Prosím zadejte níže své nové heslo.',
         ],
         'register' => [
             'title' => 'Registrace',
@@ -219,6 +235,7 @@ return [
             'pending' => 'Čeká na schválení',
             'approved' => 'Schváleno',
             'rejected' => 'Zamítnuto',
+            'statusdesc' => 'Stav profilu spravují administrátoři',
             'public' => 'Veřejný profil',
             'publicdesc' => 'Můj profil je viditelný pro ostatní uživatele',
             'street' => 'Ulice a číslo popisné',

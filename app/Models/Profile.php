@@ -33,6 +33,7 @@ class Profile extends Model implements HasMedia
         'display_name',
         'age',
         'city',
+        'country_id',
         'address',
         'about',
         'availability_hours',
@@ -61,6 +62,14 @@ class Profile extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the country that this profile belongs to.
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
     /**

@@ -12,8 +12,8 @@
 
                 <!-- Navigation Links - Desktop -->
                 <div class="hidden lg:flex items-center space-x-5 xl:space-x-6">
-                    <a href="{{ route('profiles.index') }}" class="nav-link" id="nav-link-1">
-                        {{ __('front.nav.home') }}
+                    <a href="{{ route('countries.index') }}" class="nav-link" id="nav-link-2">
+                        {{ __('front.nav.countries') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-2">
                         {{ __('front.nav.vip') }}
@@ -138,8 +138,8 @@
                     {{ __('front.nav.home') }}
                     <span class="underline"></span>
                 </a>
-                <a href="#" class="nav-link-mobile group">
-                    {{ __('front.nav.vip') }}
+                <a href="{{ route('countries.index') }}" class="nav-link-mobile group">
+                    {{ __('front.nav.countries') }}
                     <span class="underline"></span>
                 </a>
                 <a href="#" class="nav-link-mobile group">

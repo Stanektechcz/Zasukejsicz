@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Validate;
-use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
-#[Lazy]
 class RegisterModal extends Component
 {
     // Modal state
@@ -167,22 +165,5 @@ class RegisterModal extends Component
     public function render()
     {
         return view('livewire.register-modal');
-    }
-
-    public function placeholder()
-    {
-        $loadingText = __('auth.register.loading') ?: 'Loading...';
-
-        return <<<HTML
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-2">
-            <div class="fixed inset-0 backdrop-blur-lg" style="background-color: rgba(92, 45, 98, 0.8);"></div>
-            <div class="relative w-lg bg-white rounded-3xl p-10 py-16 pb-7 shadow-xl">
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                    <p class="mt-4 text-gray-600">{$loadingText}</p>
-                </div>
-            </div>
-        </div>
-        HTML;
     }
 }

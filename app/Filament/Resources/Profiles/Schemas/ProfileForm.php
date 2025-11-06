@@ -83,6 +83,15 @@ class ProfileForm
                     ->label(__('profiles.form.city'))
                     ->maxLength(255),
 
+                Select::make('country_id')
+                    ->label(__('profiles.form.country'))
+                    ->relationship('country', 'country_name')
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        return $record?->getTranslation('country_name', app()->getLocale());
+                    }),
+
                 TextInput::make('address')
                     ->label(__('profiles.form.address'))
                     ->maxLength(1200)
@@ -94,10 +103,6 @@ class ProfileForm
                     ->valueLabel('Hours')
                     ->columnSpanFull()
                     ->helperText('Example: Monday -> 9:00-17:00'),
-
-                Toggle::make('is_public')
-                    ->label(__('profiles.form.is_public'))
-                    ->default(true),
 
                 Select::make('status')
                     ->label(__('profiles.form.status'))
@@ -113,6 +118,10 @@ class ProfileForm
                 DateTimePicker::make('verified_at')
                     ->label('Verified At')
                     ->visible($isAdmin),
+
+                Toggle::make('is_public')
+                    ->label(__('profiles.form.is_public'))
+                    ->default(true)
             ]);
     }
 }

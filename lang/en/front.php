@@ -9,6 +9,7 @@ return [
     ],
     'nav' => [
         'home' => 'Home',
+        'countries' => 'Countries',
         'vip' => 'VIP & Premium',
         'faq' => 'FAQ',
         'ethics' => 'Ethics',
@@ -35,6 +36,15 @@ return [
         'ecological' => 'Our project is Ecological',
         'verification' => '- Thanks to the girl verification system you won\'t travel anywhere unnecessarily',
         'copyright' => '© 2025 ZasukejSi.cz'
+    ],
+    'countries' => [
+        'title' => 'Browse by Countries',
+        'subtitle' => 'Find profiles from your preferred location',
+        'all_countries' => 'All Countries',
+        'profiles_from' => 'Profiles from',
+        'all_profiles' => 'All Profiles',
+        'profiles_found' => 'profiles found',
+        'profiles' => 'profiles'
     ],
     'title' => 'Find Your Perfect Massage Therapist',
     'account' => [
@@ -96,7 +106,13 @@ return [
             'signinbutton' => 'Sign in',
             'signing_in' => 'Signing in...',
             'noaccount' => 'Don\'t have an account?',
-            'registerhere' => 'Register here'
+            'registerhere' => 'Register here',
+            'forgot_password' => 'Forgot your password?',
+            'back_to_login' => 'Back to login',
+            'reset_password' => 'Reset Password',
+            'new_password' => 'New Password',
+            'confirm_password' => 'Confirm Password',
+            'new_password_instruction' => 'Please enter your new password below.',
         ],
         'register' => [
             'title' => 'Register',
@@ -198,6 +214,7 @@ return [
             'pending' => 'Pending approval',
             'approved' => 'Approved',
             'rejected' => 'Rejected',
+            'statusdesc' => 'Profile status is managed by administrators',
             'public' => 'Public Profile',
             'publicdesc' => 'My profile is visible to other users',
             'street' => 'Street and house number',

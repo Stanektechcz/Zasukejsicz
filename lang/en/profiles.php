@@ -7,6 +7,7 @@ return [
         'gender' => 'Gender',
         'age' => 'Age',
         'city' => 'City',
+        'country' => 'Country',
         'address' => 'Address',
         'about' => 'About',
         'status' => 'Status',
@@ -18,6 +19,7 @@ return [
     'filters' => [
         'status' => 'Status',
         'city' => 'City',
+        'country' => 'Country',
         'gender' => 'Gender',
     ],
     'actions' => [
@@ -39,6 +41,7 @@ return [
         'about' => 'About',
         'age' => 'Age',
         'city' => 'City',
+        'country' => 'Country',
         'address' => 'Address',
         'status' => 'Status',
         'is_public' => 'Make Public',

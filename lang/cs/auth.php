@@ -39,6 +39,20 @@ return [
         'error' => 'Registrace se nezdařila. Zkuste to prosím znovu.',
         'terms' => 'Pokračování a registrací souhlasíte s Oprávněné aniž i odstoupil o snadno osoby vede grafikou osobami úmyslu 60 % poskytovat, dělí způsobem, § 36 veletrhu pověřit spravují zřejmém, k před platbě státu zvláštních tuzemsku. Dohodnou zvláštní provádí.',
     ],
+      
+    'reset' => [
+        'title' => 'Obnovení hesla',
+        'subtitle' => 'Zapomněli jste heslo?',
+        'description' => 'Zadejte svou e-mailovou adresu a pošleme vám odkaz pro obnovení hesla.',
+        'email_label' => 'E-mailová adresa',
+        'send_button' => 'Obnovit heslo',
+        'sending' => 'Odesílání...',
+        'back_to_login' => 'Zpět k přihlášení',
+        'success_title' => 'E-mail odeslán!',
+        'success_message' => 'Poslali jsme vám odkaz pro obnovení hesla. Zkontrolujte prosím svou e-mailovou schránku a postupujte podle pokynů.',
+        'close' => 'Zavřít',
+        'loading' => 'Načítání...'
+    ],
 
     // Common
     'close' => 'Zavřít',

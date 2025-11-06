@@ -55,6 +55,21 @@ class ProfilesTable
                     ->numeric()
                     ->sortable(),
 
+                TextColumn::make('city')
+                    ->label(__('profiles.table.city'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+
+                TextColumn::make('country.country_name')
+                    ->label(__('profiles.table.country'))
+                    ->searchable()
+                    ->sortable()
+                    ->getStateUsing(function ($record) {
+                        return $record->country?->getTranslation('country_name', app()->getLocale());
+                    })
+                    ->toggleable(),
+
                 TextColumn::make('status')
                     ->label(__('profiles.table.status'))
                     ->badge()
@@ -107,6 +122,15 @@ class ProfilesTable
                             ->pluck('city', 'city')
                             ->unique()
                             ->sort();
+                    }),
+
+                SelectFilter::make('country_id')
+                    ->label(__('profiles.filters.country'))
+                    ->relationship('country', 'country_name')
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        return $record?->getTranslation('country_name', app()->getLocale());
                     }),
 
                 SelectFilter::make('gender')
