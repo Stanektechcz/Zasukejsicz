@@ -2,47 +2,55 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Left Panel - Countries List -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('Countries') }}</h3>
-                
+            <div class="p-6 sticky top-24">
                 <div class="space-y-2">
-                    <!-- All Countries Option -->
-                    <button wire:click="selectCountry()"
-                        class="w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 {{ is_null($selectedCountryId) ? 'bg-primary-50 text-primary-700 border-2 border-primary-200' : 'hover:bg-gray-50 border-2 border-transparent' }}">
-                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium">{{ __('front.countries.all_countries') }}</div>
-                        </div>
-                    </button>
 
                     <!-- Individual Countries -->
                     @foreach($countries as $country)
-                    <button wire:click="selectCountry({{ $country->id }})"
-                        class="w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-200 {{ $selectedCountryId == $country->id ? 'bg-primary-50 text-primary-700 border-2 border-primary-200' : 'hover:bg-gray-50 border-2 border-transparent' }}">
-                        <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                            @if($country->hasFlagImage())
-                                <img src="{{ $country->getFlagImageThumbUrl() }}" 
-                                     alt="{{ $country->getTranslation('country_name', app()->getLocale()) }}"
-                                     class="w-full h-full object-cover">
-                            @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path>
-                                    </svg>
-                                </div>
-                            @endif
+                    <div class="space-y-1">
+                        <!-- Country Button -->
+                        <button wire:click="toggleCountryExpansion({{ $country->id }})"
+                            class="w-full flex items-center gap-3 p-3 text-left transition-all duration-200 {{ $selectedCountryId == $country->id && !$selectedCity ? 'bg-primary-50 text-primary-700' : '' }}">
+                            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                                @if($country->hasFlagImage())
+                                    <img src="{{ $country->getFlagImageThumbUrl() }}" 
+                                         alt="{{ $country->getTranslation('country_name', app()->getLocale()) }}"
+                                         class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-sm">{{ $country->getTranslation('country_name', app()->getLocale()) }}</div>
+                            </div>
+                            <div class="text-sm text-gray-500 ml-auto">
+                                {{ $country->profiles_count }}
+                            </div>
+                        </button>
+
+                        <!-- Cities Dropdown -->
+                        @if($country->cities && $country->cities->count() > 0 && in_array($country->id, $expandedCountries))
+                        <div class="flex justify-end" >
+                            <div class="w-10/12 rounded-2xl space-y-0.5">
+                                @foreach($country->cities as $city)
+                                <button wire:click="selectCity({{ $country->id }}, '{{ $city->city }}')"
+                                    class="w-full bg-gray-100 hover:bg-primary hover:text-white flex items-center gap-3 p-1 px-3 text-left text-sm {{ $selectedCountryId == $country->id && $selectedCity == $city->city ? 'bg-primary text-white' : '' }} {{ $loop->first ? 'rounded-t-lg' : '' }} {{ $loop->last ? 'rounded-b-lg' : '' }}">
+                                    <div class="flex-1">
+                                        <div class="font-medium text-sm">{{ $city->city }}</div>
+                                    </div>
+                                    <div class="text-xs hover:bg-primary hover:text-white ml-auto">
+                                        {{ $city->profiles_count }}
+                                    </div>
+                                </button>
+                                @endforeach
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <div class="font-medium">{{ $country->getTranslation('country_name', app()->getLocale()) }}</div>
-                        </div>
-                        <div class="text-sm text-gray-500 ml-auto">
-                            {{ $country->profiles_count }}
-                        </div>
-                    </button>
+                        @endif
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -52,7 +60,14 @@
         <div class="lg:col-span-3">
             <!-- Header -->
             <div class="mb-6">
-                @if($selectedCountry)
+                @if($selectedCountry && $selectedCity)
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        {{ __('front.countries.profiles_from') }} {{ $selectedCity }}, {{ $selectedCountry->getTranslation('country_name', app()->getLocale()) }}
+                    </h2>
+                    <p class="text-gray-600 mt-1">
+                        {{ $profiles->total() }} {{ __('front.countries.profiles_found') }}
+                    </p>
+                @elseif($selectedCountry)
                     <h2 class="text-2xl font-bold text-gray-900">
                         {{ __('front.countries.profiles_from') }} {{ $selectedCountry->getTranslation('country_name', app()->getLocale()) }}
                     </h2>

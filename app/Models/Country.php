@@ -58,19 +58,22 @@ class Country extends Model implements HasMedia
             ->width(32)
             ->height(32)
             ->sharpen(10)
-            ->performOnCollections('flag-images');
+            ->performOnCollections('flag-images')
+            ->nonQueued();
 
         $this->addMediaConversion('medium')
             ->width(64)
             ->height(64)
             ->sharpen(10)
-            ->performOnCollections('flag-images');
+            ->performOnCollections('flag-images')
+            ->nonQueued();
 
         $this->addMediaConversion('large')
             ->width(128)
             ->height(128)
             ->sharpen(10)
-            ->performOnCollections('flag-images');
+            ->performOnCollections('flag-images')
+            ->nonQueued();
     }
 
     /**

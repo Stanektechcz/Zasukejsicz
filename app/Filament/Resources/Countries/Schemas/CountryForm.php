@@ -45,7 +45,7 @@ class CountryForm
                     ->disk('public')
                     ->visibility('public')
                     ->columnSpanFull()
-                    ->helperText('Upload a flag image for this country (max 2MB, will be resized to 64x64px)'),
+                    ->helperText('Upload a flag image for this country (max 2MB)'),
             ]);
     }
 }
