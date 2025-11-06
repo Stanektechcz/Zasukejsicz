@@ -5,6 +5,7 @@ return [
     'login' => [
         'title' => 'Login',
         'subtitle' => 'vítejte zpět',
+        'email_label' => 'Email',
         'username_label' => 'Vaše uživatelské jméno',
         'password_label' => 'Vaše heslo',
         'forgot_password' => 'Zapomenuté heslo',

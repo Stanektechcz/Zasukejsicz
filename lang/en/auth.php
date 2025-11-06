@@ -5,6 +5,7 @@ return [
     'login' => [
         'title' => 'Login',
         'subtitle' => 'welcome back',
+        'email_label' => 'Email',
         'username_label' => 'Your username',
         'password_label' => 'Your password',
         'forgot_password' => 'Forgot password',
