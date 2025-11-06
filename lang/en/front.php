@@ -157,7 +157,7 @@ return [
         'search' => [
             'city' => 'City',
             'entercity' => 'Enter or select a city...',
-            'agerange' => 'Age Range',
+            'agerange' => 'Age',
             'minage' => 'Min Age',
             'maxage' => 'Max Age',
             'search' => 'Search',

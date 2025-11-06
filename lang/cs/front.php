@@ -178,7 +178,7 @@ return [
         'search' => [
             'city' => 'Město',
             'entercity' => 'Zadejte nebo vyberte město...',
-            'agerange' => 'Věkové rozmezí',
+            'agerange' => 'Věk dívky',
             'minage' => 'Minimální věk',
             'maxage' => 'Maximální věk',
             'search' => 'Hledat',
