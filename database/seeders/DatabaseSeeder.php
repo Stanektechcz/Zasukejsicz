@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $admin->assignRole('admin');
-        
+
 
 
         // Create a woman user with profile
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $woman->syncRoles(['user']);
-        
+
         if (!$woman->profile) {
             Profile::create([
                 'user_id' => $woman->id,
@@ -95,6 +95,7 @@ class DatabaseSeeder extends Seeder
                 'status' => 'approved',
                 'is_public' => true,
                 'verified_at' => now(),
+                'country_code' => 'us',
             ]);
         }
 
@@ -108,7 +109,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $man->syncRoles(['user']);
-        
+
         if (!$man->profile) {
             Profile::create([
                 'user_id' => $man->id,
@@ -126,6 +127,7 @@ class DatabaseSeeder extends Seeder
                 'status' => 'approved',
                 'is_public' => true,
                 'verified_at' => now(),
+                'country_code' => 'us',
             ]);
         }
 
@@ -138,7 +140,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Michael Garcia', 'gender' => 'male'],
             ['name' => 'David Davis', 'gender' => 'male'],
         ];
-        
+
         foreach ($profileData as $index => $data) {
             $email = 'demo' . ($index + 1) . '@example.com';
             $demoUser = User::firstOrCreate([
@@ -149,14 +151,15 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]);
             $demoUser->syncRoles(['user']);
-            
+
             if (!$demoUser->profile) {
+                $city = $cities[array_rand($cities)];
                 Profile::create([
                     'user_id' => $demoUser->id,
                     'gender' => $data['gender'],
                     'display_name' => $data['name'] . ' Massage Therapy',
                     'age' => rand(23, 45),
-                    'city' => $cities[array_rand($cities)],
+                    'city' => $city,
                     'address' => (rand(100, 999)) . ' Health Ave',
                     'about' => 'Experienced massage therapist offering relaxing and therapeutic treatments.',
                     'availability_hours' => [
@@ -167,6 +170,50 @@ class DatabaseSeeder extends Seeder
                     'status' => 'approved',
                     'is_public' => true,
                     'verified_at' => rand(0, 1) ? now() : null,
+                    'country_code' => 'us',
+                ]);
+            }
+        }
+
+        $czechCities = ['Prague', 'Brno', 'Ostrava', 'Plzen', 'Liberec'];
+        $czechProfileData = [
+            ['name' => 'Petra Nováková', 'gender' => 'female'],
+            ['name' => 'Jana Svobodová', 'gender' => 'female'],
+            ['name' => 'Lucie Dvořáková', 'gender' => 'female'],
+            ['name' => 'Tomáš Novák', 'gender' => 'male'],
+            ['name' => 'Martin Černý', 'gender' => 'male'],
+        ];
+
+        foreach ($czechProfileData as $index => $data) {
+            $email = 'czdemo' . ($index + 1) . '@example.com';
+            $demoUser = User::firstOrCreate([
+                'email' => $email
+            ], [
+                'name' => $data['name'],
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]);
+            $demoUser->syncRoles(['user']);
+
+            if (!$demoUser->profile) {
+                $city = $czechCities[array_rand($czechCities)];
+                Profile::create([
+                    'user_id' => $demoUser->id,
+                    'gender' => $data['gender'],
+                    'display_name' => $data['name'] . ' Masáže',
+                    'age' => rand(23, 45),
+                    'city' => $city,
+                    'address' => (rand(100, 999)) . ' Relaxační ulice',
+                    'about' => 'Zkušený masér/masérka nabízející relaxační a terapeutické masáže.',
+                    'availability_hours' => [
+                        'Pondělí' => '9:00-17:00',
+                        'Středa' => '9:00-17:00',
+                        'Pátek' => '9:00-17:00',
+                    ],
+                    'status' => 'approved',
+                    'is_public' => true,
+                    'verified_at' => rand(0, 1) ? now() : null,
+                    'country_code' => 'cz',
                 ]);
             }
         }

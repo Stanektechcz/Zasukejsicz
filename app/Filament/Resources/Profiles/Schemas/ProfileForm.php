@@ -83,14 +83,13 @@ class ProfileForm
                     ->label(__('profiles.form.city'))
                     ->maxLength(255),
 
-                Select::make('country_id')
+                Select::make('country_code')
                     ->label(__('profiles.form.country'))
-                    ->relationship('country', 'country_name')
-                    ->searchable()
-                    ->preload()
-                    ->getOptionLabelFromRecordUsing(function ($record) {
-                        return $record?->getTranslation('country_name', app()->getLocale());
-                    }),
+                    ->options(function () {
+                        $codes = include base_path('lang/en/codes.php');
+                        return collect($codes)->mapWithKeys(fn($name, $code) => [strtolower($code) => $name]);
+                    })
+                    ->searchable(),
 
                 TextInput::make('address')
                     ->label(__('profiles.form.address'))

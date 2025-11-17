@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Country;
 use App\Models\Profile;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,7 +11,7 @@ class CountryProfiles extends Component
 {
     use WithPagination;
 
-    public $selectedCountryId = null;
+    public $selectedCountryCode = null;
     public $selectedCity = null;
     public $expandedCountries = [];
     public $perPage = 20;
@@ -24,26 +23,29 @@ class CountryProfiles extends Component
         // Set the first country as default or leave null for all countries
     }
 
-    public function selectCountry($countryId = null)
+
+    public function selectCountry($countryCode = null)
     {
-        $this->selectedCountryId = $countryId;
+        $this->selectedCountryCode = $countryCode;
         $this->selectedCity = null; // Reset city when changing country
         $this->resetPage();
     }
 
-    public function selectCity($countryId, $city = null)
+
+    public function selectCity($countryCode, $city = null)
     {
-        $this->selectedCountryId = $countryId;
+        $this->selectedCountryCode = $countryCode;
         $this->selectedCity = $city;
         $this->resetPage();
     }
 
-    public function toggleCountryExpansion($countryId)
+
+    public function toggleCountryExpansion($countryCode)
     {
-        if (in_array($countryId, $this->expandedCountries)) {
-            $this->expandedCountries = array_diff($this->expandedCountries, [$countryId]);
+        if (in_array($countryCode, $this->expandedCountries)) {
+            $this->expandedCountries = array_diff($this->expandedCountries, [$countryCode]);
         } else {
-            $this->expandedCountries[] = $countryId;
+            $this->expandedCountries[] = $countryCode;
         }
     }
 
@@ -54,24 +56,32 @@ class CountryProfiles extends Component
 
     public function getCountriesProperty()
     {
-        return Country::orderBy('country_name')
-            ->withCount('profiles')
-            ->get()
-            ->map(function ($country) {
-                // Get cities for this country with profile counts
-                $cities = Profile::where('country_id', $country->id)
-                    ->where('status', 'approved')
-                    ->where('is_public', true)
-                    ->whereNotNull('verified_at')
-                    ->whereNotNull('city')
-                    ->select('city', DB::raw('count(*) as profiles_count'))
+        $codes = include base_path('lang/en/codes.php');
+        $profiles = Profile::query()
+            ->where('is_public', true)
+            ->whereNotNull('country_code')
+            ->get();
+
+        // Aggregate by country_code
+        $countries = collect();
+        foreach ($profiles->groupBy('country_code') as $code => $profilesInCountry) {
+            $country = [
+                'country_code' => $code,
+                'country_name' => $codes[strtolower($code)] ?? $code,
+                'profiles_count' => $profilesInCountry->count(),
+                'cities' => $profilesInCountry->whereNotNull('city')
                     ->groupBy('city')
-                    ->orderBy('city')
-                    ->get();
-                    
-                $country->cities = $cities;
-                return $country;
-            });
+                    ->map(function ($cityProfiles, $city) {
+                        return [
+                            'city' => $city,
+                            'profiles_count' => $cityProfiles->count(),
+                        ];
+                    })->sortBy('city')->values(),
+            ];
+            $countries->push((object) $country);
+        }
+        // Sort by country_name
+        return $countries->sortBy('country_name')->values();
     }
 
     public function getProfilesProperty()
@@ -81,8 +91,8 @@ class CountryProfiles extends Component
             ->where('is_public', true)
             ->whereNotNull('verified_at');
 
-        if ($this->selectedCountryId) {
-            $query->where('country_id', $this->selectedCountryId);
+        if ($this->selectedCountryCode) {
+            $query->where('country_code', $this->selectedCountryCode);
         }
 
         if ($this->selectedCity) {
@@ -93,13 +103,17 @@ class CountryProfiles extends Component
             ->paginate($this->perPage);
     }
 
+
     public function getSelectedCountryProperty()
     {
-        if (!$this->selectedCountryId) {
+        if (!$this->selectedCountryCode) {
             return null;
         }
-
-        return Country::find($this->selectedCountryId);
+        $codes = include base_path('lang/en/codes.php');
+        return (object) [
+            'country_code' => $this->selectedCountryCode,
+            'country_name' => $codes[strtolower($this->selectedCountryCode)] ?? $this->selectedCountryCode,
+        ];
     }
 
     public function render()

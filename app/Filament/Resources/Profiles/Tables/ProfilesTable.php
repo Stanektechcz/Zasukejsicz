@@ -61,14 +61,7 @@ class ProfilesTable
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('country.country_name')
-                    ->label(__('profiles.table.country'))
-                    ->searchable()
-                    ->sortable()
-                    ->getStateUsing(function ($record) {
-                        return $record->country?->getTranslation('country_name', app()->getLocale());
-                    })
-                    ->toggleable(),
+              
 
                 TextColumn::make('status')
                     ->label(__('profiles.table.status'))
@@ -124,14 +117,17 @@ class ProfilesTable
                             ->sort();
                     }),
 
-                SelectFilter::make('country_id')
+                SelectFilter::make('country_code')
                     ->label(__('profiles.filters.country'))
-                    ->relationship('country', 'country_name')
-                    ->searchable()
-                    ->preload()
-                    ->getOptionLabelFromRecordUsing(function ($record) {
-                        return $record?->getTranslation('country_name', app()->getLocale());
-                    }),
+                    ->options(function () {
+                        $codes = include base_path('lang/en/codes.php');
+                        // Only show codes that are present in profiles
+                        $usedCodes = \App\Models\Profile::whereNotNull('country_code')->pluck('country_code')->unique();
+                        return collect($codes)
+                            ->only($usedCodes)
+                            ->mapWithKeys(fn($name, $code) => [strtolower($code) => $name]);
+                    })
+                    ->searchable(),
 
                 SelectFilter::make('gender')
                     ->label(__('profiles.filters.gender'))

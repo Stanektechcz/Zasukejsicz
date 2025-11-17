@@ -126,13 +126,13 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             @foreach($this->profiles() as $profile)
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group z-0">
                 <!-- Profile Image -->
                 <div class="relative">
 
                     <!-- Verified Badge -->
-                    @if($profile->isVerified())
-                    <div class="absolute top-3 left-3 flex flex-col items-start gap-1">
+                    @if($profile->isVerified()) 
+                    <div class="absolute top-3 left-3 flex flex-col items-start gap-1 z-20">
                         <div class="bg-green-100 text-green-500 p-1 px-0.5 rounded-xl flex flex-wrap justify-center">
                             <x-icons name="camera" class="w-5 h-5" />
                             <p class="text-xs font-bold w-full text-center">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->string('display_name');
             $table->unsignedTinyInteger('age')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->text('about')->nullable();
