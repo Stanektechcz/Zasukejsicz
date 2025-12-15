@@ -60,6 +60,7 @@ class CountryProfiles extends Component
         $profiles = Profile::query()
             ->where('is_public', true)
             ->whereNotNull('country_code')
+            ->whereNotNull('verified_at')
             ->get();
 
         // Aggregate by country_code

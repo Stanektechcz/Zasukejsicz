@@ -70,7 +70,14 @@ return [
             'noservices' => 'No services are currently available',
             'noservices_desc' => 'The administrator has not yet created any services. Please try again later.',
             'noprofile' => 'Activating your first service will automatically create your profile.',
-            'success' => 'Service has been successfully updated!'
+            'success' => 'Service has been successfully updated!',
+            'online_hours_title' => 'When will the system show you as offline?',
+            'always_online' => 'Always online',
+            'save_changes' => 'Save Changes'
+        ],
+        'statistics' => [
+            'page_title' => 'Statistics',
+            'profile_views_title' => 'Profile Views'
         ],
         'password' => [
             'title' => 'Change Password',
@@ -237,6 +244,17 @@ return [
             'nophotos_desc' => 'Upload your first photos using the form above.',
             'success' => 'Your photos have been uploaded successfully.',
             'delete_confirm' => 'Are you sure you want to delete this photo?'
+        ],
+        'rating' => [
+            'no_ratings' => 'No ratings yet',
+            'your_rating' => 'Your rating:',
+            'you_rated' => 'You rated: :rating stars',
+            'login_to_rate' => 'Login to rate this profile',
+            'click_to_rate' => 'Click to rate',
+            'login_required' => 'You must be logged in to rate profiles',
+            'invalid_rating' => 'Please select a rating between 1 and 5 stars',
+            'success' => 'Thank you for rating!',
+            'error' => 'An error occurred while saving your rating'
         ]
     ]
 ];

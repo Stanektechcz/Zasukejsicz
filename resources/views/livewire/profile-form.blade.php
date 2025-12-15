@@ -18,7 +18,7 @@
     <form wire:submit="save" class="space-y-8">
         <!-- Personal Information Section -->
         <div class="space-y-6">
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Name -->
                 <div>
@@ -145,8 +145,197 @@
                     @error('about') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- InCall & OutCall Toggles -->
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label for="incall" class="text-sm font-medium text-gray-700">{{ __('InCall') }}</label>
+                            <p class="text-xs text-gray-500">{{ __('Nabízím InCall služby') }}</p>
+                        </div>
+                        <x-toggle-switch
+                            name="incall"
+                            id="incall"
+                            wire-model="incall"
+                            :checked="$incall" />
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label for="outcall" class="text-sm font-medium text-gray-700">{{ __('OutCall') }}</label>
+                            <p class="text-xs text-gray-500">{{ __('Nabízím OutCall služby') }}</p>
+                        </div>
+                        <x-toggle-switch
+                            name="outcall"
+                            id="outcall"
+                            wire-model="outcall"
+                            :checked="$outcall" />
+                    </div>
+                </div>
+
+                <!-- Local Prices -->
+                <div class="space-y-4 border-t border-gray-200 pt-10 mt-20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center">
+                            <img src="https://flagcdn.com/cz.svg"
+                                alt="Czech Republic"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Moje ceny pro ČR') }}</h3>
+                    </div>
+
+                    <div class="space-y-3">
+                        @foreach($local_prices as $index => $price)
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                            <!-- Time Hours -->
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('časová dotace') }}</label>
+                                <input
+                                    type="text"
+                                    wire:model="local_prices.{{ $index }}.time_hours"
+                                    class="input-control @error('local_prices.' . $index . '.time_hours') border-red-500 @enderror"
+                                    placeholder="0.5">
+                                @error('local_prices.' . $index . '.time_hours')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Incall Price -->
+                            <div class="md:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('InCall') }}</label>
+                                <input
+                                    type="number"
+                                    wire:model="local_prices.{{ $index }}.incall_price"
+                                    class="input-control @error('local_prices.' . $index . '.incall_price') border-red-500 @enderror"
+                                    placeholder="8000">
+                                @error('local_prices.' . $index . '.incall_price')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Outcall Price -->
+                            <div class="md:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('OutCall v Kč') }}</label>
+                                <input
+                                    type="number"
+                                    wire:model="local_prices.{{ $index }}.outcall_price"
+                                    class="input-control @error('local_prices.' . $index . '.outcall_price') border-red-500 @enderror"
+                                    placeholder="10000">
+                                @error('local_prices.' . $index . '.outcall_price')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Remove Button -->
+                            <div class="md:col-span-1 flex justify-end pb-2">
+                                <button
+                                    type="button"
+                                    wire:click="removeLocalPrice({{ $index }})"
+                                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        @endforeach
+
+                        <!-- Add Button -->
+                        <button
+                            type="button"
+                            wire:click="addLocalPrice"
+                            class="w-full py-3 px-4 rounded-2xl bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span class="font-medium">{{ __('Přidat další') }}</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Global Prices -->
+                <div class="space-y-4 border-t border-gray-200 pt-10 mt-20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center">
+                            <img src="https://flagcdn.com/w80/un.png"
+                                alt="Global"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Globální ceny') }}</h3>
+                    </div>
+
+                    <div class="space-y-3">
+                        @foreach($global_prices as $index => $price)
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                            <!-- Time Hours -->
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('časová dotace') }}</label>
+                                <input
+                                    type="text"
+                                    wire:model="global_prices.{{ $index }}.time_hours"
+                                    class="input-control @error('global_prices.' . $index . '.time_hours') border-red-500 @enderror"
+                                    placeholder="0.5">
+                                @error('global_prices.' . $index . '.time_hours')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Incall Price -->
+                            <div class="md:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('InCall') }}</label>
+                                <input
+                                    type="number"
+                                    wire:model="global_prices.{{ $index }}.incall_price"
+                                    class="input-control @error('global_prices.' . $index . '.incall_price') border-red-500 @enderror"
+                                    placeholder="8000">
+                                @error('global_prices.' . $index . '.incall_price')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Outcall Price -->
+                            <div class="md:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('OutCall v Kč') }}</label>
+                                <input
+                                    type="number"
+                                    wire:model="global_prices.{{ $index }}.outcall_price"
+                                    class="input-control @error('global_prices.' . $index . '.outcall_price') border-red-500 @enderror"
+                                    placeholder="10000">
+                                @error('global_prices.' . $index . '.outcall_price')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Remove Button -->
+                            <div class="md:col-span-1 flex justify-end pb-2">
+                                <button
+                                    type="button"
+                                    wire:click="removeGlobalPrice({{ $index }})"
+                                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        @endforeach
+
+                        <!-- Add Button -->
+                        <button
+                            type="button"
+                            wire:click="addGlobalPrice"
+                            class="w-full py-3 px-4 rounded-2xl bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span class="font-medium">{{ __('+ Přidat další') }}</span>
+                        </button>
+                    </div>
+                </div>
+
+
                 <!-- Availability Hours -->
-                <div>
+                <div class="border-t border-gray-200 pt-10 mt-20">
                     <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.availability') }}</label>
                     <input
                         type="text"
@@ -180,17 +369,17 @@
                     <div class="mt-1 flex items-center">
                         <span class="inline-flex items-center px-3 py-2 rounded-lg border text-sm font-medium {{ $this->getStatusColor() }}">
                             @if($status === 'pending')
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                             @elseif($status === 'approved')
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                             @elseif($status === 'rejected')
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                             @endif
                             {{ $this->getStatusLabel() }}
                         </span>
@@ -303,31 +492,6 @@
                         class="input-control mt-1 @error('about') border-red-500 @enderror"
                         placeholder="{{ __('front.profiles.form.aboutmeplaceholder') }}"></textarea>
                     @error('about') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Availability Hours -->
-                <div>
-                    <label for="availability_hours" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.availability') }}</label>
-                    <input
-                        type="text"
-                        id="availability_hours"
-                        wire:model="availability_hours"
-                        class="input-control mt-1 @error('availability_hours') border-red-500 @enderror"
-                        placeholder="{{ __('front.profiles.form.availabilityplaceholder') }}">
-                    @error('availability_hours') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Public Profile Toggle -->
-                <div class="flex items-center justify-between">
-                    <div>
-                        <label for="is_public" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.public') }}</label>
-                        <p class="text-xs text-gray-500">{{ __('front.profiles.form.publicdesc') }}</p>
-                    </div>
-                    <x-toggle-switch
-                        name="is_public"
-                        id="is_public"
-                        wire-model="is_public"
-                        :checked="$is_public" />
                 </div>
 
             </div>

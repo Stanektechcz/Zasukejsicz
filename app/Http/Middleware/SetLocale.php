@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -27,6 +28,9 @@ class SetLocale
             App::setLocale($locale);
             // Store in session for consistency
             session()->put('locale', $locale);
+            
+            // Set Carbon locale for date formatting
+            Carbon::setLocale($locale);
         }
 
         return $next($request);

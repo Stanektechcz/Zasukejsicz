@@ -258,6 +258,17 @@ return [
             'nophotos_desc' => 'Nahrajte své první fotografie pomocí formuláře výše.',
             'success' => 'Vaše fotografie byly úspěšně nahrány.',
             'delete_confirm' => 'Opravdu chcete smazat tuto fotografii?'
+        ],
+        'rating' => [
+            'no_ratings' => 'Zatím žádné hodnocení',
+            'your_rating' => 'Vaše hodnocení:',
+            'you_rated' => 'Ohodnotili jste: :rating hvězdiček',
+            'login_to_rate' => 'Pro hodnocení se přihlaste',
+            'click_to_rate' => 'Klikněte pro hodnocení',
+            'login_required' => 'Pro hodnocení profilu se musíte přihlásit',
+            'invalid_rating' => 'Vyberte prosím hodnocení mezi 1 a 5 hvězdičkami',
+            'success' => 'Děkujeme za hodnocení!',
+            'error' => 'Při ukládání hodnocení došlo k chybě'
         ]
     ]
 ];

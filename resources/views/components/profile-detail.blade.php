@@ -5,10 +5,12 @@
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-4">
             <!-- VIP Profile Badge -->
+            @if($profile->is_vip)
             <div class="bg-gold-500 text-white px-3 py-1 rounded-lg text-sm font-bold flex items-center gap-2">
                 <x-icons name="star" class="w-4 h-4" />
                 {{ __('front.profiles.detail_page.vip') }}
             </div>
+            @endif
 
             <!-- Unverified Photo Badge -->
             @if(!$profile->isVerified())
@@ -27,25 +29,25 @@
         <!-- Top Right Actions -->
         <div class="flex items-center gap-3">
             <!-- Rating Badge -->
-            <div class="flex items-center text-pink-500 text-sm font-medium">
+            <!-- <div class="flex items-center text-pink-500 text-sm font-medium">
                 <span>{{ __('front.profiles.detail_page.give_rating') }}</span>
-            </div>
+            </div> -->
 
             <!-- Refresh Access Button -->
-            <button class="flex items-center gap-2 text-pink-500 text-sm font-medium hover:text-pink-600">
+            <!-- <button class="flex items-center gap-2 text-pink-500 text-sm font-medium hover:text-pink-600">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
                 {{ __('front.profiles.detail_page.refresh_access') }}
-            </button>
+            </button> -->
 
             <!-- Report Profile -->
-            <button class="flex items-center gap-2 text-red-500 text-sm font-medium hover:text-red-600">
+            <!-- <button class="flex items-center gap-2 text-red-500 text-sm font-medium hover:text-red-600">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.866-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
                 {{ __('front.profiles.detail_page.report_profile') }}
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -59,11 +61,8 @@
                     <h1 class="text-3xl font-bold text-secondary mb-2">{{ $profile->display_name ?? 'Alexandrina' }}</h1>
 
                     <!-- Rating Section -->
-                    <div class="bg-gray-100 rounded-lg p-4 mb-4">
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium text-gray-700">{{ __('front.profiles.list.rating') }}</span>
-                            <x-icons name="lock" class="w-5 h-5 text-pink-500" />
-                        </div>
+                    <div class="mb-4">
+                        @livewire('profile-rating', ['profile' => $profile])
                     </div>
                 </div>
 
@@ -105,24 +104,53 @@
                     <div class="space-y-3 pt-4">
                         <!-- Call Buttons -->
                         <div class="grid grid-cols-2 gap-3">
-                            <button class="btn-light-green flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4 text-green-600 fill-current" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
+                            <button class="{{ $profile->incall ? 'btn-light-green' : 'btn-transparent' }} flex items-center justify-center gap-2">
+                                <span class="w-7 h-7 {{ $profile->incall ? 'bg-green-600' : 'bg-red-600' }} rounded-full flex items-center justify-center">
+                                    @if($profile->incall)
+                                        <svg class="w-4 h-4 text-white fill-current translate-y-px" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                        </svg>
+                                    @else
+                                        <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                        </svg>
+                                    @endif
+                                </span>
                                 {{ __('front.profiles.detail_page.incall') }}
                             </button>
-                            <button class="btn-transparent flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4 text-gray-400 fill-current" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
+                            <button class="{{ $profile->outcall ? 'btn-light-green' : 'btn-transparent' }} flex items-center justify-center gap-2">
+                                <span class="w-7 h-7 {{ $profile->outcall ? 'bg-green-600' : 'bg-red-600' }} rounded-full flex items-center justify-center">
+                                    @if($profile->outcall)
+                                        <svg class="w-4 h-4 text-white fill-current translate-y-px" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                        </svg>
+                                    @else
+                                        <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                        </svg>
+                                    @endif
+                                </span>
                                 {{ __('front.profiles.detail_page.outcall') }}
                             </button>
                         </div>
 
                         <!-- Send Message Button -->
-                        <button class="btn-primary w-full">
-                            {{ __('front.profiles.detail_page.send_message') }}
-                        </button>
+                        @auth
+                            @if($profile->user_id && $profile->user_id !== Auth::id())
+                                <a href="{{ route('messages.show', $profile->user) }}" class="btn-primary w-full flex items-center justify-center gap-2">
+                                    {{ __('front.profiles.detail_page.send_message') }}
+                                    <x-icons name="message" class="w-5 h-5" />
+                                </a>
+                            @else
+                                <button class="btn-primary w-full opacity-50 cursor-not-allowed" disabled>
+                                    {{ __('front.profiles.detail_page.send_message') }}
+                                </button>
+                            @endif
+                        @else
+                            <button onclick="alert('{{ __('Please login to send messages') }}')" class="btn-primary w-full">
+                                {{ __('front.profiles.detail_page.send_message') }}
+                            </button>
+                        @endauth
 
                         <!-- Contact Info -->
                         <div class="flex items-center gap-3 pt-2">

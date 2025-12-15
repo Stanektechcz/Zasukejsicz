@@ -115,6 +115,18 @@ Route::middleware('auth')->group(function () {
 // Logout Route (authenticated users only)
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Notifications Routes
+Route::middleware('auth')->group(function () {
+    Route::delete('/notifications/{notification}', [App\Http\Controllers\NotificationController::class, 'delete'])->name('notifications.delete');
+    Route::post('/notifications/{notification}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+});
+
+// Messages Routes
+Route::middleware('auth')->prefix('messages')->name('messages.')->group(function () {
+    Route::get('/', [App\Http\Controllers\MessageController::class, 'inbox'])->name('index');
+    Route::get('/{user}', [App\Http\Controllers\MessageController::class, 'show'])->name('show');
+    Route::post('/{user}', [App\Http\Controllers\MessageController::class, 'store'])->name('store');
+});
 
 // Account Routes (authenticated users only)
 Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
@@ -143,3 +155,12 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
 Route::get('/test-components', function () {
     return view('test-components');
 })->name('test.components');
+
+// Dynamic Pages Route (must be last to avoid conflicts)
+Route::get('/{slug}', function ($slug) {
+    $page = \App\Models\Page::where('slug', $slug)
+        ->where('is_published', true)
+        ->firstOrFail();
+    
+    return view('pages.show', compact('page'));
+})->name('pages.show');

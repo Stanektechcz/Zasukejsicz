@@ -13,6 +13,7 @@
         "filament/spatie-laravel-media-library-plugin": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "skyraptor/filament-blocks-builder": "^0.4.0",
         "spatie/laravel-translatable": "^6.11"
     },
     "require-dev": {

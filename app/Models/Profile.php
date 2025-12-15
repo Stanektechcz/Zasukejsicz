@@ -37,10 +37,16 @@ class Profile extends Model implements HasMedia
         'address',
         'country_code',
         'about',
+        'incall',
+        'outcall',
+        'content',
         'availability_hours',
+        'local_prices',
+        'global_prices',
         'verified_at',
         'status',
         'is_public',
+        'is_vip',
     ];
 
     /**
@@ -51,9 +57,15 @@ class Profile extends Model implements HasMedia
     protected function casts(): array
     {
         return [
+            'content' => 'array',
             'availability_hours' => 'array',
+            'local_prices' => 'array',
+            'global_prices' => 'array',
             'verified_at' => 'datetime',
             'is_public' => 'boolean',
+            'is_vip' => 'boolean',
+            'incall' => 'boolean',
+            'outcall' => 'boolean',
         ];
     }
 
@@ -72,6 +84,14 @@ class Profile extends Model implements HasMedia
     {
         return $this->belongsToMany(Service::class, 'profile_service')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the ratings for this profile.
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 
     /**
@@ -236,5 +256,46 @@ class Profile extends Model implements HasMedia
     public function hasMultipleImages(): bool
     {
         return $this->getMedia('profile-images')->count() > 1;
+    }
+
+    /**
+     * Get the average rating for this profile.
+     */
+    public function getAverageRating(): float
+    {
+        return round($this->ratings()->avg('rating') ?? 0, 1);
+    }
+
+    /**
+     * Get the total number of ratings for this profile.
+     */
+    public function getTotalRatings(): int
+    {
+        return $this->ratings()->count();
+    }
+
+    /**
+     * Get the rating from a specific user.
+     */
+    public function getUserRating($userId): ?int
+    {
+        if (!$userId) {
+            return null;
+        }
+        
+        $rating = $this->ratings()->where('user_id', $userId)->first();
+        return $rating ? $rating->rating : null;
+    }
+
+    /**
+     * Check if a user has rated this profile.
+     */
+    public function hasUserRated($userId): bool
+    {
+        if (!$userId) {
+            return false;
+        }
+        
+        return $this->ratings()->where('user_id', $userId)->exists();
     }
 }

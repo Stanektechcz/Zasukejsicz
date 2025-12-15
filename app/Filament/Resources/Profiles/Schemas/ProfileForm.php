@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Profiles\Schemas;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
@@ -13,6 +14,9 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use SkyRaptor\FilamentBlocksBuilder\Blocks;
+use SkyRaptor\FilamentBlocksBuilder\Forms\Components\BlocksInput;
+use App\Filament\Blocks\Faq;
 
 class ProfileForm
 {
@@ -73,6 +77,27 @@ class ProfileForm
                         }
                     }),
 
+                Toggle::make('incall')
+                    ->label(__('InCall'))
+                    ->default(false)
+                    ->inline(false),
+
+                Toggle::make('outcall')
+                    ->label(__('OutCall'))
+                    ->default(false)
+                    ->inline(false),
+
+                BlocksInput::make('content')
+                    ->label('Profile Content Builder')
+                    ->blocks(fn() => [
+                        Blocks\Card::block($schema),
+                        Blocks\Typography\Heading::block($schema),
+                        Blocks\Typography\Paragraph::block($schema),
+                        Faq::block($schema),
+                    ])
+                    ->columnSpanFull()
+                    ->helperText('Build rich content for your profile using blocks'),
+
                 TextInput::make('age')
                     ->label(__('profiles.form.age'))
                     ->numeric()
@@ -103,6 +128,54 @@ class ProfileForm
                     ->columnSpanFull()
                     ->helperText('Example: Monday -> 9:00-17:00'),
 
+                Repeater::make('local_prices')
+                    ->label('Local Prices')
+                    ->schema([
+                        TextInput::make('time_hours')
+                            ->label('Time (Hours)')
+                            ->required()
+                            ->maxLength(100),
+                        TextInput::make('incall_price')
+                            ->label('Incall Price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                        TextInput::make('outcall_price')
+                            ->label('Outcall Price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->defaultItems(0)
+                    ->addActionLabel('Add Price'),
+
+                Repeater::make('global_prices')
+                    ->label('Global Prices')
+                    ->schema([
+                        TextInput::make('time_hours')
+                            ->label('Time (Hours)')
+                            ->required()
+                            ->maxLength(100),
+                        TextInput::make('incall_price')
+                            ->label('Incall Price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                        TextInput::make('outcall_price')
+                            ->label('Outcall Price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->defaultItems(0)
+                    ->addActionLabel('Add Price'),
+
                 Select::make('status')
                     ->label(__('profiles.form.status'))
                     ->options([
@@ -120,7 +193,13 @@ class ProfileForm
 
                 Toggle::make('is_public')
                     ->label(__('profiles.form.is_public'))
-                    ->default(true)
+                    ->default(true),
+
+                Toggle::make('is_vip')
+                    ->label('VIP Profile')
+                    ->helperText('VIP profiles get special badge and higher visibility')
+                    ->default(false)
+                    ->visible($isAdmin)
             ]);
     }
 }

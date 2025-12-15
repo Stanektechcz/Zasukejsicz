@@ -96,3 +96,14 @@
   width: 1em;
   height: 1em;
 }
+
+.icon-message {
+  mask-image: url("/images/icons/message.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}

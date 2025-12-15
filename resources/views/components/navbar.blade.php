@@ -36,18 +36,70 @@
                     <!-- Icon Buttons -->
                     <div class="flex items-center space-x-2">
                         <!-- Notifications Button -->
-                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.notifications') }}">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary relative" title="{{ __('front.nav.notifications') }}">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                                @php
+                                    $unreadCount = Auth::user()->notifications()->unread()->forUser(Auth::id())->count();
+                                @endphp
+                                @if($unreadCount > 0)
+                                    <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                    </span>
+                                @endif
+                            </button>
+                            
+                            <div x-show="open" @click.outside="open = false" x-transition 
+                                 class="absolute right-0 mt-2 w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto">
+                                @php
+                                    $notifications = Auth::user()->notifications()->forUser(Auth::id())->latest()->limit(10)->get();
+                                @endphp
+                                
+                                @if($notifications->isEmpty())
+                                    <div class="p-6 text-center text-gray-500">
+                                        {{ __('No notifications') }}
+                                    </div>
+                                @else
+                                    @foreach($notifications as $notification)
+                                        <div class="p-4 {{ !$notification->read_at ? 'bg-primary/5' : '' }} hover:bg-gray-50 transition-colors">
+                                            <div class="flex items-start justify-between">
+                                                <div class="flex-1 pr-2">
+                                                    <h4 class="font-medium text-gray-900 text-sm">{{ $notification->title }}</h4>
+                                                    <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
+                                                    <p class="text-xs text-gray-400 mt-2">{{ $notification->created_at->diffForHumans() }}</p>
+                                                </div>
+                                                <form method="POST" action="{{ route('notifications.delete', $notification) }}" class="flex-shrink-0">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-gray-400 hover:text-primary">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
                         
                         <!-- Mail Button -->
-                        <button class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.mail') }}">
+                        <a href="{{ route('messages.index') }}" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary relative" title="{{ __('front.nav.mail') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                        </button>
+                            @php
+                                $unreadMessages = Auth::user()->receivedMessages()->unread()->count();
+                            @endphp
+                            @if($unreadMessages > 0)
+                                <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    {{ $unreadMessages > 9 ? '9+' : $unreadMessages }}
+                                </span>
+                            @endif
+                        </a>
                     </div>
 
                     <!-- Account Dropdown (Profile Button) -->

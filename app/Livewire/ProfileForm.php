@@ -40,8 +40,18 @@ class ProfileForm extends Component
     #[Rule('nullable|string|max:1200')]
     public $about = '';
 
+    #[Rule('boolean')]
+    public $incall = false;
+
+    #[Rule('boolean')]
+    public $outcall = false;
+
     #[Rule('nullable|string')]
     public $availability_hours = '';
+
+    public $local_prices = [];
+
+    public $global_prices = [];
 
     #[Rule('nullable|in:pending,approved,rejected')]
     public $status = '';
@@ -79,9 +89,17 @@ class ProfileForm extends Component
             $this->city = $profile->city ?? '';
             $this->address = $profile->address ?? '';
             $this->about = $profile->about ?? '';
+            $this->incall = $profile->incall ?? false;
+            $this->outcall = $profile->outcall ?? false;
             $this->availability_hours = is_array($profile->availability_hours) 
                 ? implode(', ', $profile->availability_hours) 
                 : ($profile->availability_hours ?? '');
+            $this->local_prices = is_array($profile->local_prices) 
+                ? $profile->local_prices 
+                : [];
+            $this->global_prices = is_array($profile->global_prices) 
+                ? $profile->global_prices 
+                : [];
             $this->status = $profile->status ?? '';
             $this->is_public = $profile->is_public ?? false;
         }
@@ -148,7 +166,35 @@ class ProfileForm extends Component
         $this->genderDropdownOpen = false;
     }
 
+    public function addLocalPrice()
+    {
+        $this->local_prices[] = [
+            'time_hours' => '',
+            'incall_price' => '',
+            'outcall_price' => ''
+        ];
+    }
 
+    public function removeLocalPrice($index)
+    {
+        unset($this->local_prices[$index]);
+        $this->local_prices = array_values($this->local_prices);
+    }
+
+    public function addGlobalPrice()
+    {
+        $this->global_prices[] = [
+            'time_hours' => '',
+            'incall_price' => '',
+            'outcall_price' => ''
+        ];
+    }
+
+    public function removeGlobalPrice($index)
+    {
+        unset($this->global_prices[$index]);
+        $this->global_prices = array_values($this->global_prices);
+    }
 
     public function save()
     {
@@ -168,6 +214,14 @@ class ProfileForm extends Component
             'address' => 'nullable|string|max:255',
             'about' => 'nullable|string|max:1200',
             'availability_hours' => 'nullable|string',
+            'local_prices' => 'nullable|array',
+            'local_prices.*.time_hours' => 'required|string|max:100',
+            'local_prices.*.incall_price' => 'required|numeric|min:0',
+            'local_prices.*.outcall_price' => 'nullable|numeric|min:0',
+            'global_prices' => 'nullable|array',
+            'global_prices.*.time_hours' => 'required|string|max:100',
+            'global_prices.*.incall_price' => 'required|numeric|min:0',
+            'global_prices.*.outcall_price' => 'nullable|numeric|min:0',
         ];
 
         // Add status validation only for admin users
@@ -200,7 +254,11 @@ class ProfileForm extends Component
             'city' => $this->city ?: null,
             'address' => $this->address ?: null,
             'about' => $this->about ?: null,
+            'incall' => $this->incall,
+            'outcall' => $this->outcall,
             'availability_hours' => $this->availability_hours ? explode(', ', $this->availability_hours) : null,
+            'local_prices' => $this->local_prices ?: null,
+            'global_prices' => $this->global_prices ?: null,
             'is_public' => $this->is_public,
         ];
 
