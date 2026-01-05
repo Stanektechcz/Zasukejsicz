@@ -64,6 +64,11 @@
 /* Headings Component Styles */
 @layer base {
 
+  /* Hide elements with x-cloak until Alpine.js initializes */
+  [x-cloak] {
+    display: none !important;
+  }
+
   h1,
   h2,
   h3,

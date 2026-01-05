@@ -1,39 +1,22 @@
-<div>
+<div x-data="{ show: false, closing: false }"
+    x-on:show-reset-modal.window="show = true"
+    x-on:hide-reset-modal.window="show = false; closing = false"
+    x-init="$watch('show', v => document.body.style.overflow = v ? 'hidden' : '')">
     <!-- Reset Password Modal -->
-    @if($showModal)
-    <div x-data="{ 
-        show: true,
-        closing: false,
-        init() {
-            document.body.style.overflow = 'hidden';
-        },
-        destroy() {
-            document.body.style.overflow = '';
-        },
-        closeModal() {
-            this.closing = true;
-            this.show = false;
-            document.body.style.overflow = '';
-            // Call Livewire hide without waiting
-            setTimeout(() => {
-                $wire.call('hide');
-            }, 1);
-        }
-    }"
-        x-show="show"
+    <div x-show="show"
         x-transition.opacity.duration.300ms
-        class="fixed inset-0 z-50 flex items-center justify-center p-2"
-        wire:ignore.self>
+        x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center p-2">
 
         <!-- Modal Backdrop -->
         <div class="fixed inset-0 backdrop-blur-lg"
             style="background-color: rgba(92, 45, 98, 0.8);"
-            @click="closeModal()"></div>
+            @click="closing = true; show = false"></div>
 
         <!-- Modal Content -->
         <div class="relative w-lg bg-white rounded-3xl p-10 py-16 shadow-xl">
             <!-- Close Button -->
-            <button @click="closeModal()"
+            <button @click="closing = true; show = false"
                 class="absolute top-7 right-7 w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary/80 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -103,7 +86,7 @@
                     </button>
                     
                     <button type="button"
-                        @click="closeModal()"
+                        @click="closing = true; show = false"
                         x-bind:disabled="closing"
                         class="w-full border-[1.5px] border-gray-300 text-gray-600 text-sm font-semibold py-3 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50">
                         {{ __('auth.reset.close') }}
@@ -113,5 +96,4 @@
             @endif
         </div>
     </div>
-    @endif
 </div>
