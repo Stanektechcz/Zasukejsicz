@@ -18,7 +18,7 @@
                     <a href="#" class="nav-link" id="nav-link-2">
                         {{ __('front.nav.vip') }}
                     </a>
-                    <a href="#" class="nav-link" id="nav-link-3">
+                    <a href="faq" class="nav-link" id="nav-link-3">
                         {{ __('front.nav.faq') }}
                     </a>
                     <a href="#" class="nav-link" id="nav-link-3">
