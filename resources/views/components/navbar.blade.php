@@ -36,8 +36,8 @@
                     <!-- Icon Buttons -->
                     <div class="flex items-center space-x-2">
                         <!-- Notifications Button -->
-                        <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary relative" title="{{ __('front.nav.notifications') }}">
+                        <div class="relative" x-data="{ notificationsOpen: false }">
+                            <button @click="notificationsOpen = !notificationsOpen" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary relative" title="{{ __('front.nav.notifications') }}">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                 </svg>
@@ -51,7 +51,7 @@
                                 @endif
                             </button>
                             
-                            <div x-show="open" @click.outside="open = false" x-transition 
+                            <div x-show="notificationsOpen" @click.outside="notificationsOpen = false" x-transition 
                                  class="absolute right-0 mt-2 w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto">
                                 @php
                                     $notifications = Auth::user()->notifications()->forUser(Auth::id())->latest()->limit(10)->get();
@@ -103,14 +103,14 @@
                     </div>
 
                     <!-- Account Dropdown (Profile Button) -->
-                    <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.profile') }}">
+                    <div class="relative" x-data="{ userMenuOpen: false }">
+                        <button @click="userMenuOpen = !userMenuOpen" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.profile') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </button>
                         
-                        <div x-show="open" @click.outside="open = false" x-transition 
+                        <div x-show="userMenuOpen" @click.outside="userMenuOpen = false" x-transition 
                              class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-lg shadow-lg border-2 border-gray-200 z-50">
                             <div>
                                 <a href="{{ route('account.dashboard') }}" class="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">
@@ -147,8 +147,8 @@
                 @endauth
 
                 <!-- Language Switcher -->
-                <div class="language-dropdown hidden lg:inline" x-data="{ open: false }" @click.outside="open = false">
-                    <button @click="open = !open" class="language-dropdown-toggle" id="nav-language">
+                <div class="language-dropdown hidden lg:inline" x-data="{ languageOpen: false }" @click.outside="languageOpen = false">
+                    <button @click="languageOpen = !languageOpen" class="language-dropdown-toggle" id="nav-language">
                         @if(app()->getLocale() === 'cs')
                             <img src="{{ asset('flags/cs.png') }}" alt="Czech">
                         @else
@@ -159,13 +159,13 @@
                     <div class="language-dropdown-menu">
                         <a href="{{ url()->current() }}?locale=en" 
                            class="language-dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}"
-                           @click="open = false"
+                           @click="languageOpen = false"
                            title="English">
                             <img src="{{ asset('flags/en.png') }}" alt="English">
                         </a>
                         <a href="{{ url()->current() }}?locale=cs" 
                            class="language-dropdown-item {{ app()->getLocale() === 'cs' ? 'active' : '' }}"
-                           @click="open = false"
+                           @click="languageOpen = false"
                            title="Čeština">
                             <img src="{{ asset('flags/cs.png') }}" alt="Czech">
                         </a>

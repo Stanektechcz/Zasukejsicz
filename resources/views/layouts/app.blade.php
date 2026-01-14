@@ -9,6 +9,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="font-poppins antialiased text-text-default relative">
     <div id="app">
@@ -33,6 +34,8 @@
 
     <!-- Additional Scripts -->
     @stack('scripts')
+
+    @livewireScripts
 
     <!-- Auth Modal Scripts -->
     @guest

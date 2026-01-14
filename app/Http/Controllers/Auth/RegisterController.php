@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -33,16 +34,32 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+        try {
+            Log::info('Registration attempt started', ['email' => $request->email]);
 
-        $user = $this->create($request->all());
+            $this->validator($request->all())->validate();
+            Log::info('Validation passed', ['email' => $request->email]);
 
-        event(new Registered($user));
+            $user = $this->create($request->all());
+            Log::info('User created successfully', ['user_id' => $user->id, 'email' => $user->email]);
 
-        Auth::login($user);
+            event(new Registered($user));
+            Log::info('Registered event fired', ['user_id' => $user->id]);
 
-        return redirect($this->redirectTo);
+            Auth::login($user);
+            Log::info('User logged in', ['user_id' => $user->id]);
+
+            return redirect($this->redirectTo);
+        } catch (\Exception $e) {
+            Log::error('Registration failed', [
+                'email' => $request->email,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -68,9 +85,9 @@ class RegisterController extends Controller
             'phone' => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),
         ]);
-        
+
         $user->assignRole('user');
-        
+
         return $user;
     }
 }
