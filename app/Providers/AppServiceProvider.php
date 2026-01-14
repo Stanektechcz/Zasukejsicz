@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Page;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +44,16 @@ class AppServiceProvider extends ServiceProvider
         // Define gate for admin panel access
         Gate::define('access-filament-admin', function ($user) {
             return $user->hasRole('admin');
+        });
+
+        // Share navigation pages with all views
+        View::composer('components.navbar', function ($view) {
+            $pages = Page::where('display_in_menu', true)
+                ->where('is_published', true)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            
+            $view->with('navPages', $pages);
         });
     }
 }

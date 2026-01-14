@@ -12,21 +12,14 @@
 
                 <!-- Navigation Links - Desktop -->
                 <div class="hidden lg:flex items-center space-x-5 xl:space-x-6">
-                    <a href="{{ route('countries.index') }}" class="nav-link" id="nav-link-2">
+                    <a href="{{ route('countries.index') }}" class="nav-link" id="nav-link-countries">
                         {{ __('front.nav.countries') }}
                     </a>
-                    <a href="#" class="nav-link" id="nav-link-2">
-                        {{ __('front.nav.vip') }}
-                    </a>
-                    <a href="faq" class="nav-link" id="nav-link-3">
-                        {{ __('front.nav.faq') }}
-                    </a>
-                    <a href="#" class="nav-link" id="nav-link-3">
-                        {{ __('front.nav.ethics') }}
-                    </a>
-                    <a href="#" class="nav-link" id="nav-link-3">
-                        {{ __('front.nav.contact') }}
-                    </a>
+                    @foreach($navPages ?? [] as $page)
+                        <a href="{{ url('/' . $page->slug) }}" class="nav-link" id="nav-link-{{ $page->id }}">
+                            {{ $page->title }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
@@ -194,18 +187,12 @@
                     {{ __('front.nav.countries') }}
                     <span class="underline"></span>
                 </a>
-                <a href="#" class="nav-link-mobile group">
-                    {{ __('front.nav.faq') }}
-                    <span class="underline"></span>
-                </a>
-                <a href="#" class="nav-link-mobile group">
-                    {{ __('front.nav.ethics') }}
-                    <span class="underline"></span>
-                </a>
-                <a href="#" class="nav-link-mobile group">
-                    {{ __('front.nav.contact') }}
-                    <span class="underline"></span>
-                </a>
+                @foreach($navPages ?? [] as $page)
+                    <a href="{{ url('/' . $page->slug) }}" class="nav-link-mobile group">
+                        {{ $page->title }}
+                        <span class="underline"></span>
+                    </a>
+                @endforeach
                 @auth
                     <a href="{{ route('account.dashboard') }}" class="nav-link-mobile group">
                         {{ __('front.nav.accountdashboard') }}

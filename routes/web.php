@@ -84,14 +84,10 @@ Route::middleware('auth')->group(function () {
     })->name('verification.notice');
 
     Route::get('/email/verify/{id}/{hash}', function (Request $request) {
-        if (! $request->hasValidSignature()) {
-            abort(401);
-        }
-
         $user = User::findOrFail($request->id);
         
         if (! hash_equals((string) $request->hash, sha1($user->getEmailForVerification()))) {
-            abort(401);
+            abort(403, 'Invalid verification link.');
         }
 
         if ($user->hasVerifiedEmail()) {
@@ -103,7 +99,7 @@ Route::middleware('auth')->group(function () {
         }
 
         return redirect()->route('account.dashboard')->with('status', 'email-verified');
-    })->name('verification.verify');
+    })->middleware('signed')->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
