@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,5 +38,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Store the configured instance in the container
         $this->app->instance(LanguageSwitch::class, $languageSwitch);
+
+        // Define gate for admin panel access
+        Gate::define('access-filament-admin', function ($user) {
+            return $user->hasRole('admin');
+        });
     }
 }

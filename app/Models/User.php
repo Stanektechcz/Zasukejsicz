@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -78,5 +79,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function receivedMessages()
     {
         return $this->hasMany(Message::class, 'to_user_id');
+    }
+
+    /**
+     * Determine if the user can access the Filament admin panel.
+     * Only users with the 'admin' role can access the panel.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole('admin');
     }
 }

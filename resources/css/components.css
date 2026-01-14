@@ -265,3 +265,97 @@ button, a {
 hr {
   @apply border-t rounded-full border-gray-300;
 }
+
+
+/* Modal Component Styles */
+.modal-backdrop {
+  @apply fixed inset-0 backdrop-blur-lg;
+  background-color: rgba(92, 45, 98, 0.8);
+}
+
+.modal-container {
+  @apply relative w-full max-w-lg bg-white rounded-2xl md:rounded-3xl shadow-xl;
+  @apply p-6 py-10 sm:p-8 sm:py-12 md:p-10 md:py-16;
+}
+
+.modal-close-btn {
+  @apply absolute w-6 h-6 sm:w-7 sm:h-7 bg-primary text-white rounded-full;
+  @apply flex items-center justify-center hover:bg-primary/80 transition-colors;
+  @apply top-4 right-4 sm:top-6 sm:right-6 md:top-7 md:right-7;
+}
+
+.modal-back-btn {
+  @apply absolute w-6 h-6 sm:w-7 sm:h-7 bg-gray-200 text-gray-600 rounded-full;
+  @apply flex items-center justify-center hover:bg-gray-300 transition-colors;
+  @apply top-4 left-4 sm:top-6 sm:left-6 md:top-7 md:left-7;
+}
+
+.modal-header {
+  @apply text-center mb-6 sm:mb-8;
+}
+
+.modal-title {
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mb-1;
+}
+
+.modal-subtitle {
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-primary;
+}
+
+.modal-description {
+  @apply text-gray-600 mt-3 sm:mt-4 text-sm sm:text-base;
+}
+
+.form-container {
+  @apply space-y-3 sm:space-y-4 bg-gray-100 p-5 sm:p-6 md:p-7 rounded-xl;
+}
+
+.form-field {
+  @apply w-full px-3 sm:px-4 py-2.5 sm:py-3;
+  @apply border-2 !border-gray-200 rounded-lg bg-gray-50;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+}
+
+.form-field-error {
+  @apply border-red-500;
+}
+
+.form-label {
+  @apply block text-xs sm:text-sm text-gray-600 mb-1.5 sm:mb-2;
+}
+
+.form-error {
+  @apply mt-1 text-xs sm:text-sm text-red-600;
+}
+
+.form-alert {
+  @apply bg-red-50 border border-red-200 text-red-600 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm;
+}
+
+.modal-btn-primary {
+  @apply w-full bg-primary text-white font-semibold;
+  @apply py-3 sm:py-4 rounded-lg text-sm sm:text-base;
+  @apply hover:bg-primary/80 transition-colors disabled:opacity-50;
+}
+
+.modal-btn-secondary {
+  @apply w-full border-[1.5px] border-gray-300 text-gray-600;
+  @apply text-xs sm:text-sm font-semibold py-2.5 sm:py-3 rounded-xl;
+  @apply hover:bg-gray-50 transition-colors disabled:opacity-50;
+}
+
+.modal-btn-outline {
+  @apply w-full border-[1.5px] border-primary text-primary;
+  @apply text-xs sm:text-sm font-semibold py-2.5 sm:py-3 rounded-xl;
+  @apply hover:bg-primary/10 transition-colors disabled:opacity-50;
+}
+
+.modal-success-icon {
+  @apply mx-auto mb-4 sm:mb-6 w-14 h-14 sm:w-16 sm:h-16;
+  @apply bg-green-100 rounded-full flex items-center justify-center;
+}
+
+.text-small {
+  @apply text-[10px] sm:text-xs text-gray-600 px-2;
+}
+
