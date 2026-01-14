@@ -246,6 +246,99 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Prices Section -->
+                <!-- Debug: Profile Local Prices -->
+
+                @if(!empty($profile->local_prices) && is_array($profile->local_prices) && count($profile->local_prices) > 0)
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.my_prices') }}</h2>
+                    
+                    <div class="overflow-hidden">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="w-1/4 px-1 py-3 text-left text-sm font-semibold text-gray-700">
+                                        <div class="text-center text-gray-700 bg-gray-100 rounded-lg py-3 px-4">
+                                            {{ __('front.profiles.detail_page.time') }}
+                                        </div>
+                                    </th>
+                                    <th class="px-1 py-3 text-center text-sm font-semibold">
+                                        <div class="flex items-center justify-center gap-2 {{ $profile->incall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
+                                            <span class="w-5 h-5 {{ $profile->incall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
+                                                @if($profile->incall)
+                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                                    </svg>
+                                                @else
+                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                                    </svg>
+                                                @endif
+                                            </span>
+                                            {{ __('front.profiles.detail_page.incall') }}
+                                        </div>
+                                    </th>
+                                    <th class="px-1 py-3 text-center text-sm font-semibold">
+                                        <div class="flex items-center justify-center gap-2 {{ $profile->outcall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
+                                            <span class="w-5 h-5 {{ $profile->outcall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
+                                                @if($profile->outcall)
+                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                                    </svg>
+                                                @else
+                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                                    </svg>
+                                                @endif
+                                            </span>
+                                            {{ __('front.profiles.detail_page.outcall') }}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($profile->local_prices as $price)
+                                <tr class="border-b border-gray-200">
+                                    <td class="px-4 py-4 text-pink-500 font-semibold">
+                                        {{ $price['time_hours'] ?? '' }} h
+                                    </td>
+                                    <td class="px-4 py-4 text-center text-gray-900 font-medium">
+                                        @if(!empty($price['incall_price']) && $profile->incall)
+                                            {{ number_format($price['incall_price'], 0, ',', ' ') }} Kč
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-4 text-center text-gray-900 font-medium">
+                                        @if(!empty($price['outcall_price']) && $profile->outcall)
+                                            {{ number_format($price['outcall_price'], 0, ',', ' ') }} Kč
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Services Section -->
+                @if($profile->services && $profile->services->count() > 0)
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.services') }}</h2>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach($profile->services as $service)
+                        <span class="px-4 py-2 border-2 border-gray-200 rounded-full text-sm text-gray-700">
+                            {{ $service->name }}
+                        </span>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>

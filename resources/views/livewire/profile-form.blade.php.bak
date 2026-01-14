@@ -135,7 +135,7 @@
                                 </svg>
                                 <span class="flex items-center gap-2">
                                     @if($country_code)
-                                        <img src="https://flagcdn.com/{{ strtolower($country_code) }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
+                                        <img src="https://flagcdn.com/{{ $country_code }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
                                         <span>{{ collect($countries)->firstWhere('code', $country_code)['name'] ?? $country_code }}</span>
                                     @else
                                         <span class="text-gray-400">{{ __('front.profiles.form.selectcountry') }}</span>
@@ -542,7 +542,7 @@
                             class="input-control w-full text-left flex items-center justify-between @error('country_code') border-red-500 @enderror">
                             <span class="flex items-center gap-2">
                                 @if($country_code)
-                                    <img src="https://flagcdn.com/{{ strtolower($country_code) }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
+                                    <img src="https://flagcdn.com/{{ $country_code }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
                                     <span>{{ collect($countries)->firstWhere('code', $country_code)['name'] ?? $country_code }}</span>
                                 @else
                                     <span class="text-gray-400">{{ __('front.profiles.form.selectcountry') }}</span>

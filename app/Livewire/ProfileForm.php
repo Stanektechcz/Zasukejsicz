@@ -34,6 +34,9 @@ class ProfileForm extends Component
     #[Rule('nullable|string|max:255')]  
     public $city = '';
 
+    #[Rule('nullable|string|max:2')]
+    public $country_code = '';
+
     #[Rule('nullable|string|max:255')]
     public $address = '';
 
@@ -60,9 +63,12 @@ class ProfileForm extends Component
 
     // Dropdown states
     public $genderDropdownOpen = false;
+    public $countryDropdownOpen = false;
+    public $countrySearchTerm = '';
 
     // Options arrays
     public $genders = [];
+    public $countries = [];
 
     // Profile state
     public $hasProfile = false;
@@ -87,6 +93,7 @@ class ProfileForm extends Component
             $this->gender = $profile->gender ?? '';
             $this->age = $profile->age ?? '';
             $this->city = $profile->city ?? '';
+            $this->country_code = $profile->country_code ?? '';
             $this->address = $profile->address ?? '';
             $this->about = $profile->about ?? '';
             $this->incall = $profile->incall ?? false;
@@ -106,6 +113,7 @@ class ProfileForm extends Component
 
         // Load dropdown options
         $this->loadGenders();
+        $this->loadCountries();
     }
 
     /**
@@ -166,6 +174,41 @@ class ProfileForm extends Component
         $this->genderDropdownOpen = false;
     }
 
+    public function loadCountries()
+    {
+        $codes = include base_path('lang/en/codes.php');
+        $this->countries = collect($codes)->map(function ($name, $code) {
+            return [
+                'code' => strtolower($code),
+                'name' => $name,
+            ];
+        })->sortBy('name')->values()->toArray();
+    }
+
+    public function toggleCountryDropdown()
+    {
+        $this->countryDropdownOpen = !$this->countryDropdownOpen;
+        $this->countrySearchTerm = '';
+    }
+
+    public function selectCountry($countryCode)
+    {
+        $this->country_code = $countryCode;
+        $this->countryDropdownOpen = false;
+        $this->countrySearchTerm = '';
+    }
+
+    public function getFilteredCountriesProperty()
+    {
+        if (empty($this->countrySearchTerm)) {
+            return $this->countries;
+        }
+
+        return array_filter($this->countries, function ($country) {
+            return stripos($country['name'], $this->countrySearchTerm) !== false;
+        });
+    }
+
     public function addLocalPrice()
     {
         $this->local_prices[] = [
@@ -211,6 +254,7 @@ class ProfileForm extends Component
             'gender' => 'nullable|in:male,female',
             'age' => 'nullable|integer|min:18|max:120',
             'city' => 'nullable|string|max:255',
+            'country_code' => 'nullable|string|max:2',
             'address' => 'nullable|string|max:255',
             'about' => 'nullable|string|max:1200',
             'availability_hours' => 'nullable|string',
@@ -252,6 +296,7 @@ class ProfileForm extends Component
             'gender' => $this->gender ?: null,
             'age' => $this->age ?: null,
             'city' => $this->city ?: null,
+            'country_code' => $this->country_code ? strtolower($this->country_code) : null,
             'address' => $this->address ?: null,
             'about' => $this->about ?: null,
             'incall' => $this->incall,

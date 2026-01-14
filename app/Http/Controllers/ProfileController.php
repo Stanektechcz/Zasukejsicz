@@ -50,7 +50,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::public()
             ->approved()
-            ->with(['user:id,name'])
+            ->with(['user:id,name', 'services'])
             ->select($this->getPublicProfileColumns())
             ->findOrFail($id);
             
@@ -126,8 +126,12 @@ class ProfileController extends Controller
             'age', 
             'city',
             'about',
+            'incall',
+            'outcall',
+            'local_prices',
             'verified_at',
             'status',
+            'is_vip',
             'created_at',
             'updated_at'
         ];
