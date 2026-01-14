@@ -43,8 +43,20 @@ class RegisterController extends Controller
             $user = $this->create($request->all());
             Log::info('User created successfully', ['user_id' => $user->id, 'email' => $user->email]);
 
-            event(new Registered($user));
-            Log::info('Registered event fired', ['user_id' => $user->id]);
+            // Try to send verification email, but don't let it break registration
+            try {
+                event(new Registered($user));
+                Log::info('Registered event fired', ['user_id' => $user->id]);
+            } catch (\Exception $e) {
+                // Log email sending failure but continue with registration
+                Log::error('Failed to send verification email', [
+                    'user_id' => $user->id,
+                    'email' => $user->email,
+                    'error' => $e->getMessage(),
+                ]);
+                // You might want to show a flash message to the user
+                session()->flash('warning', 'Your account was created, but we couldn\'t send the verification email. Please contact support.');
+            }
 
             Auth::login($user);
             Log::info('User logged in', ['user_id' => $user->id]);
