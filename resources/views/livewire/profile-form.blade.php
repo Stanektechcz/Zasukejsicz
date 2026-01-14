@@ -40,7 +40,7 @@
                         id="email"
                         wire:model="email"
                         class="input-control mt-1 @error('email') border-red-500 @enderror"
-                        placeholder="your@email.com">
+                        placeholder="{{ __('front.profiles.form.email_placeholder') }}">
                     @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 

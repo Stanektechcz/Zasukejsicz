@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Conversation with') . ' ' . $user->name)
+@section('title', __('front.messages.conversation_with') . ' ' . $user->name)
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8 pt-30">
@@ -36,7 +36,7 @@
             </div>
         @empty
             <div class="text-center text-gray-500 py-8">
-                <p>{{ __('No messages yet. Start the conversation!') }}</p>
+                <p>{{ __('front.messages.no_messages_conversation') }}</p>
             </div>
         @endforelse
     </div>
@@ -50,7 +50,7 @@
                     name="message" 
                     rows="3" 
                     class="w-full rounded-lg p-4 border-2 border-gray-200 focus:border-primary focus:ring-0 resize-none"
-                    placeholder="{{ __('Type your message...') }}"
+                    placeholder="{{ __('front.messages.type_message') }}"
                     required
                 >{{ old('message') }}</textarea>
                 
@@ -60,7 +60,7 @@
 
                 <div class="flex justify-end">
                     <button type="submit" class="btn-primary">
-                        {{ __('Send Message') }}
+                        {{ __('front.messages.send_message') }}
                     </button>
                 </div>
             </div>

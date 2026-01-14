@@ -92,7 +92,7 @@
                 wire:loading.attr="disabled"
                 wire:target="resetFilters"
                 class="inline-flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium transition-all duration-200 border-2 border-red-200 text-red-600 bg-white hover:border-red-300 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Clear all filters">
+                title="{{ __('front.profiles.list.clear_all_filters') }}">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>

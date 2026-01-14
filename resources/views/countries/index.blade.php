@@ -8,8 +8,8 @@
     <div class="container mx-auto px-4 pt-24">
         <div class="max-w-2xl pl-16 py-16">
             <h1 class="text-secondary leading-tight text-4xl md:text-6xl py-5">
-                {{ __('Browse by') }}
-                <span class="text-primary-500">{{ __('Countries') }}.</span>
+                {{ __('front.countries.browse_by') }}
+                <span class="text-primary-500">{{ __('front.countries.countries_text') }}.</span>
             </h1>
 
             <p class="text-xl text-gray-600 mb-8 max-w-sm">

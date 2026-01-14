@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS in production/staging environments
+        if ($this->app->environment('production', 'staging')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Configure language switch
         $languageSwitch = LanguageSwitch::make()
             ->locales(['en', 'cs'])

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Verify Email')
+@section('title', __('front.auth.verify_email_title'))
 
 @section('content')
 <!-- Add top padding to account for fixed navbar -->
@@ -8,10 +8,10 @@
     <div class="p-10 rounded-3xl max-w-2xl w-full space-y-8 border-2 border-gray-200">
         <div class="text-center">
             <h2 class="text-3xl font-extrabold text-text-default">
-                {{ __('Verify Your Email Address') }}
+                {{ __('front.auth.verify_email_title') }}
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                {{ __("We've sent a verification link to your email address") }}
+                {{ __('front.auth.verify_email_sent') }}
             </p>
         </div>
 
@@ -23,9 +23,9 @@
                     </svg>
                 </div>
                 
-                <h3 class="text-lg font-medium text-text-default mb-2">{{ __('Email Verification Required') }}</h3>
+                <h3 class="text-lg font-medium text-text-default mb-2">{{ __('front.auth.email_verification_required') }}</h3>
                 <p class="text-sm text-gray-500 mb-6">
-                    {{ __('Before proceeding, please check your email for a verification link. If you didn\'t receive the email, you can request another one below.') }}
+                    {{ __('front.auth.email_verification_text') }}
                 </p>
             </div>
 
@@ -39,17 +39,17 @@
                 <form method="POST" action="{{ route('verification.send') }}">
                     @csrf
                     <button type="submit" class="btn-primary w-full justify-center">
-                        {{ __('Resend Verification Email') }}
+                        {{ __('front.auth.resend_verification') }}
                     </button>
                 </form>
 
                 <div class="text-center">
                     <p class="text-sm text-gray-600">
-                        {{ __('Want to use a different account?') }}
+                        {{ __('front.auth.want_different_account') }}
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="font-medium text-primary-600 hover:text-primary-500 bg-none border-none p-0 underline">
-                                {{ __('Log out') }}
+                                {{ __('front.auth.log_out') }}
                             </button>
                         </form>
                     </p>

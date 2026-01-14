@@ -66,6 +66,6 @@ class MessageController extends Controller
             'message' => $request->message,
         ]);
 
-        return back()->with('success', 'Message sent');
+        return back()->with('success', __('front.messages.message_sent'));
     }
 }

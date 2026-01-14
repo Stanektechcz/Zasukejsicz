@@ -242,14 +242,14 @@
                         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <div class="flex items-center justify-between py-3 border-b border-gray-200 last:border-b-0">
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-900">Delete Account</h4>
-                                    <p class="text-sm text-gray-500">Permanently remove your account and all associated data.</p>
+                                    <h4 class="text-sm font-medium text-gray-900">{{ __('front.profiles.form.delete_account') }}</h4>
+                                    <p class="text-sm text-gray-500">{{ __('front.profiles.form.delete_account_desc') }}</p>
                                 </div>
                                 <button type="button" 
                                         x-data=""
                                         x-on:click="$dispatch('open-modal', 'confirm-user-deletion')"
                                         class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                    Delete Account
+                                    {{ __('front.profiles.form.delete_account') }}
                                 </button>
                             </div>
                         </div>
@@ -303,17 +303,17 @@
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">Delete Account</h3>
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ __('front.profiles.form.delete_account') }}</h3>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
-                                    Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.
+                                    {{ __('front.profiles.form.delete_account_confirm') }}
                                 </p>
                                 <div class="mt-4">
-                                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                    <label for="password" class="block text-sm font-medium text-gray-700">{{ __('front.auth.login.password') }}</label>
                                     <input type="password" 
                                            name="password" 
                                            id="password" 
-                                           placeholder="Enter your password to confirm"
+                                           placeholder="{{ __('front.profiles.form.password_confirm') }}"
                                            required
                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm">
                                 </div>
@@ -324,12 +324,12 @@
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="submit" 
                             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Delete Account
+                        {{ __('front.profiles.form.delete_account') }}
                     </button>
                     <button type="button" 
                             x-on:click="show = false"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
+                        {{ __('front.profiles.form.cancel') }}
                     </button>
                 </div>
             </form>

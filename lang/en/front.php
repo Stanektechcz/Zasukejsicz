@@ -44,7 +44,9 @@ return [
         'profiles_from' => 'Profiles from',
         'all_profiles' => 'All Profiles',
         'profiles_found' => 'profiles found',
-        'profiles' => 'profiles'
+        'profiles' => 'profiles',
+        'browse_by' => 'Browse by',
+        'countries_text' => 'Countries'
     ],
     'title' => 'Find Your Perfect Massage Therapist',
     'account' => [
@@ -120,6 +122,13 @@ return [
             'new_password' => 'New Password',
             'confirm_password' => 'Confirm Password',
             'new_password_instruction' => 'Please enter your new password below.',
+            'verify_email_title' => 'Verify Your Email Address',
+            'verify_email_sent' => "We've sent a verification link to your email address",
+            'email_verification_required' => 'Email Verification Required',
+            'email_verification_text' => 'Before proceeding, please check your email for a verification link. If you didn\'t receive the email, you can request another one below.',
+            'resend_verification' => 'Resend Verification Email',
+            'want_different_account' => 'Want to use a different account?',
+            'log_out' => 'Log out'
         ],
         'register' => [
             'title' => 'Register',
@@ -153,6 +162,19 @@ return [
             'haveaccount' => 'Already have an account?',
             'signinhere' => 'Sign in here'
         ]
+    ],
+    'messages' => [
+        'title' => 'Messages',
+        'inbox' => 'Inbox',
+        'conversation_with' => 'Conversation with',
+        'no_messages_yet' => 'No messages yet',
+        'no_messages_desc' => 'Start a conversation by visiting a profile',
+        'no_messages_conversation' => 'No messages yet. Start the conversation!',
+        'new' => 'new',
+        'send_message' => 'Send Message',
+        'type_message' => 'Type your message...',
+        'message_sent' => 'Message sent',
+        'back_to_messages' => 'Back to messages'
     ],
     'profiles' => [
         'detail' => 'Profile Detail',
@@ -203,7 +225,8 @@ return [
             'profiles' => 'profiles',
             'nofound' => 'No therapists found',
             'tryadjusting' => 'Try adjusting your search criteria or browse all available therapists.',
-            'showall' => 'Show All Therapists'
+            'showall' => 'Show All Therapists',
+            'clear_all_filters' => 'Clear all filters'
         ],
         'form' => [
             'personal' => 'Personal Information',
@@ -238,7 +261,13 @@ return [
             'createprofile' => 'Fill out the details below to create your profile',
             'savechanges' => 'Save changes',
             'saving' => 'Saving...',
-            'success' => 'Your changes have been saved successfully.'
+            'success' => 'Your changes have been saved successfully.',
+            'email_placeholder' => 'your@email.com',
+            'delete_account' => 'Delete Account',
+            'delete_account_desc' => 'Permanently remove your account and all associated data.',
+            'delete_account_confirm' => 'Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.',
+            'password_confirm' => 'Enter your password to confirm',
+            'cancel' => 'Cancel'
         ],
         'photos' => [
             'upload' => 'Upload New Photos',

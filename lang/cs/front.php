@@ -44,7 +44,9 @@ return [
         'profiles_from' => 'Profily z',
         'all_profiles' => 'Všechny profily',
         'profiles_found' => 'profilů nalezeno',
-        'profiles' => 'profilů'
+        'profiles' => 'profilů',
+        'browse_by' => 'Procházet podle',
+        'countries_text' => 'Zemí'
     ],
     'title' => 'Najděte si dokonalou masérku',
     'account' => [
@@ -134,6 +136,13 @@ return [
             'new_password' => 'Nové heslo',
             'confirm_password' => 'Potvrdit heslo',
             'new_password_instruction' => 'Prosím zadejte níže své nové heslo.',
+            'verify_email_title' => 'Ověřte svou e-mailovou adresu',
+            'verify_email_sent' => 'Poslali jsme ověřovací odkaz na vaši e-mailovou adresu',
+            'email_verification_required' => 'Vyžadováno ověření e-mailu',
+            'email_verification_text' => 'Před pokračováním prosím zkontrolujte svůj e-mail pro ověřovací odkaz. Pokud jste e-mail neobdrželi, můžete požádat o nový níže.',
+            'resend_verification' => 'Znovu odeslat ověřovací e-mail',
+            'want_different_account' => 'Chcete použít jiný účet?',
+            'log_out' => 'Odhlásit se'
         ],
         'register' => [
             'title' => 'Registrace',
@@ -167,6 +176,19 @@ return [
             'haveaccount' => 'Již máte účet?',
             'signinhere' => 'Přihlaste se zde'
         ]
+    ],
+    'messages' => [
+        'title' => 'Zprávy',
+        'inbox' => 'Doručená pošta',
+        'conversation_with' => 'Konverzace s',
+        'no_messages_yet' => 'Zatím žádné zprávy',
+        'no_messages_desc' => 'Začněte konverzaci navštívením profilu',
+        'no_messages_conversation' => 'Zatím žádné zprávy. Začněte konverzaci!',
+        'new' => 'nových',
+        'send_message' => 'Odeslat zprávu',
+        'type_message' => 'Napište svou zprávu...',
+        'message_sent' => 'Zpráva odeslána',
+        'back_to_messages' => 'Zpět na zprávy'
     ],
     'profiles' => [
         'detail' => 'Detail profilu',
@@ -217,7 +239,8 @@ return [
             'profiles' => 'profilů',
             'nofound' => 'Žádné masérky nenalezeny',
             'tryadjusting' => 'Zkuste upravit vyhledávací kritéria nebo procházet všechny dostupné masérky.',
-            'showall' => 'Zobrazit všechny masérky'
+            'showall' => 'Zobrazit všechny masérky',
+            'clear_all_filters' => 'Vymazat všechny filtry'
         ],
         'form' => [
             'personal' => 'Osobní údaje',
@@ -252,7 +275,13 @@ return [
             'createprofile' => 'Vyplňte níže uvedené údaje a vytvořte si svůj profil',
             'savechanges' => 'Uložit změny',
             'saving' => 'Ukládám...',
-            'success' => 'Vaše změny byly úspěšně uloženy.'
+            'success' => 'Vaše změny byly úspěšně uloženy.',
+            'email_placeholder' => 'vas@email.cz',
+            'delete_account' => 'Smazat účet',
+            'delete_account_desc' => 'Trvale odstranit váš účet a všechna související data.',
+            'delete_account_confirm' => 'Opravdu chcete smazat svůj účet? Všechna vaše data budou trvale odstraněna. Tuto akci nelze vrátit zpět.',
+            'password_confirm' => 'Zadejte své heslo pro potvrzení',
+            'cancel' => 'Zrušit'
         ],
         'photos' => [
             'upload' => 'Nahrát nové fotografie',
