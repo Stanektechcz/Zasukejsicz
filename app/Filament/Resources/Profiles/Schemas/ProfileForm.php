@@ -46,7 +46,7 @@ class ProfileForm
                     ->columnSpanFull(),
 
                 SpatieMediaLibraryFileUpload::make('images')
-                    ->label('Profile Images')
+                    ->label(__('profiles.form.profile_images'))
                     ->collection('profile-images')
                     ->multiple()
                     ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png'])
@@ -78,17 +78,17 @@ class ProfileForm
                     }),
 
                 Toggle::make('incall')
-                    ->label(__('InCall'))
+                    ->label(__('profiles.form.incall'))
                     ->default(false)
                     ->inline(false),
 
                 Toggle::make('outcall')
-                    ->label(__('OutCall'))
+                    ->label(__('profiles.form.outcall'))
                     ->default(false)
                     ->inline(false),
 
                 BlocksInput::make('content')
-                    ->label('Profile Content Builder')
+                    ->label(__('profiles.form.profile_content_builder'))
                     ->blocks(fn() => [
                         Blocks\Card::block($schema),
                         Blocks\Typography\Heading::block($schema),
@@ -96,7 +96,7 @@ class ProfileForm
                         Faq::block($schema),
                     ])
                     ->columnSpanFull()
-                    ->helperText('Build rich content for your profile using blocks'),
+                    ->helperText(__('profiles.form.profile_content_helper')),
 
                 TextInput::make('age')
                     ->label(__('profiles.form.age'))
@@ -122,26 +122,26 @@ class ProfileForm
                     ->columnSpanFull(),
 
                 KeyValue::make('availability_hours')
-                    ->label('Availability Hours')
-                    ->keyLabel('Day')
-                    ->valueLabel('Hours')
+                    ->label(__('profiles.form.availability_hours'))
+                    ->keyLabel(__('profiles.form.day_label'))
+                    ->valueLabel(__('profiles.form.hours_label'))
                     ->columnSpanFull()
-                    ->helperText('Example: Monday -> 9:00-17:00'),
+                    ->helperText(__('profiles.form.availability_helper')),
 
                 Repeater::make('local_prices')
-                    ->label('Local Prices')
+                    ->label(__('profiles.form.local_prices'))
                     ->schema([
                         TextInput::make('time_hours')
-                            ->label('Time (Hours)')
+                            ->label(__('profiles.form.time_hours'))
                             ->required()
                             ->maxLength(100),
                         TextInput::make('incall_price')
-                            ->label('Incall Price')
+                            ->label(__('profiles.form.incall_price'))
                             ->required()
                             ->numeric()
                             ->prefix('$'),
                         TextInput::make('outcall_price')
-                            ->label('Outcall Price')
+                            ->label(__('profiles.form.outcall_price'))
                             ->required()
                             ->numeric()
                             ->prefix('$'),
@@ -150,22 +150,22 @@ class ProfileForm
                     ->columnSpanFull()
                     ->collapsible()
                     ->defaultItems(0)
-                    ->addActionLabel('Add Price'),
+                    ->addActionLabel(__('profiles.form.add_price')),
 
                 Repeater::make('global_prices')
-                    ->label('Global Prices')
+                    ->label(__('profiles.form.global_prices'))
                     ->schema([
                         TextInput::make('time_hours')
-                            ->label('Time (Hours)')
+                            ->label(__('profiles.form.time_hours'))
                             ->required()
                             ->maxLength(100),
                         TextInput::make('incall_price')
-                            ->label('Incall Price')
+                            ->label(__('profiles.form.incall_price'))
                             ->required()
                             ->numeric()
                             ->prefix('$'),
                         TextInput::make('outcall_price')
-                            ->label('Outcall Price')
+                            ->label(__('profiles.form.outcall_price'))
                             ->required()
                             ->numeric()
                             ->prefix('$'),
@@ -174,7 +174,7 @@ class ProfileForm
                     ->columnSpanFull()
                     ->collapsible()
                     ->defaultItems(0)
-                    ->addActionLabel('Add Price'),
+                    ->addActionLabel(__('profiles.form.add_price')),
 
                 Select::make('status')
                     ->label(__('profiles.form.status'))
@@ -188,7 +188,7 @@ class ProfileForm
                     ->visible($isAdmin),
 
                 DateTimePicker::make('verified_at')
-                    ->label('Verified At')
+                    ->label(__('profiles.form.verified_at'))
                     ->visible($isAdmin),
 
                 Toggle::make('is_public')
@@ -196,8 +196,8 @@ class ProfileForm
                     ->default(true),
 
                 Toggle::make('is_vip')
-                    ->label('VIP Profile')
-                    ->helperText('VIP profiles get special badge and higher visibility')
+                    ->label(__('profiles.form.vip_profile'))
+                    ->helperText(__('profiles.form.vip_helper'))
                     ->default(false)
                     ->visible($isAdmin)
             ]);

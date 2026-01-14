@@ -18,6 +18,7 @@ return [
         'pricing' => 'Pricing',
         'gender' => 'Gender',
         'user_id' => 'User',
+        'roles' => 'Roles',
     ],
     
     'values' => [

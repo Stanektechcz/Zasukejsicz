@@ -16,7 +16,7 @@ class ServiceForm
             ->components([
                 // Current locale translatable field
                 TextInput::make('name')
-                    ->label('Service Name (' . strtoupper(app()->getLocale()) . ')')
+                    ->label(__('services.form.name') . ' (' . strtoupper(app()->getLocale()) . ')')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull()
@@ -29,7 +29,7 @@ class ServiceForm
 
                 // Current locale translatable field
                 Textarea::make('description')
-                    ->label('Description (' . strtoupper(app()->getLocale()) . ')')
+                    ->label(__('services.form.description') . ' (' . strtoupper(app()->getLocale()) . ')')
                     ->rows(3)
                     ->maxLength(65535)
                     ->columnSpanFull()
@@ -41,16 +41,16 @@ class ServiceForm
                     }),
 
                 TextInput::make('sort_order')
-                    ->label('Sort Order')
+                    ->label(__('services.form.sort_order'))
                     ->numeric()
                     ->default(0)
                     ->required()
-                    ->helperText('Lower numbers appear first'),
+                    ->helperText(__('services.form.sort_order_helper')),
 
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label(__('services.form.active'))
                     ->default(true)
-                    ->helperText('Inactive services won\'t be visible to users'),
+                    ->helperText(__('services.form.active_helper')),
             ]);
     }
 }

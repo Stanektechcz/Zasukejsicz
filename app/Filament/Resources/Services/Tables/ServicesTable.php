@@ -16,26 +16,26 @@ class ServicesTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Service Name')
+                    ->label(__('services.table.name'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label(__('services.table.description'))
                     ->limit(50)
                     ->searchable(),
 
                 TextColumn::make('sort_order')
-                    ->label('Sort Order')
+                    ->label(__('services.table.sort_order'))
                     ->sortable(),
 
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label(__('services.table.active'))
                     ->boolean()
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label(__('services.table.created'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

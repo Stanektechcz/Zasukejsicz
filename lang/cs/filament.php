@@ -18,6 +18,7 @@ return [
         'pricing' => 'Ceník',
         'gender' => 'Pohlaví',
         'user_id' => 'Uživatel',
+        'roles' => 'Role',
     ],
     
     'values' => [
