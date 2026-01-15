@@ -16,7 +16,9 @@ class RegisterModal extends Component
     // Modal state
     public bool $showModal = false;
     public int $currentStep = 1;
-    public int $totalSteps = 2;
+    public int $totalSteps = 3;
+    public bool $registrationSuccess = false;
+    public string $registeredEmail = '';
 
     // Step 1: Gender selection
     #[Validate('required|in:male,female')]
@@ -60,6 +62,8 @@ class RegisterModal extends Component
         
         // Reset form data without triggering loading states
         $this->currentStep = 1;
+        $this->registrationSuccess = false;
+        $this->registeredEmail = '';
         $this->gender = '';
         $this->name = '';
         $this->email = '';
@@ -140,14 +144,10 @@ class RegisterModal extends Component
             // Fire the registered event
             event(new Registered($user));
 
-            // Log the user in
-            Auth::login($user);
-
-            // Hide modal immediately
-            $this->showModal = false;
-
-            // Redirect to profile completion or dashboard
-            $this->redirect(route('account.dashboard'));
+            // Store email for success message and move to success step
+            $this->registeredEmail = $validated['email'];
+            $this->registrationSuccess = true;
+            $this->currentStep = 3;
             
         } catch (\Exception $e) {
             $this->addError('registration', __('auth.register.error'));
@@ -160,6 +160,25 @@ class RegisterModal extends Component
     public function getProgressPercentage()
     {
         return round(($this->currentStep / $this->totalSteps) * 100);
+    }
+
+    /**
+     * Get masked email for display (e.g., eva******@gmail.com)
+     */
+    public function getMaskedEmailProperty()
+    {
+        if (empty($this->registeredEmail)) {
+            return '';
+        }
+
+        $email = $this->registeredEmail;
+        [$username, $domain] = explode('@', $email);
+
+        // Show first 3 characters, mask the rest
+        $visibleLength = min(3, strlen($username));
+        $maskedUsername = substr($username, 0, $visibleLength) . str_repeat('*', max(0, strlen($username) - $visibleLength));
+
+        return $maskedUsername . '@' . $domain;
     }
 
     public function render()

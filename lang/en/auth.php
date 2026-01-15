@@ -38,6 +38,11 @@ return [
         'loading' => 'Loading...',
         'error' => 'Registration failed. Please try again.',
         'terms' => 'By continuing and registering you agree to the Terms and Conditions and Privacy Policy. You acknowledge that you have read and understood all terms.',
+        'success' => [
+            'title' => 'Registration successful, thank you',
+            'message' => 'Please confirm the verification link we sent to :email. Then you can start using the platform fully.',
+            'close_button' => 'I understand',
+        ],
     ],
     'reset' => [
         'title' => 'Reset Password',

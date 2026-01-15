@@ -14,7 +14,7 @@
 
         <!-- Modal Content -->
         <div class="modal-container pb-5 sm:pb-7">
-            <!-- Step Back Button (only on step 2) -->
+            <!-- Step Back Button (only on step 2, hide on success step) -->
             @if($currentStep === 2)
             <button wire:click="previousStep"
                 class="modal-back-btn">
@@ -24,13 +24,22 @@
             </button>
             @endif
 
-            <!-- Close Button -->
+            <!-- Close Button (hide on success step or show with different behavior) -->
+            @if($currentStep !== 3)
             <button @click="closing = true; show = false"
                 class="modal-close-btn">
                 <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
+            @else
+            <button @click="closing = true; show = false"
+                class="modal-close-btn">
+                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            @endif
 
             @if($currentStep === 1)
             <!-- Step 1: Gender Selection -->
@@ -172,6 +181,35 @@
                         </button>
                     </div>
                 </form>
+            </div>
+
+            @elseif($currentStep === 3)
+            <!-- Step 3: Success Message -->
+            <div class="text-center">
+                <!-- Success Icon -->
+                <div class="flex justify-center mb-4 sm:mb-6">
+                    <div class="bg-green-100 rounded-full p-3 sm:p-4">
+                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="modal-header">
+                    <h1 class="modal-title">{{ __('auth.register.success.title') }}</h1>
+                    <p class="modal-subtitle text-gray-600">
+                        {{ __('auth.register.success.message', ['email' => $this->maskedEmail]) }}
+                    </p>
+                </div>
+
+                <!-- Action Button -->
+                <div class="mt-6">
+                    <button @click="closing = true; show = false"
+                        class="modal-btn-primary">
+                        {{ __('auth.register.success.close_button') }}
+                    </button>
+                </div>
             </div>
             @endif
         </div>

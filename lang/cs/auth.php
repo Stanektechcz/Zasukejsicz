@@ -38,6 +38,11 @@ return [
         'loading' => 'Načítání...',
         'error' => 'Registrace se nezdařila. Zkuste to prosím znovu.',
         'terms' => 'Pokračování a registrací souhlasíte s Oprávněné aniž i odstoupil o snadno osoby vede grafikou osobami úmyslu 60 % poskytovat, dělí způsobem, § 36 veletrhu pověřit spravují zřejmém, k před platbě státu zvláštních tuzemsku. Dohodnou zvláštní provádí.',
+        'success' => [
+            'title' => 'Registrace proběhla úspěšně, děkujeme',
+            'message' => 'Potvrďte prosím, ověřovací odkaz, který jsme poslali na :email. Pak můžete začít platformu plně využívat.',
+            'close_button' => 'Rozumím',
+        ],
     ],
       
     'reset' => [
