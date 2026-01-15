@@ -126,47 +126,50 @@
                         </div>
                     </div>
                 @else
-                    <!-- Register Button -->
-                    <button @click="$dispatch('show-register-modal')" class="btn-primary">
-                        {{ __('front.nav.register') }}
-                    </button>
-
-                    <!-- Login Link -->
-                    <div class="hidden lg:inline">
+                    <!-- Register Button - Desktop Only -->
+                    <div class="hidden md:inline">
+                        <button @click="$dispatch('show-register-modal')" class="btn-primary">
+                            {{ __('front.nav.register') }}
+                        </button>
+                    </div>
+                    <!-- Login Link - Desktop Only -->
+                    <div class="hidden md:inline">
                          <button @click="$dispatch('show-login-modal')" class="btn-light" id="nav-login">
                              {{ __('front.nav.login') }}
                          </button>
                     </div>
                 @endauth
 
-                <!-- Language Switcher -->
-                <div class="language-dropdown hidden lg:inline" x-data="{ languageOpen: false }" @click.outside="languageOpen = false">
-                    <button @click="languageOpen = !languageOpen" class="language-dropdown-toggle" id="nav-language">
-                        @if(app()->getLocale() === 'cs')
-                            <img src="{{ asset('flags/cs.png') }}" alt="Czech">
-                        @else
-                            <img src="{{ asset('flags/en.png') }}" alt="English">
-                        @endif
-                    </button>
-                    
-                    <div class="language-dropdown-menu">
-                        <a href="{{ url()->current() }}?locale=en" 
-                           class="language-dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}"
-                           @click="languageOpen = false"
-                           title="English">
-                            <img src="{{ asset('flags/en.png') }}" alt="English">
-                        </a>
-                        <a href="{{ url()->current() }}?locale=cs" 
-                           class="language-dropdown-item {{ app()->getLocale() === 'cs' ? 'active' : '' }}"
-                           @click="languageOpen = false"
-                           title="Čeština">
-                            <img src="{{ asset('flags/cs.png') }}" alt="Czech">
-                        </a>
+                <!-- Language Switcher - Desktop Only -->
+                <div class="hidden md:inline">
+                    <div class="language-dropdown " x-data="{ languageOpen: false }" @click.outside="languageOpen = false">
+                        <button @click="languageOpen = !languageOpen" class="language-dropdown-toggle" id="nav-language">
+                            @if(app()->getLocale() === 'cs')
+                                <img src="{{ asset('flags/cs.png') }}" alt="Czech">
+                            @else
+                                <img src="{{ asset('flags/en.png') }}" alt="English">
+                            @endif
+                        </button>
+                        
+                        <div class="language-dropdown-menu">
+                            <a href="{{ url()->current() }}?locale=en" 
+                               class="language-dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}"
+                               @click="languageOpen = false"
+                               title="English">
+                                <img src="{{ asset('flags/en.png') }}" alt="English">
+                            </a>
+                            <a href="{{ url()->current() }}?locale=cs" 
+                               class="language-dropdown-item {{ app()->getLocale() === 'cs' ? 'active' : '' }}"
+                               @click="languageOpen = false"
+                               title="Čeština">
+                                <img src="{{ asset('flags/cs.png') }}" alt="Czech">
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="lg:hidden">
+                <div class="md:hidden">
                     <button type="button" class="text-text-default hover:text-primary-600 focus:outline-none focus:text-primary-600" id="mobile-menu-button">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -206,15 +209,30 @@
                         </button>
                     </form>
                 @else
-                    <button @click="$dispatch('show-login-modal')" class="nav-link-mobile group">
-                        {{ __('front.nav.login') }}
-                        <span class="underline"></span>
-                    </button>
-                    <button @click="$dispatch('show-register-modal')" class="nav-link-mobile group">
-                        {{ __('front.nav.register') }}
-                        <span class="underline"></span>
-                    </button>
+                    <!-- Auth Buttons -->
+                    <div class="w-full space-y-3 pt-4">
+                        <button @click="$dispatch('show-register-modal')" class="w-full btn-primary py-3 text-center">
+                            {{ __('front.nav.register') }}
+                        </button>
+                        <button @click="$dispatch('show-login-modal')" class="w-full btn-light py-3 text-center">
+                            {{ __('front.nav.login') }}
+                        </button>
+                    </div>
                 @endauth
+                
+                <!-- Language Switcher -->
+                <div class="w-full pt-4 border-t border-gray-300 mt-4">
+                    <div class="flex justify-center gap-4">
+                        <a href="{{ url()->current() }}?locale=cs" class="flex items-center gap-2 {{ app()->getLocale() === 'cs' ? 'opacity-100' : 'opacity-50' }}">
+                            <img src="{{ asset('flags/cs.png') }}" alt="Czech" class="w-8 h-8 rounded-full">
+                            <span class="text-sm">Česky</span>
+                        </a>
+                        <a href="{{ url()->current() }}?locale=en" class="flex items-center gap-2 {{ app()->getLocale() === 'en' ? 'opacity-100' : 'opacity-50' }}">
+                            <img src="{{ asset('flags/en.png') }}" alt="English" class="w-8 h-8 rounded-full">
+                            <span class="text-sm">English</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

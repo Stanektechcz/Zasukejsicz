@@ -1,4 +1,4 @@
-@props(['name', 'class' => '', 'strokeWidth' => 1.5])
+@props(['name', 'class' => '', 'strokeWidth' => 1.5, 'fill' => false])
 
 @php
     $iconPath = public_path("images/icons/{$name}.svg");
@@ -16,7 +16,7 @@
             'stroke="currentColor"',
             '',
             '',
-            'fill="none"',
+            $fill ? 'fill="currentColor"' : 'fill="none"',
             '<svg stroke-width="' . ($strokeWidth) . '" '
         ], file_get_contents($iconPath)) !!}
     </span>

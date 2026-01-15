@@ -20,6 +20,17 @@
   height: 1em;
 }
 
+.quote-icon {
+  mask-image: url("/images/icons/quote.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
 .icon-heart {
   mask-image: url("/images/icons/heart.svg");
   mask-repeat: no-repeat;

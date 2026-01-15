@@ -5,7 +5,7 @@
     </div>
 
     <!-- Quick Filters -->
-    <div class="mb-8">
+    <div class="mb-8  px-6 md:px-8 lg:px-12">
         <!-- Age Group Filters -->
         <div class="flex flex-wrap gap-3 mb-4">
             <!-- All Girls Filter -->
@@ -112,7 +112,7 @@
 
     @if($this->profiles() && $this->profiles()->count() > 0)
     <!-- Profiles Grid -->
-    <div class="space-y-6 relative">
+    <div class="space-y-6 relative px-6 md:px-8 lg:px-12">
         <!-- Loading Overlay -->
         <div wire:loading wire:target="toggleAgeGroup,toggleVerifiedPhoto,toggleVideo,togglePornActress,toggleNew,toggleRating,resetFilters,updateFilters"
             class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center pt-12">
@@ -126,7 +126,15 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             @foreach($this->profiles() as $profile)
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group z-0">
+            
+            {{-- Insert Advert Hero after first row (5 items on xl screens) --}}
+            @if($loop->iteration === 6)
+            <div class="col-span-full hidden lg:block -my-20 -mx-6 md:-mx-8 lg:-mx-12 relative z-0">
+                <x-advert-hero />
+            </div>
+            @endif
+            
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group relative z-10">
                 <!-- Profile Image -->
                 <div class="relative">
 
