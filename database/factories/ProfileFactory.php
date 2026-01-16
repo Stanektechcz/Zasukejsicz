@@ -85,7 +85,6 @@ class ProfileFactory extends Factory
             'global_prices' => $globalPrices,
             'status' => fake()->randomElement(['draft', 'pending', 'approved', 'rejected']),
             'is_public' => fake()->boolean(80),
-            'is_vip' => fake()->boolean(20),
             'verified_at' => fake()->boolean(60) ? now()->subDays(fake()->numberBetween(1, 30)) : null,
         ];
     }
@@ -227,12 +226,11 @@ class ProfileFactory extends Factory
     }
     
     /**
-     * Indicate that the profile is VIP.
+     * Indicate that the profile is VIP (verified).
      */
     public function vip(): static
     {
         return $this->state(fn (array $attributes) => [
-            'is_vip' => true,
             'verified_at' => now()->subDays(fake()->numberBetween(1, 30)),
         ]);
     }

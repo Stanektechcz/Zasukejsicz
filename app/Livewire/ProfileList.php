@@ -13,7 +13,7 @@ class ProfileList extends Component
     use WithPagination;
 
     public $loading = false;
-    public $perPage = 12;
+    public $perPage = 8;
     
     // Current filters (synced with search component)
     public $city = '';
@@ -76,7 +76,7 @@ class ProfileList extends Component
 
     public function loadMore()
     {
-        $this->perPage += 12;
+        $this->perPage += 10;
     }
 
     public function resetFilters()

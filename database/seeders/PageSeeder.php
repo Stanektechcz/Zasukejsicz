@@ -124,6 +124,7 @@ class PageSeeder extends Seeder
                 'description' => $post['description'],
                 'content' => $post['content'],
                 'display_in_menu' => false,
+                'display_in_footer' => false,
                 'is_published' => true,
             ]);
             
@@ -147,8 +148,8 @@ class PageSeeder extends Seeder
     {
         Page::create([
             'title' => [
-                'en' => 'Frequently Asked Questions',
-                'cs' => 'Často kladené otázky',
+                'en' => 'FAQ',
+                'cs' => 'FAQ',
             ],
             'slug' => 'faq',
             'type' => 'page',
@@ -161,6 +162,7 @@ class PageSeeder extends Seeder
                 'cs' => $this->generateFaqContent('cs'),
             ],
             'display_in_menu' => true,
+            'display_in_footer' => true,
             'is_published' => true,
         ]);
         
@@ -175,15 +177,55 @@ class PageSeeder extends Seeder
         $pages = [
             [
                 'title' => [
-                    'en' => 'About Us',
-                    'cs' => 'O nás',
+                    'en' => 'VIP & Premium',
+                    'cs' => 'VIP & Premium',
                 ],
-                'slug' => 'about-us',
+                'slug' => 'vip-premium',
                 'content' => [
                     'en' => $this->generateAboutContent('en'),
                     'cs' => $this->generateAboutContent('cs'),
                 ],
                 'display_in_menu' => true,
+                'display_in_footer' => true,
+            ],
+            [
+                'title' => [
+                    'en' => 'Ethics and Safety',
+                    'cs' => 'Etika a bezpečnost',
+                ],
+                'slug' => 'ethics',
+                'content' => [
+                    'en' => $this->generateSafetyContent('en'),
+                    'cs' => $this->generateSafetyContent('cs'),
+                ],
+                'display_in_menu' => true,
+                'display_in_footer' => true,
+            ],
+            [
+                'title' => [
+                    'en' => 'Contact Us',
+                    'cs' => 'Kontakt',
+                ],
+                'slug' => 'contact',
+                'content' => [
+                    'en' => $this->generateContactContent('en'),
+                    'cs' => $this->generateContactContent('cs'),
+                ],
+                'display_in_menu' => true,
+                'display_in_footer' => true,
+            ],
+            [
+                'title' => [
+                    'en' => 'Privacy Policy',
+                    'cs' => 'Ochrana osobních údajů',
+                ],
+                'slug' => 'privacy-policy',
+                'content' => [
+                    'en' => $this->generatePrivacyContent('en'),
+                    'cs' => $this->generatePrivacyContent('cs'),
+                ],
+                'display_in_menu' => false,
+                'display_in_footer' => true,
             ],
             [
                 'title' => [
@@ -195,31 +237,8 @@ class PageSeeder extends Seeder
                     'en' => $this->generateTermsContent('en'),
                     'cs' => $this->generateTermsContent('cs'),
                 ],
-                'display_in_menu' => true,
-            ],
-            [
-                'title' => [
-                    'en' => 'Privacy Policy',
-                    'cs' => 'Zásady ochrany osobních údajů',
-                ],
-                'slug' => 'privacy-policy',
-                'content' => [
-                    'en' => $this->generatePrivacyContent('en'),
-                    'cs' => $this->generatePrivacyContent('cs'),
-                ],
-                'display_in_menu' => true,
-            ],
-            [
-                'title' => [
-                    'en' => 'Contact Us',
-                    'cs' => 'Kontaktujte nás',
-                ],
-                'slug' => 'contact',
-                'content' => [
-                    'en' => $this->generateContactContent('en'),
-                    'cs' => $this->generateContactContent('cs'),
-                ],
-                'display_in_menu' => true,
+                'display_in_menu' => false,
+                'display_in_footer' => true,
             ],
         ];
         
@@ -231,6 +250,7 @@ class PageSeeder extends Seeder
                 'description' => null,
                 'content' => $pageData['content'],
                 'display_in_menu' => $pageData['display_in_menu'],
+                'display_in_footer' => $pageData['display_in_footer'],
                 'is_published' => true,
             ]);
         }

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'date_format' => 'j. F Y',
+    'min_read' => 'min čtení',
     'table' => [
         'header_image' => 'Hlavní obrázek',
         'title' => 'Název',

@@ -31,6 +31,7 @@ class Page extends Model implements HasMedia
         'description',
         'content',
         'display_in_menu',
+        'display_in_footer',
         'is_published',
     ];
 
@@ -44,6 +45,7 @@ class Page extends Model implements HasMedia
         return [
             'content' => 'array',
             'display_in_menu' => 'boolean',
+            'display_in_footer' => 'boolean',
             'is_published' => 'boolean',
         ];
     }

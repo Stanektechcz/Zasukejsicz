@@ -4,7 +4,7 @@
 
 @section('content')
     @if ($page->type === 'blog')
-        <div class="pt-24">
+        <div class="pt-12">
             <div class="mb-8 -mx-4 sm:mx-0 sm:rounded-lg overflow-hidden relative">
                 @if ($page->hasMedia('header-image'))
                     <img src="{{ $page->getFirstMediaUrl('header-image') }}" alt="{{ $page->title }}"
@@ -26,7 +26,7 @@
                         <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        {{ $page->created_at->format('F j, Y') }}
+                        {{ $page->created_at->translatedFormat(__('blogs.date_format')) }}
                     </time>
                     
                     @if($page->aproximateReadingTime() > 0)
@@ -34,7 +34,7 @@
                             <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {{ $page->aproximateReadingTime() }} {{ __('min read') }}
+                            {{ $page->aproximateReadingTime() }} {{ __('blogs.min_read') }}
                         </div>
                     @endif
                 </div>

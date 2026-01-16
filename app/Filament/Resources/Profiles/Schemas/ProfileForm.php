@@ -24,17 +24,31 @@ class ProfileForm
     {
         $user = Auth::user();
         $isAdmin = $user && ($user->email === 'test@example.com'); // Temporary admin check
+        $record = $schema->getRecord();
+        $profileUrl = ($record && $record->exists && $record->id) 
+                    ? route('profiles.show', ['id' => $record->id]) 
+                    : null;
 
         return $schema
             ->columns(2)
             ->components([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->visible($isAdmin)
-                    ->columnSpanFull(),
+            Select::make('user_id')
+                ->relationship('user', 'name')
+                ->required()
+                ->searchable()
+                ->preload()
+                ->visible($isAdmin)
+                ->columnSpanFull(),
+
+            // Display profile URL if record exists
+            TextInput::make('profile_url')
+                ->label(__('profiles.form.profile_url'))
+                ->default($profileUrl)
+                ->disabled()
+                ->visible(fn() => $profileUrl !== null)
+                ->columnSpanFull()
+                ->helperText(__('profiles.form.profile_url_helper')),
+
 
                 Select::make('gender')
                     ->label(__('profiles.form.gender'))
@@ -176,6 +190,28 @@ class ProfileForm
                     ->defaultItems(0)
                     ->addActionLabel(__('profiles.form.add_price')),
 
+                Repeater::make('contacts')
+                    ->label(__('profiles.form.contacts'))
+                    ->schema([
+                        Select::make('type')
+                            ->label(__('profiles.form.contact_type'))
+                            ->options([
+                                'phone' => __('profiles.form.contact_phone'),
+                                'whatsapp' => 'WhatsApp',
+                                'telegram' => 'Telegram',
+                            ])
+                            ->required(),
+                        TextInput::make('value')
+                            ->label(__('profiles.form.contact_value'))
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->defaultItems(0)
+                    ->addActionLabel(__('profiles.form.add_contact')),
+
                 Select::make('status')
                     ->label(__('profiles.form.status'))
                     ->options([
@@ -194,12 +230,6 @@ class ProfileForm
                 Toggle::make('is_public')
                     ->label(__('profiles.form.is_public'))
                     ->default(true),
-
-                Toggle::make('is_vip')
-                    ->label(__('profiles.form.vip_profile'))
-                    ->helperText(__('profiles.form.vip_helper'))
-                    ->default(false)
-                    ->visible($isAdmin)
             ]);
     }
 }

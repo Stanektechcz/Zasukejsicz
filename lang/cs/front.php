@@ -281,7 +281,22 @@ return [
             'delete_account_desc' => 'Trvale odstranit váš účet a všechna související data.',
             'delete_account_confirm' => 'Opravdu chcete smazat svůj účet? Všechna vaše data budou trvale odstraněna. Tuto akci nelze vrátit zpět.',
             'password_confirm' => 'Zadejte své heslo pro potvrzení',
-            'cancel' => 'Zrušit'
+            'cancel' => 'Zrušit',
+            'contacts' => 'Kontakty',
+            'contact_type' => 'Typ kontaktu',
+            'contact_value' => 'Hodnota',
+            'contact_phone' => 'Telefon',
+            'add_contact' => 'Přidat kontakt',
+            'incall' => 'InCall',
+            'incall_desc' => 'Nabízím InCall služby',
+            'outcall' => 'OutCall',
+            'outcall_desc' => 'Nabízím OutCall služby',
+            'local_prices' => 'Moje ceny pro ČR',
+            'global_prices' => 'Globální ceny',
+            'time_hours' => 'Časová dotace',
+            'incall_price' => 'InCall',
+            'outcall_price' => 'OutCall v Kč',
+            'add_price' => 'Přidat další'
         ],
         'photos' => [
             'upload' => 'Nahrát nové fotografie',

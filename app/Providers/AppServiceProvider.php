@@ -60,5 +60,15 @@ class AppServiceProvider extends ServiceProvider
             
             $view->with('navPages', $pages);
         });
+
+        // Share footer pages with footer component
+        View::composer('components.footer', function ($view) {
+            $pages = Page::where('display_in_footer', true)
+                ->where('is_published', true)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            
+            $view->with('footerPages', $pages);
+        });
     }
 }

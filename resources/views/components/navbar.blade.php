@@ -12,9 +12,6 @@
 
                 <!-- Navigation Links - Desktop -->
                 <div class="hidden lg:flex items-center space-x-5 xl:space-x-6">
-                    <a href="{{ route('countries.index') }}" class="nav-link" id="nav-link-countries">
-                        {{ __('front.nav.countries') }}
-                    </a>
                     @foreach($navPages ?? [] as $page)
                         <a href="{{ url('/' . $page->slug) }}" class="nav-link" id="nav-link-{{ $page->id }}">
                             {{ $page->title }}
@@ -97,34 +94,36 @@
 
                     <!-- Account Dropdown (Profile Button) -->
                     <div class="relative" x-data="{ userMenuOpen: false }">
-                        <button @click="userMenuOpen = !userMenuOpen" class="btn nav-button bg-gray-50 !py-4 !border-1 !text-primary !border-primary" title="{{ __('front.nav.profile') }}">
+                        <button @click="userMenuOpen = !userMenuOpen" 
+                            class="btn nav-button !py-4 transition-colors"
+                            :class="userMenuOpen ? 'bg-primary !text-white !border-primary !border-t-1 !border-l-1 !border-r-1 !border-b-0 !rounded-b-none' : 'bg-gray-50 !text-primary !border-primary !border-1'"
+                            title="{{ __('front.nav.profile') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </button>
                         
                         <div x-show="userMenuOpen" @click.outside="userMenuOpen = false" x-transition 
-                             class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-lg shadow-lg border-2 border-gray-200 z-50">
+                            class="absolute -right-1/2 top-14 w-48 bg-primary rounded-lg shadow-lg z-50 p-4 px-5">
                             <div>
-                                <a href="{{ route('account.dashboard') }}" class="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">
-                                    {{ __('front.nav.myaccount') }}
-                                </a>
-                                @can('access-filament-admin')
-                                    <div class="border-t border-gray-200"></div>
-                                    <a href="/admin" target="_blank" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('front.nav.adminpanel') }}
-                                    </a>
-                                @endcan
-                                <div class="border-t border-gray-200"></div>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('front.nav.logout') }}
-                                    </button>
-                                </form>
+                               <a href="{{ route('account.dashboard') }}" class="block p-5 py-3 text-sm text-white hover:bg-secondary-500 rounded-lg transition-colors">
+                                  {{ __('front.nav.myaccount') }}
+                               </a>
+                               @can('access-filament-admin')
+                                  <a href="/admin" target="_blank" class="block px-4 py-3 text-sm text-white hover:bg-secondary-500 rounded-lg transition-colors">
+                                     {{ __('front.nav.adminpanel') }}
+                                  </a>
+                               @endcan
+                               <div class="border-t border-white/30 my-2"></div>
+                               <form method="POST" action="{{ route('logout') }}">
+                                  @csrf
+                                  <button type="submit" class="block w-full text-left p-5 py-3 text-sm text-white hover:bg-secondary-500 rounded-lg transition-colors">
+                                     {{ __('front.nav.logout') }}
+                                  </button>
+                               </form>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 @else
                     <!-- Register Button - Desktop Only -->
                     <div class="hidden lg:inline-block">
@@ -181,14 +180,8 @@
         <!-- Mobile menu -->
         <div class="lg:hidden hidden" id="mobile-menu">
             <div class="flex flex-wrap p-4 py-5 pt-6 space-y-2 bg-white rounded-2xl">
-                <a href="{{ route('profiles.index') }}" class="nav-link-mobile group">
-                    {{ __('front.nav.home') }}
-                    <span class="underline"></span>
-                </a>
-                <a href="{{ route('countries.index') }}" class="nav-link-mobile group">
-                    {{ __('front.nav.countries') }}
-                    <span class="underline"></span>
-                </a>
+                
+                
                 @foreach($navPages ?? [] as $page)
                     <a href="{{ url('/' . $page->slug) }}" class="nav-link-mobile group">
                         {{ $page->title }}

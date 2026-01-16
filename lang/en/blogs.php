@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'date_format' => 'F j, Y',
+    'min_read' => 'min read',
     'table' => [
         'header_image' => 'Header Image',
         'title' => 'Title',

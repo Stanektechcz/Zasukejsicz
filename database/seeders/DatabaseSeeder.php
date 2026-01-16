@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create roles
+        $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
 
@@ -62,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
             'email_verified_at' => now(),
         ]);
-        $admin->assignRole('admin');
+        $admin->syncRoles(['super_admin', 'admin']);
 
 
 
@@ -95,7 +96,6 @@ class DatabaseSeeder extends Seeder
                 ],
                 'status' => 'approved',
                 'is_public' => true,
-                'is_vip' => true,
                 'verified_at' => now(),
                 'country_code' => 'us',
             ]);
@@ -214,7 +214,6 @@ class DatabaseSeeder extends Seeder
                     ],
                     'status' => 'approved',
                     'is_public' => true,
-                    'is_vip' => $index < 2, // First 2 Czech profiles are VIP
                     'verified_at' => rand(0, 1) ? now() : null,
                     'country_code' => 'cz',
                 ]);

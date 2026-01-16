@@ -1,118 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Profile;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProfilePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->roles()->whereIn('name', ['admin', 'user'])->exists();
+        return $authUser->can('ViewAny:Profile');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Profile $profile): bool
+    public function view(AuthUser $authUser, Profile $profile): bool
     {
-        // Admin can view all profiles
-        if ($user->roles()->where('name', 'admin')->exists()) {
-            return true;
-        }
-
-        // Users can view their own profile
-        if ($user->id === $profile->user_id) {
-            return true;
-        }
-
-        // Users can view approved public profiles
-        if ($user->roles()->where('name', 'user')->exists() && $profile->status === 'approved' && $profile->is_public) {
-            return true;
-        }
-
-        return false;
+        return $authUser->can('View:Profile');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        // Only regular users can create profiles (and only one)
-        return $user->roles()->where('name', 'user')->exists() && !$user->profile;
+        return $authUser->can('Create:Profile');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Profile $profile): bool
+    public function update(AuthUser $authUser, Profile $profile): bool
     {
-        // Admin can update any profile
-        if ($user->roles()->where('name', 'admin')->exists()) {
-            return true;
-        }
-
-        // Users can update their own profile
-        if ($user->roles()->where('name', 'user')->exists() && $user->id === $profile->user_id) {
-            return true;
-        }
-
-        return false;
+        return $authUser->can('Update:Profile');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Profile $profile): bool
+    public function delete(AuthUser $authUser, Profile $profile): bool
     {
-        // Admin can delete any profile
-        if ($user->roles()->where('name', 'admin')->exists()) {
-            return true;
-        }
-
-        // Users can delete their own profile
-        if ($user->roles()->where('name', 'user')->exists() && $user->id === $profile->user_id) {
-            return true;
-        }
-
-        return false;
+        return $authUser->can('Delete:Profile');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Profile $profile): bool
+    public function restore(AuthUser $authUser, Profile $profile): bool
     {
-        return $user->roles()->where('name', 'admin')->exists();
+        return $authUser->can('Restore:Profile');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Profile $profile): bool
+    public function forceDelete(AuthUser $authUser, Profile $profile): bool
     {
-        return $user->roles()->where('name', 'admin')->exists();
+        return $authUser->can('ForceDelete:Profile');
     }
 
-    /**
-     * Determine whether the user can verify the model.
-     */
-    public function verify(User $user, Profile $profile): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->roles()->where('name', 'admin')->exists();
+        return $authUser->can('ForceDeleteAny:Profile');
     }
 
-    /**
-     * Determine whether the user can approve the model.
-     */
-    public function approve(User $user, Profile $profile): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->roles()->where('name', 'admin')->exists();
+        return $authUser->can('RestoreAny:Profile');
     }
+
+    public function replicate(AuthUser $authUser, Profile $profile): bool
+    {
+        return $authUser->can('Replicate:Profile');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Profile');
+    }
+
 }

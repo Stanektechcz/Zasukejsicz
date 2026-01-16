@@ -24,12 +24,14 @@
         </div>
 
         {{-- CTA Button --}}
+        @guest
         <div class="mb-10 md:mb-10">
-            <a href="#" class="btn-primary !py-3 inline-flex items-center gap-3 min-w-[304px]">
+            <button @click="$dispatch('show-register-modal')" class="btn-primary !py-3 inline-flex items-center gap-3 min-w-[304px]">
                 Založit účet
                 <x-icons name="heart" class="w-5 h-5" />
-            </a>
+            </button>
         </div>
+        @endguest
 
         {{-- Feature Blocks --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">

@@ -63,6 +63,11 @@ return [
         'vip_profile' => 'VIP Profile',
         'vip_helper' => 'VIP profiles get special badge and higher visibility',
         'day_label' => 'Day',
-        'hours_label' => 'Hours'
+        'hours_label' => 'Hours',
+        'contacts' => 'Contacts',
+        'contact_type' => 'Contact Type',
+        'contact_value' => 'Value',
+        'contact_phone' => 'Phone',
+        'add_contact' => 'Add Contact',
     ],
 ];

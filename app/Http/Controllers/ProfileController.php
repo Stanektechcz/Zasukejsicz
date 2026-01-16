@@ -94,7 +94,7 @@ class ProfileController extends Controller
         }
 
         // Pagination
-        $perPage = $forApi ? ($request->get('per_page', 12)) : 12;
+        $perPage = $forApi ? ($request->get('per_page', 10)) : 10;
         $profiles = $query->paginate($perPage);
 
         // Transform data for API responses
@@ -139,7 +139,6 @@ class ProfileController extends Controller
             'local_prices',
             'verified_at',
             'status',
-            'is_vip',
             'created_at',
             'updated_at'
         ];

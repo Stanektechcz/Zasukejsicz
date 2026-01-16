@@ -74,7 +74,7 @@ abstract class Controller
         }
 
         // Pagination
-        $perPage = $forApi ? ($request->get('per_page', 12)) : 12;
+        $perPage = $forApi ? ($request->get('per_page', 10)) : 10;
         $profiles = $query->paginate($perPage);
 
         // Transform data for API responses

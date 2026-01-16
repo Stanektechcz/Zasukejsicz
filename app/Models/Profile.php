@@ -43,10 +43,10 @@ class Profile extends Model implements HasMedia
         'availability_hours',
         'local_prices',
         'global_prices',
+        'contacts',
         'verified_at',
         'status',
         'is_public',
-        'is_vip',
     ];
 
     /**
@@ -61,9 +61,9 @@ class Profile extends Model implements HasMedia
             'availability_hours' => 'array',
             'local_prices' => 'array',
             'global_prices' => 'array',
+            'contacts' => 'array',
             'verified_at' => 'datetime',
             'is_public' => 'boolean',
-            'is_vip' => 'boolean',
             'incall' => 'boolean',
             'outcall' => 'boolean',
         ];
@@ -92,6 +92,57 @@ class Profile extends Model implements HasMedia
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    /**
+     * Get all subscriptions for this profile.
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * Get the active subscription for this profile.
+     */
+    public function activeSubscription()
+    {
+        return $this->hasOne(Subscription::class)
+            ->where('status', 'active')
+            ->where('ends_at', '>', now())
+            ->latest('ends_at');
+    }
+
+    /**
+     * Check if the profile has an active subscription.
+     */
+    public function hasActiveSubscription(): bool
+    {
+        return $this->activeSubscription()->exists();
+    }
+
+    /**
+     * Check if the profile is VIP (has any active subscription).
+     */
+    public function isVip(): bool
+    {
+        return $this->hasActiveSubscription();
+    }
+
+    /**
+     * Get the current subscription type.
+     */
+    public function getCurrentSubscriptionType(): ?SubscriptionType
+    {
+        return $this->activeSubscription?->subscriptionType;
+    }
+
+    /**
+     * Scope a query to only include VIP profiles.
+     */
+    public function scopeVip($query)
+    {
+        return $query->whereHas('activeSubscription');
     }
 
     /**

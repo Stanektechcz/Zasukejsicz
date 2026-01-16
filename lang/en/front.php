@@ -267,7 +267,22 @@ return [
             'delete_account_desc' => 'Permanently remove your account and all associated data.',
             'delete_account_confirm' => 'Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.',
             'password_confirm' => 'Enter your password to confirm',
-            'cancel' => 'Cancel'
+            'cancel' => 'Cancel',
+            'contacts' => 'Contacts',
+            'contact_type' => 'Contact Type',
+            'contact_value' => 'Value',
+            'contact_phone' => 'Phone',
+            'add_contact' => 'Add Contact',
+            'incall' => 'InCall',
+            'incall_desc' => 'I offer InCall services',
+            'outcall' => 'OutCall',
+            'outcall_desc' => 'I offer OutCall services',
+            'local_prices' => 'My local prices',
+            'global_prices' => 'Global prices',
+            'time_hours' => 'Time allocation',
+            'incall_price' => 'InCall',
+            'outcall_price' => 'OutCall price',
+            'add_price' => 'Add another'
         ],
         'photos' => [
             'upload' => 'Upload New Photos',

@@ -26,6 +26,9 @@ class PagesTable
                 IconColumn::make('display_in_menu')
                     ->label(__('pages.table.display_in_menu'))
                     ->boolean(),
+                IconColumn::make('display_in_footer')
+                    ->label(__('pages.table.display_in_footer'))
+                    ->boolean(),
                 IconColumn::make('is_published')
                     ->label(__('pages.table.is_published'))
                     ->boolean(),
@@ -43,6 +46,8 @@ class PagesTable
             ->filters([
                 TernaryFilter::make('display_in_menu')
                     ->label(__('pages.table.filter_menu')),
+                TernaryFilter::make('display_in_footer')
+                    ->label(__('pages.table.filter_footer')),
                 TernaryFilter::make('is_published')
                     ->label(__('pages.table.filter_published')),
             ])

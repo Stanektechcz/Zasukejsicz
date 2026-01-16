@@ -129,10 +129,12 @@
                             type="button"
                             @click="open = !open"
                             class="input-control w-full text-left flex items-center justify-between @error('country_code') border-red-500 @enderror">
-                            <span class="flex items-center gap-2"> 
-                                <svg class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
+                            <span class="flex items-center gap-2 flex-nowrap"> 
+                                <span class="flex items-center gap-2"> 
+                                    <svg class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </span>
                                 <span class="flex items-center gap-2">
                                     @if($country_code)
                                         <img src="https://flagcdn.com/{{ strtolower($country_code) }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
@@ -211,8 +213,8 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <label for="incall" class="text-sm font-medium text-gray-700">{{ __('InCall') }}</label>
-                            <p class="text-xs text-gray-500">{{ __('Nabízím InCall služby') }}</p>
+                            <label for="incall" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.incall') }}</label>
+                            <p class="text-xs text-gray-500">{{ __('front.profiles.form.incall_desc') }}</p>
                         </div>
                         <x-toggle-switch
                             name="incall"
@@ -223,8 +225,8 @@
 
                     <div class="flex items-center justify-between">
                         <div>
-                            <label for="outcall" class="text-sm font-medium text-gray-700">{{ __('OutCall') }}</label>
-                            <p class="text-xs text-gray-500">{{ __('Nabízím OutCall služby') }}</p>
+                            <label for="outcall" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.outcall') }}</label>
+                            <p class="text-xs text-gray-500">{{ __('front.profiles.form.outcall_desc') }}</p>
                         </div>
                         <x-toggle-switch
                             name="outcall"
@@ -242,7 +244,7 @@
                                 alt="Czech Republic"
                                 class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Moje ceny pro ČR') }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('front.profiles.form.local_prices') }}</h3>
                     </div>
 
                     <div class="space-y-3">
@@ -250,7 +252,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                             <!-- Time Hours -->
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('časová dotace') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.time_hours') }}</label>
                                 <input
                                     type="text"
                                     wire:model="local_prices.{{ $index }}.time_hours"
@@ -263,7 +265,7 @@
 
                             <!-- Incall Price -->
                             <div class="md:col-span-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('InCall') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.incall_price') }}</label>
                                 <input
                                     type="number"
                                     wire:model="local_prices.{{ $index }}.incall_price"
@@ -276,7 +278,7 @@
 
                             <!-- Outcall Price -->
                             <div class="md:col-span-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('OutCall v Kč') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.outcall_price') }}</label>
                                 <input
                                     type="number"
                                     wire:model="local_prices.{{ $index }}.outcall_price"
@@ -309,7 +311,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
-                            <span class="font-medium">{{ __('Přidat další') }}</span>
+                            <span class="font-medium">{{ __('front.profiles.form.add_price') }}</span>
                         </button>
                     </div>
                 </div>
@@ -323,7 +325,7 @@
                                 alt="Global"
                                 class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Globální ceny') }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('front.profiles.form.global_prices') }}</h3>
                     </div>
 
                     <div class="space-y-3">
@@ -331,7 +333,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                             <!-- Time Hours -->
                             <div class="md:col-span-3">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('časová dotace') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.time_hours') }}</label>
                                 <input
                                     type="text"
                                     wire:model="global_prices.{{ $index }}.time_hours"
@@ -344,7 +346,7 @@
 
                             <!-- Incall Price -->
                             <div class="md:col-span-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('InCall') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.incall_price') }}</label>
                                 <input
                                     type="number"
                                     wire:model="global_prices.{{ $index }}.incall_price"
@@ -357,7 +359,7 @@
 
                             <!-- Outcall Price -->
                             <div class="md:col-span-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('OutCall v Kč') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.outcall_price') }}</label>
                                 <input
                                     type="number"
                                     wire:model="global_prices.{{ $index }}.outcall_price"
@@ -390,7 +392,75 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
-                            <span class="font-medium">{{ __('+ Přidat další') }}</span>
+                            <span class="font-medium">{{ __('front.profiles.form.add_price') }}</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Contacts -->
+                <div class="space-y-4 border-t border-gray-200 pt-10 mt-20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 bg-primary-100 flex items-center justify-center">
+                            <x-icons name="message" class="w-4 h-4 text-primary" />
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('front.profiles.form.contacts') }}</h3>
+                    </div>
+
+                    <div class="space-y-3">
+                        @foreach($contacts as $index => $contact)
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                            <!-- Contact Type -->
+                            <div class="md:col-span-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.contact_type') }}</label>
+                                <select
+                                    wire:model="contacts.{{ $index }}.type"
+                                    class="input-control @error('contacts.' . $index . '.type') border-red-500 @enderror">
+                                    <option value="phone">{{ __('front.profiles.form.contact_phone') }}</option>
+                                    <option value="whatsapp">WhatsApp</option>
+                                    <option value="telegram">Telegram</option>
+                                </select>
+                                @error('contacts.' . $index . '.type')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Contact Value -->
+                            <div class="md:col-span-7">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.contact_value') }}</label>
+                                <input
+                                    type="text"
+                                    wire:model="contacts.{{ $index }}.value"
+                                    class="input-control @error('contacts.' . $index . '.value') border-red-500 @enderror"
+                                    placeholder="{{ $contact['type'] === 'telegram' ? '@username' : '+420 123 456 789' }}">
+                                @error('contacts.' . $index . '.value')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Remove Button -->
+                            <div class="md:col-span-1 flex justify-end pb-2">
+                                <button
+                                    type="button"
+                                    wire:click="removeContact({{ $index }})"
+                                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        @endforeach
+
+                        <!-- Add Button -->
+                        <button
+                            type="button"
+                            wire:click="addContact"
+                            class="w-full py-3 px-4 rounded-2xl bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span class="font-medium">{{ __('front.profiles.form.add_contact') }}</span>
                         </button>
                     </div>
                 </div>
@@ -540,17 +610,19 @@
                             type="button"
                             @click="open = !open"
                             class="input-control w-full text-left flex items-center justify-between @error('country_code') border-red-500 @enderror">
-                            <span class="flex items-center gap-2">
-                                @if($country_code)
-                                    <img src="https://flagcdn.com/{{ strtolower($country_code) }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
-                                    <span>{{ collect($countries)->firstWhere('code', $country_code)['name'] ?? $country_code }}</span>
-                                @else
-                                    <span class="text-gray-400">{{ __('front.profiles.form.selectcountry') }}</span>
-                                @endif
-                            </span>
-                            <svg class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
+                            <span class="flex items-center flex-nowrap gap-2">
+                                <svg class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                                <span class="flex items-center flex-nowrap ">
+                                    @if($country_code)
+                                        <img src="https://flagcdn.com/{{ strtolower($country_code) }}.svg" alt="{{ $country_code }}" class="w-5 h-4 object-cover">
+                                        <span>{{ collect($countries)->firstWhere('code', $country_code)['name'] ?? $country_code }}</span>
+                                    @else
+                                        <span class="text-gray-400">{{ __('front.profiles.form.selectcountry') }}</span>
+                                    @endif
+                                </span>
+                           </span>
                         </button>
 
                         <div

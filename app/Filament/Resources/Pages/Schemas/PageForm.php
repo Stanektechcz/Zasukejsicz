@@ -62,6 +62,11 @@ class PageForm
                     ->helperText(__('pages.form.display_in_menu_helper'))
                     ->default(false),
 
+                Toggle::make('display_in_footer')
+                    ->label(__('pages.form.display_in_footer'))
+                    ->helperText(__('pages.form.display_in_footer_helper'))
+                    ->default(false),
+
                 Toggle::make('is_published')
                     ->label(__('pages.form.is_published'))
                     ->helperText(__('pages.form.is_published_helper'))

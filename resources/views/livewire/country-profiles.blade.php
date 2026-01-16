@@ -146,7 +146,7 @@
                                 <!-- Name and VIP Badge -->
                                 <div class="flex items-center justify-between py-3">
                                     <h4 class="text-gray-700 flex-grow-0 truncate max-w-[80%]">{{ $profile->display_name }}</h4>
-                                    @if(!$profile->is_vip)
+                                    @if($profile->isVip())
                                     <div class="bg-gold-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                                         <x-icons name="star" class="w-3 h-3" />
                                         VIP

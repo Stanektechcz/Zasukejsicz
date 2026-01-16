@@ -56,6 +56,8 @@ class ProfileForm extends Component
 
     public $global_prices = [];
 
+    public $contacts = [];
+
     #[Rule('nullable|in:pending,approved,rejected')]
     public $status = '';
 
@@ -106,6 +108,9 @@ class ProfileForm extends Component
                 : [];
             $this->global_prices = is_array($profile->global_prices) 
                 ? $profile->global_prices 
+                : [];
+            $this->contacts = is_array($profile->contacts) 
+                ? $profile->contacts 
                 : [];
             $this->status = $profile->status ?? '';
             $this->is_public = $profile->is_public ?? false;
@@ -239,6 +244,20 @@ class ProfileForm extends Component
         $this->global_prices = array_values($this->global_prices);
     }
 
+    public function addContact()
+    {
+        $this->contacts[] = [
+            'type' => 'phone',
+            'value' => ''
+        ];
+    }
+
+    public function removeContact($index)
+    {
+        unset($this->contacts[$index]);
+        $this->contacts = array_values($this->contacts);
+    }
+
     public function save()
     {
         $user = Auth::user();
@@ -266,6 +285,9 @@ class ProfileForm extends Component
             'global_prices.*.time_hours' => 'required|string|max:100',
             'global_prices.*.incall_price' => 'required|numeric|min:0',
             'global_prices.*.outcall_price' => 'nullable|numeric|min:0',
+            'contacts' => 'nullable|array',
+            'contacts.*.type' => 'required|in:phone,whatsapp,telegram',
+            'contacts.*.value' => 'required|string|max:255',
         ];
 
         // Add status validation only for admin users
@@ -304,6 +326,7 @@ class ProfileForm extends Component
             'availability_hours' => $this->availability_hours ? explode(', ', $this->availability_hours) : null,
             'local_prices' => $this->local_prices ?: null,
             'global_prices' => $this->global_prices ?: null,
+            'contacts' => $this->contacts ?: null,
             'is_public' => $this->is_public,
         ];
 

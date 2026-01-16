@@ -1,4 +1,4 @@
-<footer class="py-12 pt-20">
+<footer x-data class="py-12 pt-20">
     <div class="container mx-auto px-4">
         <!-- Logo -->
         <div class="text-center mb-8">
@@ -12,29 +12,29 @@
         <!-- Footer Content -->
         <div class="flex flex-col flex-wrap md:flex-row justify-between items-start gap-8 mb-8">
             <!-- Registration Button -->
+            @guest
             <div class="flex-shrink-0">
-                <button class="btn-primary w-full md:w-auto px-8 py-3 rounded-lg font-semibold">
+                <button @click="$dispatch('show-register-modal')" class="btn-primary w-full md:w-auto px-8 py-3 rounded-lg font-semibold">
                     {{ __('front.footer.registration') }}
                 </button>
             </div>
+            @endguest
 
-            <!-- Links Column 1 -->
-            <div class="space-y-3">
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.faq') }}</a>
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.contact') }}</a>
-            </div>
-
-            <!-- Links Column 2 -->
-            <div class="space-y-3">
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.privacy') }}</a>
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.ethics') }}</a>
-            </div>
-
-            <!-- Links Column 3 -->
-            <div class="space-y-3">
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.vipgirls') }}</a>
-                <a href="#" class="block text-gray-600 hover:text-primary-500 transition-colors">{{ __('front.footer.premiummale') }}</a>
-            </div>
+            <!-- Footer Links -->
+            @if(isset($footerPages) && $footerPages->count() > 0)
+                @php
+                    $chunks = $footerPages->chunk(ceil($footerPages->count() / 3));
+                @endphp
+                @foreach($chunks as $chunk)
+                <div class="space-y-3">
+                    @foreach($chunk as $page)
+                        <a href="{{ url('/' . $page->slug) }}" class="block text-gray-600 hover:text-primary-500 transition-colors">
+                            {{ $page->title }}
+                        </a>
+                    @endforeach
+                </div>
+                @endforeach
+            @endif
 
             <div class="flex-shrink-0 max-w-sm">
                 <!-- Security Text -->

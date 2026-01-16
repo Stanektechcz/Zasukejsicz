@@ -62,6 +62,11 @@ return [
         'vip_profile' => 'VIP profil',
         'vip_helper' => 'VIP profily získají speciální odznak a vyšší viditelnost',
         'day_label' => 'Den',
-        'hours_label' => 'Hodiny'
+        'hours_label' => 'Hodiny',
+        'contacts' => 'Kontakty',
+        'contact_type' => 'Typ kontaktu',
+        'contact_value' => 'Hodnota',
+        'contact_phone' => 'Telefon',
+        'add_contact' => 'Přidat kontakt',
     ],
 ];
