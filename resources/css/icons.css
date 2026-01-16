@@ -20,6 +20,28 @@
   height: 1em;
 }
 
+.icon-calendar {
+  mask-image: url("/images/icons/calendar.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+.clock-icon {
+  mask-image: url("/images/icons/clock.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
 .quote-icon {
   mask-image: url("/images/icons/quote.svg");
   mask-repeat: no-repeat;

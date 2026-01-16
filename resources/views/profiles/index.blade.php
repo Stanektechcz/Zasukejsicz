@@ -28,10 +28,9 @@
     <livewire:profile-list />
 </div>
 
-<!-- Advert Hero Section -->
-<div class="container mx-auto px-4 pt-20">
-    <x-advert-hero />
-</div>
+<!-- Blog pages list gallery -->
+<x-blog-listing :posts="$blogPosts" />
+
 
 <div class="-z-10 absolute top-[620px] left-0 right-0 -bottom-1 overflow-x-hidden">
     <div class="radial-blur"></div>

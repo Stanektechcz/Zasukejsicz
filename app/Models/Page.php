@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class Page extends Model
+class Page extends Model implements HasMedia
 {
-    use HasTranslations;
+    use HasTranslations, InteractsWithMedia;
 
     /**
      * The attributes that are translatable.
      *
      * @var array<int, string>
      */
-    public $translatable = ['title', 'content'];
+    public $translatable = ['title', 'description', 'content'];
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +27,8 @@ class Page extends Model
     protected $fillable = [
         'title',
         'slug',
+        'type',
+        'description',
         'content',
         'display_in_menu',
         'is_published',
@@ -72,5 +76,83 @@ class Page extends Model
     public function scopeInMenu($query)
     {
         return $query->where('display_in_menu', true);
+    }
+
+    /**
+     * Scope a query to only include blog posts.
+     */
+    public function scopeBlog($query)
+    {
+        return $query->where('type', 'blog');
+    }
+
+    /**
+     * Scope a query to only include regular pages.
+     */
+    public function scopePage($query)
+    {
+        return $query->where('type', 'page');
+    }
+
+    /**
+     * Register media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('header-image')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+            ->useDisk('public');
+    }
+
+    /**
+     * Calculate approximate reading time based on paragraph content.
+     * Average reading speed: 200 words per minute.
+     *
+     * @return int Reading time in minutes
+     */
+    public function aproximateReadingTime(): int
+    {
+        if (!$this->content || !is_array($this->content)) {
+            return 0;
+        }
+
+        $totalChars = 0;
+
+        // Recursively extract text from all blocks
+        $extractText = function ($blocks) use (&$extractText, &$totalChars) {
+            foreach ($blocks as $block) {
+                if (!is_array($block)) {
+                    continue;
+                }
+
+                $blockType = $block['type'] ?? '';
+
+                // Check if this is a paragraph block (SkyRaptor)
+                if (str_contains($blockType, 'Paragraph')) {
+                    if (isset($block['data']['content'])) {
+                        $text = strip_tags($block['data']['content']);
+                        $totalChars += strlen($text);
+                    }
+                }
+
+                // Generic check for any nested content arrays
+                if (isset($block['data']) && is_array($block['data'])) {
+                    foreach ($block['data'] as $key => $value) {
+                        if (is_array($value) && $key === 'content') {
+                            $extractText($value);
+                        }
+                    }
+                }
+            }
+        };
+
+        $extractText($this->content);
+
+        // Average word length is ~5 characters, reading speed ~200 words/min
+        $words = $totalChars / 5;
+        $minutes = ceil($words / 210);
+
+        return max(1, $minutes); // Minimum 1 minute
     }
 }

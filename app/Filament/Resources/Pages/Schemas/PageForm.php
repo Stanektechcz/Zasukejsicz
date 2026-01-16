@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -38,6 +41,42 @@ class PageForm
                     ->maxLength(255)
                     ->helperText(__('pages.form.slug_helper'))
                     ->prefix(url('/') . '/')
+                    ->columnSpanFull(),
+
+                Radio::make('type')
+                    ->label(__('pages.form.type'))
+                    ->options([
+                        'page' => __('pages.form.type_page'),
+                        'blog' => __('pages.form.type_blog'),
+                    ])
+                    ->default('page')
+                    ->required()
+                    ->inline()
+                    ->helperText(__('pages.form.type_helper'))
+                    ->columnSpanFull(),
+
+                SpatieMediaLibraryFileUpload::make('header_image')
+                    ->label(__('pages.form.header_image'))
+                    ->collection('header-image')
+                    ->image()
+                    ->imageEditor()
+                    ->maxSize(5120)
+                    ->helperText(__('pages.form.header_image_helper'))
+                    ->visible(fn ($get) => $get('type') === 'blog')
+                    ->columnSpanFull(),
+
+                Textarea::make('description')
+                    ->label(__('pages.form.description') . ' (' . strtoupper(app()->getLocale()) . ')')
+                    ->rows(3)
+                    ->maxLength(500)
+                    ->helperText(__('pages.form.description_helper'))
+                    ->visible(fn ($get) => $get('type') === 'blog')
+                    ->afterStateHydrated(function (Textarea $component, $state, $record) {
+                        if ($record && $record->exists) {
+                            $currentLocale = app()->getLocale();
+                            $component->state($record->getTranslation('description', $currentLocale));
+                        }
+                    })
                     ->columnSpanFull(),
 
                 BlocksInput::make('content')

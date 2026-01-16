@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -15,8 +16,15 @@ class ProfileController extends Controller
     public function index(Request $request): View
     {
         $profiles = $this->getPublicProfiles($request);
+        
+        // Get published blog posts
+        $blogPosts = Page::blog()
+            ->published()
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
 
-        return view('profiles.index', compact('profiles'));
+        return view('profiles.index', compact('profiles', 'blogPosts'));
     }
 
     /**
