@@ -34,9 +34,12 @@ return [
     ],
     
     'navigation' => [
-        'dashboard' => 'Dashboard',
+        'dashboard' => 'Nástěnka',
         'users' => 'Uživatelé',
         'profiles' => 'Profily',
+        'services' => 'Služby',
+        'pages' => 'Stránky',
+        'blog_posts' => 'Blog příspěvky',
         'roles' => 'Role',
         'permissions' => 'Oprávnění',
     ],

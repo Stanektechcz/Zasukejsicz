@@ -18,15 +18,26 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'Services';
+    protected static ?int $navigationSort = 20;
 
-    protected static ?string $modelLabel = 'Service';
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.navigation.services');
+    }
 
-    protected static ?string $pluralModelLabel = 'Services';
+    public static function getModelLabel(): string
+    {
+        return __('common.Service');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.Services');
+    }
 
     public static function form(Schema $schema): Schema
     {

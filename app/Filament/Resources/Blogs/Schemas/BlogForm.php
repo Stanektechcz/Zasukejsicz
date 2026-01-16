@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Pages\Schemas;
+namespace App\Filament\Resources\Blogs\Schemas;
 
 use App\Filament\Blocks\Faq;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 use SkyRaptor\FilamentBlocksBuilder\Blocks;
 use SkyRaptor\FilamentBlocksBuilder\Forms\Components\BlocksInput;
 
-class PageForm
+class BlogForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -40,6 +42,28 @@ class PageForm
                     ->prefix(url('/') . '/')
                     ->columnSpanFull(),
 
+                SpatieMediaLibraryFileUpload::make('header_image')
+                    ->label(__('pages.form.header_image'))
+                    ->collection('header-image')
+                    ->image()
+                    ->imageEditor()
+                    ->maxSize(5120)
+                    ->helperText(__('pages.form.header_image_helper'))
+                    ->columnSpanFull(),
+
+                Textarea::make('description')
+                    ->label(__('pages.form.description') . ' (' . strtoupper(app()->getLocale()) . ')')
+                    ->rows(3)
+                    ->maxLength(500)
+                    ->helperText(__('pages.form.description_helper'))
+                    ->afterStateHydrated(function (Textarea $component, $state, $record) {
+                        if ($record && $record->exists) {
+                            $currentLocale = app()->getLocale();
+                            $component->state($record->getTranslation('description', $currentLocale));
+                        }
+                    })
+                    ->columnSpanFull(),
+
                 BlocksInput::make('content')
                     ->label(__('pages.form.content') . ' (' . strtoupper(app()->getLocale()) . ')')
                     ->blocks(fn() => [
@@ -56,11 +80,6 @@ class PageForm
                     })
                     ->columnSpanFull()
                     ->helperText(__('pages.form.content_helper')),
-
-                Toggle::make('display_in_menu')
-                    ->label(__('pages.form.display_in_menu'))
-                    ->helperText(__('pages.form.display_in_menu_helper'))
-                    ->default(false),
 
                 Toggle::make('is_published')
                     ->label(__('pages.form.is_published'))

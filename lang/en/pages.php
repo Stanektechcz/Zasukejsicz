@@ -21,8 +21,16 @@ return [
         'is_published_helper' => 'Make this page visible to the public',
     ],
     'table' => [
+        'title' => 'Title',
+        'slug' => 'Slug',
+        'display_in_menu' => 'In Menu',
+        'is_published' => 'Published',
+        'created_at' => 'Created At',
+        'updated_at' => 'Updated At',
         'type_page' => 'Page',
         'type_blog' => 'Blog',
         'filter_type' => 'Type',
+        'filter_menu' => 'Menu Visibility',
+        'filter_published' => 'Publication Status',
     ],
 ];

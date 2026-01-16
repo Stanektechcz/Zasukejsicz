@@ -13,20 +13,40 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $navigationLabel = 'Pages';
+    protected static ?int $navigationSort = 30;
 
-    protected static ?string $modelLabel = 'Page';
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.navigation.pages');
+    }
 
-    protected static ?string $pluralModelLabel = 'Pages';
+    public static function getModelLabel(): string
+    {
+        return __('common.Page');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('common.Pages');
+    }
+
+    /**
+     * Scope the query to only show page type (not blog).
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('type', 'page');
+    }
 
     public static function form(Schema $schema): Schema
     {

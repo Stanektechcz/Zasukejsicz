@@ -21,8 +21,16 @@ return [
         'is_published_helper' => 'Zveřejnit tuto stránku pro veřejnost',
     ],
     'table' => [
+        'title' => 'Název',
+        'slug' => 'URL adresa',
+        'display_in_menu' => 'V menu',
+        'is_published' => 'Publikováno',
+        'created_at' => 'Vytvořeno',
+        'updated_at' => 'Aktualizováno',
         'type_page' => 'Stránka',
         'type_blog' => 'Blog',
         'filter_type' => 'Typ',
+        'filter_menu' => 'Viditelnost v menu',
+        'filter_published' => 'Stav publikace',
     ],
 ];
