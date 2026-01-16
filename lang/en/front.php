@@ -121,6 +121,15 @@ return [
         ]
     ],
     'auth' => [
+        'email_verified_success' => 'Your email has been successfully verified! You can now log in to your account.',
+        'email_already_verified' => 'Your email is already verified. You can log in to your account.',
+        'verify_email_title' => 'Verify Your Email Address',
+        'verify_email_sent' => "We've sent a verification link to your email address",
+        'email_verification_required' => 'Email Verification Required',
+        'email_verification_text' => 'Before proceeding, please check your email for a verification link. If you didn\'t receive the email, you can request another one below.',
+        'resend_verification' => 'Resend Verification Email',
+        'want_different_account' => 'Want to use a different account?',
+        'log_out' => 'Log out',
         'login' => [
             'title' => 'Login',
             'signin' => 'Sign in to your account',
@@ -140,15 +149,6 @@ return [
             'new_password' => 'New Password',
             'confirm_password' => 'Confirm Password',
             'new_password_instruction' => 'Please enter your new password below.',
-            'verify_email_title' => 'Verify Your Email Address',
-            'verify_email_sent' => "We've sent a verification link to your email address",
-            'email_verification_required' => 'Email Verification Required',
-            'email_verification_text' => 'Before proceeding, please check your email for a verification link. If you didn\'t receive the email, you can request another one below.',
-            'resend_verification' => 'Resend Verification Email',
-            'want_different_account' => 'Want to use a different account?',
-            'log_out' => 'Log out',
-            'email_verified_success' => 'Your email has been successfully verified! You can now log in to your account.',
-            'email_already_verified' => 'Your email is already verified. You can log in to your account.',
         ],
         'register' => [
             'title' => 'Register',

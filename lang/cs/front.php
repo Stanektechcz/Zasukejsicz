@@ -135,6 +135,15 @@ return [
         ]
     ],
     'auth' => [
+        'email_verified_success' => 'Váš e-mail byl úspěšně ověřen! Nyní se můžete přihlásit ke svému účtu.',
+        'email_already_verified' => 'Váš e-mail je již ověřen. Můžete se přihlásit ke svému účtu.',
+        'verify_email_title' => 'Ověřte svou e-mailovou adresu',
+        'verify_email_sent' => 'Poslali jsme ověřovací odkaz na vaši e-mailovou adresu',
+        'email_verification_required' => 'Vyžadováno ověření e-mailu',
+        'email_verification_text' => 'Před pokračováním prosím zkontrolujte svůj e-mail pro ověřovací odkaz. Pokud jste e-mail neobdrželi, můžete požádat o nový níže.',
+        'resend_verification' => 'Znovu odeslat ověřovací e-mail',
+        'want_different_account' => 'Chcete použít jiný účet?',
+        'log_out' => 'Odhlásit se',
         'login' => [
             'title' => 'Přihlášení',
             'signin' => 'Přihlášení do vašeho účtu',
@@ -154,15 +163,6 @@ return [
             'new_password' => 'Nové heslo',
             'confirm_password' => 'Potvrdit heslo',
             'new_password_instruction' => 'Prosím zadejte níže své nové heslo.',
-            'verify_email_title' => 'Ověřte svou e-mailovou adresu',
-            'verify_email_sent' => 'Poslali jsme ověřovací odkaz na vaši e-mailovou adresu',
-            'email_verification_required' => 'Vyžadováno ověření e-mailu',
-            'email_verification_text' => 'Před pokračováním prosím zkontrolujte svůj e-mail pro ověřovací odkaz. Pokud jste e-mail neobdrželi, můžete požádat o nový níže.',
-            'resend_verification' => 'Znovu odeslat ověřovací e-mail',
-            'want_different_account' => 'Chcete použít jiný účet?',
-            'log_out' => 'Odhlásit se',
-            'email_verified_success' => 'Váš e-mail byl úspěšně ověřen! Nyní se můžete přihlásit ke svému účtu.',
-            'email_already_verified' => 'Váš e-mail je již ověřen. Můžete se přihlásit ke svému účtu.',
         ],
         'register' => [
             'title' => 'Registrace',
