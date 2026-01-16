@@ -353,6 +353,17 @@ class ProfileForm extends Component
             
             // Update the hasProfile property
             $this->hasProfile = true;
+
+            // Notify admins about new profile submission
+            $admins = \App\Models\User::role('admin')->get();
+            foreach ($admins as $admin) {
+                \App\Models\Notification::createForUser(
+                    $admin->id,
+                    __('notifications.admin.new_profile_title'),
+                    __('notifications.admin.new_profile_message', ['name' => $profile->display_name]),
+                    'info'
+                );
+            }
         }
 
 

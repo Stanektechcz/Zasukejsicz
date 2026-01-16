@@ -13,7 +13,7 @@ class ProfileList extends Component
     use WithPagination;
 
     public $loading = false;
-    public $perPage = 8;
+    public $perPage = 10;
     
     // Current filters (synced with search component)
     public $city = '';

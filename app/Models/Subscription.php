@@ -200,12 +200,60 @@ class Subscription extends Model
                 'starts_at' => $subscription->starts_at->toDateTimeString(),
                 'ends_at' => $subscription->ends_at->toDateTimeString(),
             ]);
+
+            // Notify profile owner about new subscription
+            if ($subscription->profile) {
+                Notification::createForUser(
+                    $subscription->profile->user_id,
+                    __('notifications.subscription.created_title'),
+                    __('notifications.subscription.created_message', [
+                        'type' => $subscription->subscriptionType->name,
+                        'ends_at' => $subscription->ends_at->format('d.m.Y'),
+                    ]),
+                    'success'
+                );
+            }
         });
 
         static::updating(function (Subscription $subscription) {
+            $originalStatus = $subscription->getOriginal('status');
+            $newStatus = $subscription->status;
+
             // Auto-expire if end date has passed
             if ($subscription->status === self::STATUS_ACTIVE && $subscription->ends_at->isPast()) {
                 $subscription->status = self::STATUS_EXPIRED;
+                $newStatus = self::STATUS_EXPIRED;
+            }
+
+            // Notify on status changes
+            if ($originalStatus !== $newStatus && $subscription->profile) {
+                $userId = $subscription->profile->user_id;
+
+                if ($newStatus === self::STATUS_EXPIRED) {
+                    Notification::createForUser(
+                        $userId,
+                        __('notifications.subscription.expired_title'),
+                        __('notifications.subscription.expired_message'),
+                        'danger'
+                    );
+                } elseif ($newStatus === self::STATUS_CANCELLED) {
+                    Notification::createForUser(
+                        $userId,
+                        __('notifications.subscription.cancelled_title'),
+                        __('notifications.subscription.cancelled_message'),
+                        'warning'
+                    );
+                } elseif ($newStatus === self::STATUS_ACTIVE && $originalStatus !== self::STATUS_ACTIVE) {
+                    // Renewed or reactivated
+                    Notification::createForUser(
+                        $userId,
+                        __('notifications.subscription.renewed_title'),
+                        __('notifications.subscription.renewed_message', [
+                            'ends_at' => $subscription->ends_at->format('d.m.Y'),
+                        ]),
+                        'success'
+                    );
+                }
             }
         });
     }

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationController extends Controller
+class NotificationController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth');
+        return [
+            new Middleware('auth'),
+        ];
     }
 
     public function delete(Notification $notification)

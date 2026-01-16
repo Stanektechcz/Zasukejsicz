@@ -310,7 +310,7 @@
             }
 
             // Initialize new Swiper instance
-            new Swiper(swiperEl, {
+            const swiper = new Swiper(swiperEl, {
                 loop: true,
                 pagination: {
                     el: `.swiper-pagination-${profileId}`,
@@ -318,6 +318,24 @@
                     dynamicBullets: true,
                 },
                 preloadImages: true,
+                autoplay: {
+                    delay: 700,
+                    disableOnInteraction: false,
+                },
+            });
+
+            // Stop autoplay initially
+            swiper.autoplay.stop();
+
+            // Start autoplay on hover
+            swiperEl.addEventListener('mouseenter', function() {
+                swiper.autoplay.start();
+            });
+
+            // Stop autoplay and return to first slide on mouse leave
+            swiperEl.addEventListener('mouseleave', function() {
+                swiper.autoplay.stop();
+                swiper.slideToLoop(0, 300);
             });
         });
     }

@@ -210,8 +210,19 @@ class Profile extends Model implements HasMedia
      */
     public function markAsVerified(): static
     {
+        $wasVerified = $this->isVerified();
         $this->verified_at = now();
         $this->save();
+
+        // Notify user about verification
+        if (!$wasVerified) {
+            Notification::createForUser(
+                $this->user_id,
+                __('notifications.profile.verified_title'),
+                __('notifications.profile.verified_message'),
+                'success'
+            );
+        }
 
         return $this;
     }
@@ -221,10 +232,62 @@ class Profile extends Model implements HasMedia
      */
     public function markAsUnverified(): static
     {
+        $wasVerified = $this->isVerified();
         $this->verified_at = null;
         $this->save();
 
+        // Notify user about verification removal
+        if ($wasVerified) {
+            Notification::createForUser(
+                $this->user_id,
+                __('notifications.profile.unverified_title'),
+                __('notifications.profile.unverified_message'),
+                'warning'
+            );
+        }
+
         return $this;
+    }
+
+    /**
+     * Boot the model and register event listeners.
+     */
+    protected static function booted(): void
+    {
+        static::updating(function (Profile $profile) {
+            $originalStatus = $profile->getOriginal('status');
+            $newStatus = $profile->status;
+
+            // Only notify on status changes
+            if ($originalStatus !== $newStatus) {
+                if ($newStatus === 'approved') {
+                    Notification::createForUser(
+                        $profile->user_id,
+                        __('notifications.profile.approved_title'),
+                        __('notifications.profile.approved_message'),
+                        'success'
+                    );
+                } elseif ($newStatus === 'rejected') {
+                    Notification::createForUser(
+                        $profile->user_id,
+                        __('notifications.profile.rejected_title'),
+                        __('notifications.profile.rejected_message'),
+                        'danger'
+                    );
+                } elseif ($newStatus === 'pending' && $originalStatus === 'draft') {
+                    // Notify admins about new profile submission
+                    $admins = User::role('admin')->get();
+                    foreach ($admins as $admin) {
+                        Notification::createForUser(
+                            $admin->id,
+                            __('notifications.admin.new_profile_title'),
+                            __('notifications.admin.new_profile_message', ['name' => $profile->display_name]),
+                            'info'
+                        );
+                    }
+                }
+            }
+        });
     }
 
     /**

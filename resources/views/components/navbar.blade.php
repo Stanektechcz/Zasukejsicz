@@ -42,7 +42,7 @@
                             </button>
                             
                             <div x-show="notificationsOpen" @click.outside="notificationsOpen = false" x-transition 
-                                 class="absolute right-0 mt-2 w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto">
+                                 class="absolute right-0 mt-2 w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto border border-gray-200 shadow-lg">
                                 @php
                                     $notifications = Auth::user()->notifications()->forUser(Auth::id())->latest()->limit(10)->get();
                                 @endphp
@@ -95,16 +95,17 @@
                     <!-- Account Dropdown (Profile Button) -->
                     <div class="relative" x-data="{ userMenuOpen: false }">
                         <button @click="userMenuOpen = !userMenuOpen" 
-                            class="btn nav-button !py-4 transition-colors"
-                            :class="userMenuOpen ? 'bg-primary !text-white !border-primary !border-t-1 !border-l-1 !border-r-1 !border-b-0 !rounded-b-none' : 'bg-gray-50 !text-primary !border-primary !border-1'"
+                            class="btn nav-button !py-4 transition-colors relative z-50"
+                            :class="userMenuOpen ? 'translate-y-1 bg-primary !text-white !border-primary !border-t-1 !border-l-1 !border-r-1 !border-b-0 !rounded-b-none !pb-6 !mt-0' : 'bg-gray-50 !text-primary !border-primary !border-1'"
+                            style="transform-origin: top center;"
                             title="{{ __('front.nav.profile') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </button>
                         
                         <div x-show="userMenuOpen" @click.outside="userMenuOpen = false" x-transition 
-                            class="absolute -right-1/2 top-14 w-48 bg-primary rounded-lg shadow-lg z-50 p-4 px-5">
+                            class="absolute -right-15 top-16 w-48 bg-primary rounded-lg shadow-lg z-40 p-4 px-5 border-t-1 border-l-1 border-r-1 border-primary">
                             <div>
                                <a href="{{ route('account.dashboard') }}" class="block p-5 py-3 text-sm text-white hover:bg-secondary-500 rounded-lg transition-colors">
                                   {{ __('front.nav.myaccount') }}

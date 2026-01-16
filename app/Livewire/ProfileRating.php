@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Notification;
 use App\Models\Profile;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,12 @@ class ProfileRating extends Component
         }
 
         try {
+            $existingRating = Rating::where('profile_id', $this->profile->id)
+                ->where('user_id', Auth::id())
+                ->first();
+            
+            $isNewRating = !$existingRating;
+
             Rating::updateOrCreate(
                 [
                     'profile_id' => $this->profile->id,
@@ -58,6 +65,16 @@ class ProfileRating extends Component
             $this->profile->refresh();
             $this->averageRating = $this->profile->getAverageRating();
             $this->totalRatings = $this->profile->getTotalRatings();
+
+            // Notify profile owner about new rating (not updates)
+            if ($isNewRating && $this->profile->user_id !== Auth::id()) {
+                Notification::createForUser(
+                    $this->profile->user_id,
+                    __('notifications.rating.received_title'),
+                    __('notifications.rating.received_message', ['stars' => $rating]),
+                    $rating >= 4 ? 'success' : ($rating >= 3 ? 'info' : 'warning')
+                );
+            }
             
             $this->message = __('front.profiles.rating.success');
         } catch (\Exception $e) {
