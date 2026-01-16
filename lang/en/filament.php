@@ -17,6 +17,8 @@ return [
         'services_offered' => 'Services Offered',
         'pricing' => 'Pricing',
         'gender' => 'Gender',
+        'gender_male' => 'Male',
+        'gender_female' => 'Female',
         'user_id' => 'User',
         'roles' => 'Roles',
     ],

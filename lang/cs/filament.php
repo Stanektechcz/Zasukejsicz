@@ -17,6 +17,8 @@ return [
         'services_offered' => 'Nabízené služby',
         'pricing' => 'Ceník',
         'gender' => 'Pohlaví',
+        'gender_male' => 'Muž',
+        'gender_female' => 'Žena',
         'user_id' => 'Uživatel',
         'roles' => 'Role',
     ],

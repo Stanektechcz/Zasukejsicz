@@ -30,7 +30,6 @@ class Profile extends Model implements HasMedia
 
     protected $fillable = [
         'user_id',
-        'gender',
         'display_name',
         'age',
         'city',
@@ -295,7 +294,7 @@ class Profile extends Model implements HasMedia
      */
     public function isWoman(): bool
     {
-        return $this->gender === 'female';
+        return $this->user?->isFemale() ?? false;
     }
 
     /**
@@ -303,7 +302,7 @@ class Profile extends Model implements HasMedia
      */
     public function isMan(): bool
     {
-        return $this->gender === 'male';
+        return $this->user?->isMale() ?? false;
     }
 
     /**

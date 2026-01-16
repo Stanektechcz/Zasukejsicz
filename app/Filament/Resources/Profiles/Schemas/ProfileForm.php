@@ -50,15 +50,6 @@ class ProfileForm
                 ->helperText(__('profiles.form.profile_url_helper')),
 
 
-                Select::make('gender')
-                    ->label(__('profiles.form.gender'))
-                    ->options([
-                        'male' => __('profiles.gender.male'),
-                        'female' => __('profiles.gender.female'),
-                    ])
-                    ->required()
-                    ->columnSpanFull(),
-
                 SpatieMediaLibraryFileUpload::make('images')
                     ->label(__('profiles.form.profile_images'))
                     ->collection('profile-images')

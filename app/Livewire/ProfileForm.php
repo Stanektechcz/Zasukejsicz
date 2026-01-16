@@ -25,9 +25,6 @@ class ProfileForm extends Component
     #[Rule('nullable|string|max:255')]
     public $display_name = '';
 
-    #[Rule('nullable|in:male,female')]
-    public $gender = '';
-
     #[Rule('nullable|integer|min:18|max:120')]
     public $age = '';
 
@@ -64,12 +61,10 @@ class ProfileForm extends Component
     public $is_public = false;
 
     // Dropdown states
-    public $genderDropdownOpen = false;
     public $countryDropdownOpen = false;
     public $countrySearchTerm = '';
 
     // Options arrays
-    public $genders = [];
     public $countries = [];
 
     // Profile state
@@ -92,7 +87,6 @@ class ProfileForm extends Component
         // Load profile data if exists
         if ($profile) {
             $this->display_name = $profile->display_name ?? '';
-            $this->gender = $profile->gender ?? '';
             $this->age = $profile->age ?? '';
             $this->city = $profile->city ?? '';
             $this->country_code = $profile->country_code ?? '';
@@ -117,7 +111,6 @@ class ProfileForm extends Component
         }
 
         // Load dropdown options
-        $this->loadGenders();
         $this->loadCountries();
     }
 
@@ -159,25 +152,6 @@ class ProfileForm extends Component
     }
 
 
-
-    public function loadGenders()
-    {
-        $this->genders = [
-            'male' => 'Muž',
-            'female' => 'Žena'
-        ];
-    }
-
-    public function toggleGenderDropdown()
-    {
-        $this->genderDropdownOpen = !$this->genderDropdownOpen;
-    }
-
-    public function selectGender($gender)
-    {
-        $this->gender = $gender;
-        $this->genderDropdownOpen = false;
-    }
 
     public function loadCountries()
     {
@@ -270,7 +244,6 @@ class ProfileForm extends Component
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20|unique:users,phone,' . $user->id,
             'display_name' => 'nullable|string|max:255',
-            'gender' => 'nullable|in:male,female',
             'age' => 'nullable|integer|min:18|max:120',
             'city' => 'nullable|string|max:255',
             'country_code' => 'nullable|string|max:2',
@@ -315,7 +288,6 @@ class ProfileForm extends Component
         // Update or create profile
         $profileData = [
             'display_name' => $this->display_name ?: null,
-            'gender' => $this->gender ?: null,
             'age' => $this->age ?: null,
             'city' => $this->city ?: null,
             'country_code' => $this->country_code ? strtolower($this->country_code) : null,

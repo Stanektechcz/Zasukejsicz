@@ -40,15 +40,15 @@ class ProfilesTable
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('gender')
+                TextColumn::make('user.gender')
                     ->label(__('profiles.table.gender'))
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (?string $state): string => match ($state) {
                         'male' => 'blue',
                         'female' => 'pink',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn (string $state): string => __("profiles.gender.{$state}")),
+                    ->formatStateUsing(fn (?string $state): string => $state ? __("profiles.gender.{$state}") : '-'),
 
                 TextColumn::make('age')
                     ->label(__('profiles.table.age'))
@@ -129,8 +129,9 @@ class ProfilesTable
                     })
                     ->searchable(),
 
-                SelectFilter::make('gender')
+                SelectFilter::make('user.gender')
                     ->label(__('profiles.filters.gender'))
+                    ->relationship('user', 'gender')
                     ->options([
                         'male' => __('profiles.gender.male'),
                         'female' => __('profiles.gender.female'),

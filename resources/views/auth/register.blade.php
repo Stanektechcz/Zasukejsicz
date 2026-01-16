@@ -19,6 +19,36 @@
             <form class="space-y-5" method="POST" action="{{ route('register') }}">
                 @csrf
 
+                <!-- Gender Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">{{ __('front.auth.register.choose_gender') }}</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="gender" value="female" class="peer sr-only" {{ old('gender') == 'female' ? 'checked' : '' }} required>
+                            <div class="flex flex-col items-center justify-center p-6 border-2 border-gray-200 rounded-xl transition-all peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-primary-300">
+                                <svg class="w-12 h-12 mb-2 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                <span class="font-medium text-gray-900">{{ __('front.auth.register.female') }}</span>
+                                <span class="text-xs text-gray-500 mt-1">{{ __('front.auth.register.female_desc') }}</span>
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="gender" value="male" class="peer sr-only" {{ old('gender') == 'male' ? 'checked' : '' }} required>
+                            <div class="flex flex-col items-center justify-center p-6 border-2 border-gray-200 rounded-xl transition-all peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-blue-300">
+                                <svg class="w-12 h-12 mb-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span class="font-medium text-gray-900">{{ __('front.auth.register.male') }}</span>
+                                <span class="text-xs text-gray-500 mt-1">{{ __('front.auth.register.male_desc') }}</span>
+                            </div>
+                        </label>
+                    </div>
+                    @error('gender')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Name -->
                 <div>
                     <label for="name">{{ __('front.auth.register.fullname') }}</label>

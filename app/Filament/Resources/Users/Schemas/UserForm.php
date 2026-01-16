@@ -32,6 +32,15 @@ class UserForm
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
 
+                Select::make('gender')
+                    ->label(__('filament.attributes.gender'))
+                    ->options([
+                        'male' => __('filament.attributes.gender_male'),
+                        'female' => __('filament.attributes.gender_female'),
+                    ])
+                    ->required()
+                    ->native(false),
+
                 TextInput::make('password')
                     ->label(__('filament.attributes.password'))
                     ->password()

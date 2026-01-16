@@ -76,24 +76,7 @@
                     @error('display_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Gender -->
-                    <div>
-                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.gender') }}</label>
-                        <x-autocomplete-select
-                            name="gender"
-                            label=""
-                            placeholder="{{ __('front.profiles.form.selectgender') }}"
-                            :searchable="false"
-                            :value="$gender"
-                            :options="$genders"
-                            wire-click="toggleGenderDropdown"
-                            :dropdown-open="$genderDropdownOpen"
-                            select-method="selectGender"
-                            close-dropdown="genderDropdownOpen = false" />
-                        @error('gender') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Age -->
                     <div>
                         <label for="age" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.age') }}</label>
@@ -557,24 +540,7 @@
                     @error('display_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Gender -->
-                    <div>
-                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.gender') }}</label>
-                        <x-autocomplete-select
-                            name="gender"
-                            label=""
-                            placeholder="{{ __('front.profiles.form.selectgender') }}"
-                            :searchable="false"
-                            :value="$gender"
-                            :options="$genders"
-                            wire-click="toggleGenderDropdown"
-                            :dropdown-open="$genderDropdownOpen"
-                            select-method="selectGender"
-                            close-dropdown="genderDropdownOpen = false" />
-                        @error('gender') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Age -->
                     <div>
                         <label for="age" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.age') }}</label>

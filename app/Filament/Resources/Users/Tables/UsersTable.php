@@ -28,6 +28,20 @@ class UsersTable
                     ->searchable()
                     ->placeholder('No phone'),
 
+                TextColumn::make('gender')
+                    ->label(__('filament.attributes.gender'))
+                    ->badge()
+                    ->color(fn (?string $state): string => match ($state) {
+                        'male' => 'blue',
+                        'female' => 'pink',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'male' => __('filament.attributes.gender_male'),
+                        'female' => __('filament.attributes.gender_female'),
+                        default => '-',
+                    }),
+
                 IconColumn::make('email_verified_at')
                     ->label('Email Verified')
                     ->boolean()

@@ -61,6 +61,10 @@ class RegisterController extends Controller
             Auth::login($user);
             Log::info('User logged in', ['user_id' => $user->id]);
 
+            // Redirect based on gender
+            if ($user->isMale()) {
+                return redirect('/account/member');
+            }
             return redirect($this->redirectTo);
         } catch (\Exception $e) {
             Log::error('Registration failed', [
@@ -82,6 +86,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['nullable', 'string', 'max:20', 'unique:users'],
+            'gender' => ['required', 'in:male,female'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -95,6 +100,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
+            'gender' => $data['gender'],
             'password' => Hash::make($data['password']),
         ]);
 

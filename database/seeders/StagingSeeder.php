@@ -54,21 +54,23 @@ class StagingSeeder extends Seeder
     }
     
     /**
-     * Create regular users with profiles
+     * Create regular users with profiles (female) and member users (male)
      */
     private function createUsersWithProfiles(int $count): void
     {
-        $this->command->info("Creating {$count} users with profiles...");
+        $this->command->info("Creating {$count} female users with profiles...");
         $progressBar = $this->command->getOutput()->createProgressBar($count);
         
         $services = Service::where('is_active', true)->pluck('id')->toArray();
         
         for ($i = 0; $i < $count; $i++) {
-            // Create user
-            $user = User::factory()->create();
+            // Create female user (profile owners)
+            $user = User::factory()->create([
+                'gender' => 'female',
+            ]);
             $user->assignRole('user');
             
-            // Create profile for user
+            // Create profile for female user
             $profile = Profile::factory()
                 ->for($user)
                 ->create();
@@ -97,7 +99,20 @@ class StagingSeeder extends Seeder
         
         $progressBar->finish();
         $this->command->newLine();
-        $this->command->info("✓ Created {$count} users with profiles");
+        $this->command->info("✓ Created {$count} female users with profiles");
+        
+        // Create some male member users (no profiles)
+        $maleCount = intval($count / 2);
+        $this->command->info("Creating {$maleCount} male member users...");
+        
+        for ($i = 0; $i < $maleCount; $i++) {
+            $maleUser = User::factory()->create([
+                'gender' => 'male',
+            ]);
+            $maleUser->assignRole('user');
+        }
+        
+        $this->command->info("✓ Created {$maleCount} male member users");
     }
     
     /**

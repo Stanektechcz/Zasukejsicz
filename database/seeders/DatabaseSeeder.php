@@ -61,19 +61,21 @@ class DatabaseSeeder extends Seeder
         ], [
             'name' => 'Admin User',
             'password' => Hash::make('admin123'),
+            'gender' => 'male',
             'email_verified_at' => now(),
         ]);
         $admin->syncRoles(['super_admin', 'admin']);
 
 
 
-        // Create a woman user with profile
+        // Create a woman user with profile (female users can have profiles)
         $woman = User::firstOrCreate([
             'email' => 'woman@example.com'
         ], [
             'name' => 'Jane Doe',
             'password' => Hash::make('password'),
             'phone' => '+1234567890',
+            'gender' => 'female',
             'email_verified_at' => now(),
         ]);
         $woman->syncRoles(['user']);
@@ -81,7 +83,6 @@ class DatabaseSeeder extends Seeder
         if (!$woman->profile) {
             Profile::create([
                 'user_id' => $woman->id,
-                'gender' => 'female',
                 'display_name' => 'Jane Professional Massage',
                 'age' => 28,
                 'city' => 'New York',
@@ -101,39 +102,19 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Create a man user with profile
+        // Create a man user (male users cannot have profiles, they are members)
         $man = User::firstOrCreate([
             'email' => 'user@example.com'
         ], [
             'name' => 'John Smith',
             'password' => Hash::make('password'),
             'phone' => '+0987654321',
+            'gender' => 'male',
             'email_verified_at' => now(),
         ]);
         $man->syncRoles(['user']);
 
-        if (!$man->profile) {
-            Profile::create([
-                'user_id' => $man->id,
-                'gender' => 'male',
-                'display_name' => 'John Professional Massage',
-                'age' => 35,
-                'city' => 'Chicago',
-                'address' => '456 Health Avenue',
-                'about' => 'Experienced male massage therapist specializing in sports and deep tissue massage.',
-                'availability_hours' => [
-                    'Tuesday' => '10:00-18:00',
-                    'Thursday' => '10:00-18:00',
-                    'Saturday' => '9:00-15:00',
-                ],
-                'status' => 'approved',
-                'is_public' => true,
-                'verified_at' => now(),
-                'country_code' => 'us',
-            ]);
-        }
-
-        // Create 5 demo users with profiles
+        // Create demo users - females with profiles, males as members
         $cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'];
         $profileData = [
             ['name' => 'Sarah Johnson', 'gender' => 'female'],
@@ -150,15 +131,16 @@ class DatabaseSeeder extends Seeder
             ], [
                 'name' => $data['name'],
                 'password' => Hash::make('password'),
+                'gender' => $data['gender'],
                 'email_verified_at' => now(),
             ]);
             $demoUser->syncRoles(['user']);
 
-            if (!$demoUser->profile) {
+            // Only female users can have profiles
+            if ($data['gender'] === 'female' && !$demoUser->profile) {
                 $city = $cities[array_rand($cities)];
                 Profile::create([
                     'user_id' => $demoUser->id,
-                    'gender' => $data['gender'],
                     'display_name' => $data['name'] . ' Massage Therapy',
                     'age' => rand(23, 45),
                     'city' => $city,
@@ -177,6 +159,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Czech demo users - females with profiles, males as members
         $czechCities = ['Prague', 'Brno', 'Ostrava', 'Plzen', 'Liberec'];
         $czechProfileData = [
             ['name' => 'Petra Nováková', 'gender' => 'female'],
@@ -193,15 +176,16 @@ class DatabaseSeeder extends Seeder
             ], [
                 'name' => $data['name'],
                 'password' => Hash::make('password'),
+                'gender' => $data['gender'],
                 'email_verified_at' => now(),
             ]);
             $demoUser->syncRoles(['user']);
 
-            if (!$demoUser->profile) {
+            // Only female users can have profiles
+            if ($data['gender'] === 'female' && !$demoUser->profile) {
                 $city = $czechCities[array_rand($czechCities)];
                 Profile::create([
                     'user_id' => $demoUser->id,
-                    'gender' => $data['gender'],
                     'display_name' => $data['name'] . ' Masáže',
                     'age' => rand(23, 45),
                     'city' => $city,
@@ -267,13 +251,14 @@ class DatabaseSeeder extends Seeder
                     'rating' => 5,
                 ]);
 
-                // Create a couple test users to rate profiles
+                // Create a couple test users (male members) to rate profiles
                 for ($i = 1; $i <= 3; $i++) {
                     $testUser = User::firstOrCreate([
                         'email' => "user{$i}@example.com"
                     ], [
                         'name' => "Test User {$i}",
                         'password' => Hash::make('password'),
+                        'gender' => 'male',
                         'email_verified_at' => now(),
                     ]);
                     $testUser->assignRole('user');

@@ -240,7 +240,6 @@ class ProfileList extends Component
             'id',
             'user_id',
             'display_name',
-            'gender',
             'age', 
             'city',
             'about',

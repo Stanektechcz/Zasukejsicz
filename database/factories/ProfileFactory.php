@@ -19,8 +19,7 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
-        $gender = fake()->randomElement(['male', 'female']);
-        $firstName = fake()->firstName($gender === 'female' ? 'female' : 'male');
+        $firstName = fake()->firstName('female');
         $lastName = fake()->lastName();
         
         // Generate realistic cities from Czech Republic and nearby regions
@@ -64,7 +63,6 @@ class ProfileFactory extends Factory
         $content = $this->generateBlockContent();
 
         return [
-            'gender' => $gender,
             'display_name' => [
                 'en' => $firstName . ' ' . $lastName,
                 'cs' => $firstName . ' ' . $lastName,

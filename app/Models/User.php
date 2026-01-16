@@ -23,8 +23,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'phone',
+        'gender',
         'password',
     ];
+
+    /**
+     * Check if the user is female.
+     */
+    public function isFemale(): bool
+    {
+        return $this->gender === 'female';
+    }
+
+    /**
+     * Check if the user is male.
+     */
+    public function isMale(): bool
+    {
+        return $this->gender === 'male';
+    }
 
     /**
      * The attributes that should be hidden for serialization.

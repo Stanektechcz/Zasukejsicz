@@ -130,7 +130,6 @@ class ProfileController extends Controller
             'id',
             'user_id',
             'display_name',
-            'gender',
             'age', 
             'city',
             'about',
@@ -156,7 +155,6 @@ class ProfileController extends Controller
             'display_name' => $profile->getTranslation('display_name', $currentLocale) 
                 ?: $profile->getTranslation('display_name', 'en')
                 ?: __('Anonymous Therapist'),
-            'gender' => $profile->gender,
             'age' => $profile->age,
             'city' => $profile->city,
             'about' => $profile->getTranslation('about', $currentLocale) 

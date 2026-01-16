@@ -124,12 +124,18 @@ Route::middleware('auth')->prefix('messages')->name('messages.')->group(function
     Route::post('/{user}', [App\Http\Controllers\MessageController::class, 'store'])->name('store');
 });
 
-// Account Routes (authenticated users only)
-Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
-    // Dashboard
-    Route::get('/', [AccountController::class, 'index'])->name('dashboard');
+// Account Routes (authenticated users only - female users for profile management)
+Route::middleware(['auth'])->prefix('account')->name('account.')->group(function () {
+    // Dashboard - redirects based on gender
+    Route::get('/', function () {
+        $user = auth()->user();
+        if ($user->isMale() && !$user->hasRole('admin')) {
+            return redirect()->route('account.member.dashboard');
+        }
+        return app(AccountController::class)->index();
+    })->name('dashboard');
     
-    // Profile Management
+    // Profile Management (female users only)
     Route::get('/profile', [AccountController::class, 'edit'])->name('edit');
     Route::patch('/profile', [AccountController::class, 'update'])->name('update');
     
@@ -137,7 +143,7 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
     Route::get('/password', [AccountController::class, 'showPasswordForm'])->name('password.edit');
     Route::patch('/password', [AccountController::class, 'updatePassword'])->name('password.update');
     
-    // Additional Account Sections
+    // Additional Account Sections (female users only)
     Route::get('/photos', [AccountController::class, 'showPhotos'])->name('photos');
     Route::get('/services', [AccountController::class, 'showServices'])->name('services');
     Route::get('/statistics', [AccountController::class, 'showStatistics'])->name('statistics');
@@ -145,6 +151,24 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
     
     // Delete Account
     Route::delete('/profile', [AccountController::class, 'destroy'])->name('destroy');
+});
+
+// Member Routes (authenticated male users)
+Route::middleware(['auth'])->prefix('account/member')->name('account.member.')->group(function () {
+    // Dashboard / User Settings
+    Route::get('/', [\App\Http\Controllers\Auth\MemberController::class, 'dashboard'])->name('dashboard');
+    Route::patch('/settings', [\App\Http\Controllers\Auth\MemberController::class, 'updateSettings'])->name('settings.update');
+    
+    // Password Management
+    Route::get('/password', [\App\Http\Controllers\Auth\MemberController::class, 'showPasswordForm'])->name('password.edit');
+    Route::patch('/password', [\App\Http\Controllers\Auth\MemberController::class, 'updatePassword'])->name('password.update');
+    
+    // Member Features (to be implemented)
+    Route::get('/ratings', [\App\Http\Controllers\Auth\MemberController::class, 'ratings'])->name('ratings');
+    Route::get('/favorites', [\App\Http\Controllers\Auth\MemberController::class, 'favorites'])->name('favorites');
+    Route::get('/girls-of-month', [\App\Http\Controllers\Auth\MemberController::class, 'girlsOfMonth'])->name('girls-of-month');
+    Route::get('/archive', [\App\Http\Controllers\Auth\MemberController::class, 'archive'])->name('archive');
+    Route::get('/reported', [\App\Http\Controllers\Auth\MemberController::class, 'reported'])->name('reported');
 });
 
 // Test route for component system
