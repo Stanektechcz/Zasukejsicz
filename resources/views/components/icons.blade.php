@@ -1,11 +1,11 @@
-@props(['name', 'class' => '', 'strokeWidth' => 1.5, 'fill' => false])
+@props(['name', 'class' => '', 'strokeWidth' => 1.5, 'fill' => false, 'block' => true])
 
 @php
     $iconPath = public_path("images/icons/{$name}.svg");
 @endphp
 
 @if (file_exists($iconPath))
-    <span {{ $attributes->merge(['class' => trim('inline-block ' . $class)]) }}>
+    <span {{ $attributes->merge(['class' => trim(($block == "false" ? 'inline' : 'inline-block') . ' ' . $class)]) }}>
         {!! preg_replace([
             '/\bstroke="[^"]*"/',
             '/\bwidth="[^"]*"/',

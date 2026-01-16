@@ -1,5 +1,5 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-transparent rounded-b-3xl transition-all duration-300 py-4" id="navbar" x-data>
-    <div class="container mx-auto px-4">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-transparent rounded-b-3xl transition-all duration-300 py-4 bg-white " id="navbar" x-data>
+    <div class="container mx-auto px-4 ">
         <div class="flex justify-between items-center h-12 ">
             <!-- Left Side: Logo + Navigation Links -->
             <div class="flex items-center space-x-12">
@@ -127,13 +127,13 @@
                     </div>
                 @else
                     <!-- Register Button - Desktop Only -->
-                    <div class="hidden md:inline">
+                    <div class="hidden lg:inline-block">
                         <button @click="$dispatch('show-register-modal')" class="btn-primary">
                             {{ __('front.nav.register') }}
                         </button>
                     </div>
                     <!-- Login Link - Desktop Only -->
-                    <div class="hidden md:inline">
+                    <div class="hidden lg:inline-block">
                          <button @click="$dispatch('show-login-modal')" class="btn-light" id="nav-login">
                              {{ __('front.nav.login') }}
                          </button>
@@ -141,7 +141,7 @@
                 @endauth
 
                 <!-- Language Switcher - Desktop Only -->
-                <div class="hidden md:inline">
+                <div class="hidden lg:inline">
                     <div class="language-dropdown " x-data="{ languageOpen: false }" @click.outside="languageOpen = false">
                         <button @click="languageOpen = !languageOpen" class="language-dropdown-toggle" id="nav-language">
                             @if(app()->getLocale() === 'cs')
@@ -167,21 +167,20 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button type="button" class="text-text-default hover:text-primary-600 focus:outline-none focus:text-primary-600" id="mobile-menu-button">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                <div class="lg:hidden" x-data="{ mobileMenuOpen: false }" @click.outside="mobileMenuOpen = false">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="flex items-center justify-center text-text-default hover:text-primary-600 focus:outline-none focus:text-primary-600" id="mobile-menu-button">
+                        <x-icons name="burger" x-show="!mobileMenuOpen" strokeWidth="2" class="h-2 w-6" block="false"/>
+                        <x-icons name="close" x-show="mobileMenuOpen" strokeWidth="2" class="h-6 w-6" />
                     </button>
+                </div>
                 </div>
             </div>
         </div>
 
         <!-- Mobile menu -->
         <div class="lg:hidden hidden" id="mobile-menu">
-            <div class="flex flex-wrap p-4 py-5 pt-6 space-y-2 bg-gray-100 rounded-2xl">
+            <div class="flex flex-wrap p-4 py-5 pt-6 space-y-2 bg-white rounded-2xl">
                 <a href="{{ route('profiles.index') }}" class="nav-link-mobile group">
                     {{ __('front.nav.home') }}
                     <span class="underline"></span>
