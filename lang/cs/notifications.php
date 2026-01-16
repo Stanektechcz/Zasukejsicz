@@ -40,6 +40,12 @@ return [
         'expiring_soon_message' => 'Vaše předplatné vyprší za :days dní. Zvažte obnovení.',
     ],
 
+    // Favorite notifications (for profile owners)
+    'favorite' => [
+        'added_title' => 'Nový oblíbenec',
+        'added_message' => 'Někdo přidal váš profil do oblíbených!',
+    ],
+
     // Admin notifications
     'admin' => [
         'new_profile_title' => 'Nový profil k schválení',

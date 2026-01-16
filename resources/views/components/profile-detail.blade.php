@@ -152,6 +152,13 @@
                             </button>
                         @endauth
 
+                        <!-- Favorite Button - Only for logged in male users -->
+                        @auth
+                            @if(Auth::user()->isMale())
+                                @livewire('favorite-button', ['profile' => $profile])
+                            @endif
+                        @endauth
+
                         <!-- Contact Info -->
                         @if($profile->contacts && count($profile->contacts) > 0)
                         <div class="flex flex-wrap items-center gap-3 pt-2">

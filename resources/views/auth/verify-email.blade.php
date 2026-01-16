@@ -7,6 +7,13 @@
 <div class="pt-28 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="p-10 rounded-3xl max-w-2xl w-full space-y-8 border-2 border-gray-200">
         <div class="text-center">
+            <!-- Logo -->
+            <a href="{{ route('profiles.index') }}" class="inline-block mb-6">
+                <span class="text-2xl xl:text-3xl font-extrabold">
+                    <span class="text-secondary-500">ZAŠUKEJ</span><span class="text-primary-500">SI</span><span class="text-dark-gray">.CZ</span>
+                </span>
+            </a>
+            
             <h2 class="text-3xl font-extrabold text-text-default">
                 {{ __('front.auth.verify_email_title') }}
             </h2>
@@ -38,7 +45,7 @@
             <div class="space-y-6">
                 <form method="POST" action="{{ route('verification.send') }}">
                     @csrf
-                    <button type="submit" class="btn-primary w-full justify-center">
+                    <button type="submit" class="btn-primary w-full justify-center text-white">
                         {{ __('front.auth.resend_verification') }}
                     </button>
                 </form>

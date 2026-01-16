@@ -40,6 +40,12 @@ return [
         'expiring_soon_message' => 'Your subscription will expire in :days days. Consider renewing.',
     ],
 
+    // Favorite notifications (for profile owners)
+    'favorite' => [
+        'added_title' => 'New Favorite',
+        'added_message' => 'Someone added your profile to their favorites!',
+    ],
+
     // Admin notifications
     'admin' => [
         'new_profile_title' => 'New Profile Submission',

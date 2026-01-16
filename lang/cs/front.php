@@ -114,6 +114,7 @@ return [
         'password' => [
             'title' => 'Změna hesla',
             'update' => 'Aktualizace hesla',
+            'updated' => 'Vaše heslo bylo úspěšně aktualizováno!',
             'description' => 'Ujistěte se, že váš účet používá bezpečné heslo pro zajištění ochrany.',
             'current' => 'Aktuální heslo',
             'new' => 'Nové heslo',
@@ -159,7 +160,9 @@ return [
             'email_verification_text' => 'Před pokračováním prosím zkontrolujte svůj e-mail pro ověřovací odkaz. Pokud jste e-mail neobdrželi, můžete požádat o nový níže.',
             'resend_verification' => 'Znovu odeslat ověřovací e-mail',
             'want_different_account' => 'Chcete použít jiný účet?',
-            'log_out' => 'Odhlásit se'
+            'log_out' => 'Odhlásit se',
+            'email_verified_success' => 'Váš e-mail byl úspěšně ověřen! Nyní se můžete přihlásit ke svému účtu.',
+            'email_already_verified' => 'Váš e-mail je již ověřen. Můžete se přihlásit ke svému účtu.',
         ],
         'register' => [
             'title' => 'Registrace',
@@ -340,5 +343,19 @@ return [
             'success' => 'Děkujeme za hodnocení!',
             'error' => 'Při ukládání hodnocení došlo k chybě'
         ]
-    ]
+    ],
+
+    'favorites' => [
+        'add' => 'Přidat do oblíbených',
+        'remove' => 'Odebrat z oblíbených',
+        'in_favorites' => 'V oblíbených',
+        'added' => 'Profil byl přidán do oblíbených!',
+        'removed' => 'Profil byl odebrán z oblíbených.',
+        'login_required' => 'Pro přidání do oblíbených se musíte přihlásit.',
+        'members_only' => 'Pouze členové mohou přidávat do oblíbených.',
+        'error' => 'Došlo k chybě. Zkuste to prosím znovu.',
+        'no_favorites' => 'Zatím žádné oblíbené',
+        'no_favorites_description' => 'Ještě jste nepřidali žádné profily do oblíbených. Procházejte profily a klikněte na ikonu srdce pro jejich přidání.',
+        'browse_profiles' => 'Procházet profily',
+    ],
 ];

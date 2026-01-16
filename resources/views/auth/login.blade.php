@@ -7,6 +7,13 @@
 <div class="pt-28 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="p-10 rounded-3xl max-w-2xl w-full space-y-8 border-2 border-gray-200">
         <div class="text-center">
+            <!-- Logo -->
+            <a href="{{ route('profiles.index') }}" class="inline-block mb-6">
+                <span class="text-2xl xl:text-3xl font-extrabold">
+                    <span class="text-secondary-500">ZAŠUKEJ</span><span class="text-primary-500">SI</span><span class="text-dark-gray">.CZ</span>
+                </span>
+            </a>
+            
             <h2 class="text-3xl font-extrabold text-text-default">
                 {{ __('front.auth.login.signin') }}
             </h2>
@@ -14,6 +21,26 @@
                 {{ __('front.auth.login.welcome') }}
             </p>
         </div>
+
+        {{-- Success/Status Messages --}}
+        @if (session('status'))
+            <div class="rounded-lg p-4 {{ session('status') === 'email-verified' || session('status') === 'email-already-verified' ? 'bg-green-50 border border-green-200' : 'bg-blue-50 border border-blue-200' }}">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 {{ session('status') === 'email-verified' || session('status') === 'email-already-verified' ? 'text-green-600' : 'text-blue-600' }} mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="{{ session('status') === 'email-verified' || session('status') === 'email-already-verified' ? 'text-green-800' : 'text-blue-800' }} font-medium">
+                        @if (session('status') === 'email-verified')
+                            {{ __('front.auth.email_verified_success') }}
+                        @elseif (session('status') === 'email-already-verified')
+                            {{ __('front.auth.email_already_verified') }}
+                        @else
+                            {{ session('status') }}
+                        @endif
+                    </p>
+                </div>
+            </div>
+        @endif
 
         <div class="p-8">
             <form class="space-y-6" action="{{ route('login') }}" method="POST">

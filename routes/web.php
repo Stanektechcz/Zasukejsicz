@@ -83,30 +83,31 @@ Route::middleware('auth')->group(function () {
         return view('auth.verify-email');
     })->name('verification.notice');
 
-    Route::get('/email/verify/{id}/{hash}', function (Request $request) {
-        $user = User::findOrFail($request->id);
-        
-        if (! hash_equals((string) $request->hash, sha1($user->getEmailForVerification()))) {
-            abort(403, 'Invalid verification link.');
-        }
-
-        if ($user->hasVerifiedEmail()) {
-            return redirect()->route('account.dashboard')->with('status', 'email-already-verified');
-        }
-
-        if ($user->markEmailAsVerified()) {
-            event(new \Illuminate\Auth\Events\Verified($user));
-        }
-
-        return redirect()->route('account.dashboard')->with('status', 'email-verified');
-    })->middleware('signed')->name('verification.verify');
-
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
 
         return back()->with('status', 'verification-link-sent');
     })->middleware('throttle:6,1')->name('verification.send');
 });
+
+// Email verification link - works without being logged in
+Route::get('/email/verify/{id}/{hash}', function (Request $request) {
+    $user = User::findOrFail($request->id);
+    
+    if (! hash_equals((string) $request->hash, sha1($user->getEmailForVerification()))) {
+        abort(403, 'Invalid verification link.');
+    }
+
+    if ($user->hasVerifiedEmail()) {
+        return redirect()->route('login')->with('status', 'email-already-verified');
+    }
+
+    if ($user->markEmailAsVerified()) {
+        event(new \Illuminate\Auth\Events\Verified($user));
+    }
+
+    return redirect()->route('login')->with('status', 'email-verified');
+})->middleware('signed')->name('verification.verify');
 
 // Logout Route (authenticated users only)
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
@@ -166,6 +167,7 @@ Route::middleware(['auth'])->prefix('account/member')->name('account.member.')->
     // Member Features (to be implemented)
     Route::get('/ratings', [\App\Http\Controllers\Auth\MemberController::class, 'ratings'])->name('ratings');
     Route::get('/favorites', [\App\Http\Controllers\Auth\MemberController::class, 'favorites'])->name('favorites');
+    Route::delete('/favorites/{profile}', [\App\Http\Controllers\Auth\MemberController::class, 'removeFavorite'])->name('favorites.remove');
     Route::get('/girls-of-month', [\App\Http\Controllers\Auth\MemberController::class, 'girlsOfMonth'])->name('girls-of-month');
     Route::get('/archive', [\App\Http\Controllers\Auth\MemberController::class, 'archive'])->name('archive');
     Route::get('/reported', [\App\Http\Controllers\Auth\MemberController::class, 'reported'])->name('reported');

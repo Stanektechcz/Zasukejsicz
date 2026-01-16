@@ -187,24 +187,24 @@
             <!-- Step 3: Success Message -->
             <div class="text-center">
                 <!-- Success Icon -->
-                <div class="flex justify-center mb-4 sm:mb-6">
-                    <div class="bg-green-100 rounded-full p-3 sm:p-4">
-                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                <div class="flex justify-center mb-3 sm:mb-4">
+                    <div class="bg-green-100 rounded-full p-2 sm:p-3">
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
                 </div>
 
                 <!-- Success Message -->
                 <div class="modal-header">
-                    <h1 class="modal-title">{{ __('auth.register.success.title') }}</h1>
-                    <p class="modal-subtitle text-gray-600">
+                    <h1 class="modal-title text-lg sm:text-xl">{{ __('auth.register.success.title') }}</h1>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-1">
                         {{ __('auth.register.success.message', ['email' => $this->maskedEmail]) }}
                     </p>
                 </div>
 
                 <!-- Action Button -->
-                <div class="mt-6">
+                <div class="mt-4 sm:mt-5">
                     <button @click="closing = true; show = false"
                         class="modal-btn-primary">
                         {{ __('auth.register.success.close_button') }}

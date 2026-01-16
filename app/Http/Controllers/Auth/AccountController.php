@@ -82,7 +82,7 @@ class AccountController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('account.password.edit')->with('status', 'password-updated');
+        return redirect()->route('account.dashboard')->with('status', 'password-updated');
     }
 
     /**

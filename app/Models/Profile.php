@@ -77,6 +77,15 @@ class Profile extends Model implements HasMedia
     }
 
     /**
+     * Get the users who have favorited this profile.
+     */
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'profile_favorites')
+            ->withTimestamps();
+    }
+
+    /**
      * Get the services associated with this profile.
      */
     public function services()

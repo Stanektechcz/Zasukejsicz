@@ -101,6 +101,7 @@ return [
         'password' => [
             'title' => 'Change Password',
             'update' => 'Update Password',
+            'updated' => 'Your password has been updated successfully!',
             'description' => 'Ensure your account is using a secure password to stay protected.',
             'current' => 'Current Password',
             'new' => 'New Password',
@@ -145,7 +146,9 @@ return [
             'email_verification_text' => 'Before proceeding, please check your email for a verification link. If you didn\'t receive the email, you can request another one below.',
             'resend_verification' => 'Resend Verification Email',
             'want_different_account' => 'Want to use a different account?',
-            'log_out' => 'Log out'
+            'log_out' => 'Log out',
+            'email_verified_success' => 'Your email has been successfully verified! You can now log in to your account.',
+            'email_already_verified' => 'Your email is already verified. You can log in to your account.',
         ],
         'register' => [
             'title' => 'Register',
@@ -326,5 +329,19 @@ return [
             'success' => 'Thank you for rating!',
             'error' => 'An error occurred while saving your rating'
         ]
-    ]
+    ],
+
+    'favorites' => [
+        'add' => 'Add to Favorites',
+        'remove' => 'Remove from Favorites',
+        'in_favorites' => 'In Favorites',
+        'added' => 'Profile added to favorites!',
+        'removed' => 'Profile removed from favorites.',
+        'login_required' => 'You must be logged in to add favorites.',
+        'members_only' => 'Only members can add favorites.',
+        'error' => 'An error occurred. Please try again.',
+        'no_favorites' => 'No Favorites Yet',
+        'no_favorites_description' => 'You haven\'t added any profiles to your favorites yet. Browse profiles and click the heart icon to add them here.',
+        'browse_profiles' => 'Browse Profiles',
+    ],
 ];

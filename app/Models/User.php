@@ -99,6 +99,37 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get profiles this user has favorited.
+     */
+    public function favoriteProfiles()
+    {
+        return $this->belongsToMany(Profile::class, 'profile_favorites')
+            ->withTimestamps();
+    }
+
+    /**
+     * Check if the user has favorited a profile.
+     */
+    public function hasFavorited(Profile $profile): bool
+    {
+        return $this->favoriteProfiles()->where('profile_id', $profile->id)->exists();
+    }
+
+    /**
+     * Toggle favorite status for a profile.
+     */
+    public function toggleFavorite(Profile $profile): bool
+    {
+        if ($this->hasFavorited($profile)) {
+            $this->favoriteProfiles()->detach($profile->id);
+            return false;
+        }
+
+        $this->favoriteProfiles()->attach($profile->id);
+        return true;
+    }
+
+    /**
      * Determine if the user can access the Filament admin panel.
      * Only users with the 'admin' role can access the panel.
      */

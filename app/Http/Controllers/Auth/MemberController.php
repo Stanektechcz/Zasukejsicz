@@ -42,13 +42,30 @@ class MemberController extends Controller
 
     /**
      * Show the favorites page.
-     * TODO: Implement favorites functionality for male users.
      */
     public function favorites()
     {
         $user = Auth::user();
+        $favorites = $user->favoriteProfiles()
+            ->approved()
+            ->public()
+            ->with(['media'])
+            ->latest('profile_favorites.created_at')
+            ->paginate(12);
         
-        return view('member.favorites', compact('user'));
+        return view('member.favorites', compact('user', 'favorites'));
+    }
+
+    /**
+     * Remove a profile from favorites.
+     */
+    public function removeFavorite(\App\Models\Profile $profile)
+    {
+        $user = Auth::user();
+        $user->favoriteProfiles()->detach($profile->id);
+        
+        return redirect()->route('account.member.favorites')
+            ->with('status', __('front.favorites.removed'));
     }
 
     /**
@@ -130,6 +147,6 @@ class MemberController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('account.member.password.edit')->with('status', 'password-updated');
+        return redirect()->route('account.member.dashboard')->with('status', 'password-updated');
     }
 }
