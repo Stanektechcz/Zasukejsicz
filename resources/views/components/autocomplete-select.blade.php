@@ -1,4 +1,30 @@
-<div x-data="{ open: false }" 
+@php
+    $selectMethod = $attributes->get('select-method');
+    $optionsJson = json_encode($options);
+@endphp
+<div x-data="{ 
+        open: false,
+        selectedValue: @js($value),
+        selectedLabel: @js($value && isset($options[$value]) ? $options[$value] : ($value ?: '')),
+        options: {{ $optionsJson }},
+        isSearchable: {{ $searchable ? 'true' : 'false' }},
+        selectOption(value, label) {
+            this.selectedValue = value;
+            this.selectedLabel = label;
+            this.open = false;
+            
+            // For searchable inputs, also update the input element directly
+            if (this.isSearchable) {
+                const input = this.$refs.searchInput;
+                if (input) {
+                    input.value = label;
+                }
+            }
+            
+            // Sync with backend without blocking UI
+            $wire.{{ $selectMethod }}(value);
+        }
+     }" 
      x-on:click.outside="open = false"
      class="relative">
     <label for="{{ $name }}">{{ $label }}</label>
@@ -8,6 +34,7 @@
             <input
                 type="text"
                 id="{{ $name }}"
+                x-ref="searchInput"
                 wire:model.live.debounce.300ms="{{ $wireModel }}"
                 @click="open = true"
                 @focus="open = true"
@@ -21,7 +48,7 @@
                 type="text"
                 id="{{ $name }}"
                 @click="open = !open"
-                value="@if($value && isset($options[$value])){{ $options[$value] }}@else{{ $value ?: $placeholder }}@endif"
+                x-bind:value="selectedLabel || '{{ $placeholder }}'"
                 placeholder="{{ $placeholder }}"
                 readonly
                 class="input-control !pr-12 cursor-pointer">
@@ -51,7 +78,7 @@
              class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
             @foreach($options as $optionValue => $optionLabel)
                 <div 
-                    @click="open = false; $wire.call('{{ $attributes->get('select-method') }}', '{{ $optionValue }}')"
+                    @click="selectOption('{{ $optionValue }}', '{{ addslashes($optionLabel) }}')"
                     class="px-4 py-2 hover:bg-primary-50 cursor-pointer text-text-default hover:text-primary-600 transition-colors">
                     {{ $optionLabel }}
                 </div>
