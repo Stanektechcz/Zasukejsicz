@@ -163,7 +163,7 @@ class ProfileFactory extends Factory
         // Add some random blocks
         if (fake()->boolean(60)) {
             $blocks[] = [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => fake()->paragraphs(2, true),
                 ],
@@ -172,7 +172,7 @@ class ProfileFactory extends Factory
         
         if (fake()->boolean(40)) {
             $blocks[] = [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => fake()->sentence(3),
                     'level' => 'h2',
@@ -182,14 +182,13 @@ class ProfileFactory extends Factory
         
         if (fake()->boolean(50)) {
             $blocks[] = [
-                'type' => 'list',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
-                    'items' => [
+                    'content' => '• ' . implode("\n• ", [
                         fake()->sentence(),
                         fake()->sentence(),
                         fake()->sentence(),
-                    ],
-                    'style' => fake()->randomElement(['bullet', 'number']),
+                    ]),
                 ],
             ];
         }

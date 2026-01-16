@@ -491,14 +491,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Nové funkce' : 'New Features',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Rádi vám představujeme nové funkce, které jsme přidali na základě vašich požadavků a zpětné vazby.'
@@ -506,21 +506,47 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'card',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Card',
                 'data' => [
-                    'title' => $locale === 'cs' ? 'Vylepšené vyhledávání' : 'Improved Search',
-                    'content' => $locale === 'cs'
-                        ? 'Nový vyhledávací systém s pokročilými filtry vám umožní najít přesně to, co hledáte.'
-                        : 'New search system with advanced filters allows you to find exactly what you\'re looking for.',
+                    'content' => [
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
+                            'data' => [
+                                'content' => $locale === 'cs' ? 'Vylepšené vyhledávání' : 'Improved Search',
+                                'level' => 'h3',
+                            ],
+                        ],
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
+                            'data' => [
+                                'content' => $locale === 'cs'
+                                    ? 'Nový vyhledávací systém s pokročilými filtry vám umožní najít přesně to, co hledáte.'
+                                    : 'New search system with advanced filters allows you to find exactly what you\'re looking for.',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             [
-                'type' => 'card',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Card',
                 'data' => [
-                    'title' => $locale === 'cs' ? 'Rychlejší načítání' : 'Faster Loading',
-                    'content' => $locale === 'cs'
-                        ? 'Optimalizovali jsme výkon celé platformy pro rychlejší a plynulejší zážitek.'
-                        : 'We\'ve optimized the performance of the entire platform for a faster and smoother experience.',
+                    'content' => [
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
+                            'data' => [
+                                'content' => $locale === 'cs' ? 'Rychlejší načítání' : 'Faster Loading',
+                                'level' => 'h3',
+                            ],
+                        ],
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
+                            'data' => [
+                                'content' => $locale === 'cs'
+                                    ? 'Optimalizovali jsme výkon celé platformy pro rychlejší a plynulejší zážitek.'
+                                    : 'We\'ve optimized the performance of the entire platform for a faster and smoother experience.',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -533,14 +559,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Proces ověření' : 'Verification Process',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Ověření profilu je důležitým krokem k budování důvěry v naší komunitě. Ověřené profily získávají více pozornosti a důvěry od klientů.'
@@ -548,7 +574,7 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'faq',
+                'type' => 'App\\Filament\\Blocks\\Faq',
                 'data' => [
                     'heading' => $locale === 'cs' ? 'Kroky ověření' : 'Verification Steps',
                     'items' => $locale === 'cs' ? [
@@ -572,14 +598,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'O nás' : 'About Us',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Jsme tým nadšenců, kteří věří v sílu technologií ke zlepšení života lidí. Naše platforma byla vytvořena s jedním cílem – poskytnout bezpečné a profesionální prostředí pro naši komunitu.'
@@ -587,14 +613,14 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Naše mise' : 'Our Mission',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.'
@@ -611,14 +637,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Obchodní podmínky' : 'Terms of Service',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Tyto obchodní podmínky upravují pravidla používání naší platformy. Používáním našich služeb souhlasíte s těmito podmínkami.'
@@ -626,27 +652,27 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? '1. Obecná ustanovení' : '1. General Provisions',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? '2. Registrace a účet' : '2. Registration and Account',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                 ],
@@ -661,14 +687,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Zásady ochrany osobních údajů' : 'Privacy Policy',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Ochrana vašich osobních údajů je pro nás velmi důležitá. Tyto zásady vysvětlují, jak shromažďujeme, používáme a chráníme vaše údaje.'
@@ -676,7 +702,7 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'faq',
+                'type' => 'App\\Filament\\Blocks\\Faq',
                 'data' => [
                     'heading' => $locale === 'cs' ? 'Klíčové informace' : 'Key Information',
                     'items' => $locale === 'cs' ? [
@@ -700,14 +726,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Kontaktujte nás' : 'Contact Us',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Máte otázky nebo potřebujete pomoc? Neváhejte nás kontaktovat. Jsme tu pro vás!'
@@ -715,21 +741,47 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'card',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Card',
                 'data' => [
-                    'title' => 'Email',
-                    'content' => 'info@example.com',
+                    'content' => [
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
+                            'data' => [
+                                'content' => 'Email',
+                                'level' => 'h3',
+                            ],
+                        ],
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
+                            'data' => [
+                                'content' => 'info@example.com',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             [
-                'type' => 'card',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Card',
                 'data' => [
-                    'title' => $locale === 'cs' ? 'Telefon' : 'Phone',
-                    'content' => '+420 123 456 789',
+                    'content' => [
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
+                            'data' => [
+                                'content' => $locale === 'cs' ? 'Telefon' : 'Phone',
+                                'level' => 'h3',
+                            ],
+                        ],
+                        [
+                            'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
+                            'data' => [
+                                'content' => '+420 123 456 789',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Pracovní doba podpory: Pondělí - Pátek, 9:00 - 18:00'
