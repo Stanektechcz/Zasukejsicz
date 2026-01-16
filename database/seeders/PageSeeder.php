@@ -313,14 +313,14 @@ class PageSeeder extends Seeder
         
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Často kladené otázky' : 'Frequently Asked Questions',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs' 
                         ? 'Zde najdete odpovědi na nejčastější otázky o naší platformě. Pokud nenajdete, co hledáte, neváhejte nás kontaktovat.'
@@ -328,14 +328,14 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'faq',
+                'type' => 'App\\Filament\\Blocks\\Faq',
                 'data' => [
                     'heading' => $locale === 'cs' ? 'Obecné otázky' : 'General Questions',
                     'items' => array_slice($faqs, 0, 4),
                 ],
             ],
             [
-                'type' => 'faq',
+                'type' => 'App\\Filament\\Blocks\\Faq',
                 'data' => [
                     'heading' => $locale === 'cs' ? 'Bezpečnost a soukromí' : 'Security & Privacy',
                     'items' => array_slice($faqs, 4),
@@ -351,14 +351,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Vítejte na naší platformě' : 'Welcome to Our Platform',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Jsme nadšeni, že vás můžeme přivítat na naší platformě. Vytvořili jsme prostor, kde se můžete prezentovat profesionálně a bezpečně. Naším cílem je poskytnout vám nejlepší možnou zkušenost.'
@@ -366,14 +366,14 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Co nabízíme' : 'What We Offer',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Naše platforma nabízí širokou škálu funkcí navržených tak, aby vám pomohly uspět. Od snadného vytvoření profilu po pokročilé nástroje pro správu vašeho času a služeb – máme vše, co potřebujete.'
@@ -381,7 +381,7 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -398,14 +398,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Jak vytvořit dokonalý profil' : 'How to Create the Perfect Profile',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Váš profil je vaší vizitkou. Je to první věc, kterou potenciální klienti uvidí, a proto je důležité udělat dobrý první dojem. Zde je několik tipů, jak vytvořit profil, který vynikne.'
@@ -413,14 +413,14 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Kvalitní fotografie' : 'Quality Photos',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Investujte do kvalitních fotografií. Dobré osvětlení, čisté pozadí a profesionální vzhled mohou udělat zázraky. Doporučujeme nahrát alespoň 3-5 různých fotografií.'
@@ -428,14 +428,14 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Popis profilu' : 'Profile Description',
                     'level' => 'h2',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Napište zajímavý a upřímný popis sebe sama. Zmíňte své silné stránky, zájmy a to, co vás odlišuje od ostatních. Buďte autentičtí – klienti to ocení.'
@@ -452,14 +452,14 @@ class PageSeeder extends Seeder
     {
         return [
             [
-                'type' => 'heading',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
                     'content' => $locale === 'cs' ? 'Bezpečnostní tipy' : 'Safety Tips',
                     'level' => 'h1',
                 ],
             ],
             [
-                'type' => 'paragraph',
+                'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => $locale === 'cs'
                         ? 'Vaše bezpečnost je naší nejvyšší prioritou. Zde jsou důležité tipy, které vám pomohou zůstat v bezpečí při používání naší platformy.'
@@ -467,7 +467,7 @@ class PageSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'faq',
+                'type' => 'App\\Filament\\Blocks\\Faq',
                 'data' => [
                     'heading' => $locale === 'cs' ? 'Základní bezpečnostní pravidla' : 'Basic Safety Rules',
                     'items' => $locale === 'cs' ? [

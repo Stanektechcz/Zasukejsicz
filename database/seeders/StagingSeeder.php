@@ -8,9 +8,6 @@ use App\Models\Service;
 use App\Models\Rating;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Models\Role;
 
 class StagingSeeder extends Seeder
 {
@@ -29,14 +26,8 @@ class StagingSeeder extends Seeder
     {
         $this->command->info('🌱 Starting staging data seeding...');
         
-        // Ensure roles exist
-        $this->ensureRolesExist();
-        
-        // Ensure services exist
-        $this->ensureServicesExist();
-        
-        // Create admin user if doesn't exist
-        $this->createAdminUser();
+        // Run DatabaseSeeder first (roles, permissions, basic data)
+        $this->call(DatabaseSeeder::class);
         
         // Get count from container or use default
         $count = app()->bound('staging.user.count') ? app('staging.user.count') : 20;
@@ -59,53 +50,6 @@ class StagingSeeder extends Seeder
             $this->call(PageSeeder::class);
         } else {
             $this->command->info('✓ Pages already exist, skipping');
-        }
-    }
-    
-    /**
-     * Ensure roles exist
-     */
-    private function ensureRolesExist(): void
-    {
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'user']);
-        
-        $this->command->info('✓ Roles verified');
-    }
-    
-    /**
-     * Ensure services exist
-     */
-    private function ensureServicesExist(): void
-    {
-        if (Service::count() === 0) {
-            $this->call(ServicesSeeder::class);
-        }
-        
-        $this->command->info('✓ Services verified');
-    }
-    
-    /**
-     * Create admin user
-     */
-    private function createAdminUser(): void
-    {
-        $adminEmail = 'admin@example.com';
-        
-        if (!User::where('email', $adminEmail)->exists()) {
-            $admin = User::create([
-                'name' => 'Admin User',
-                'email' => $adminEmail,
-                'phone' => '+420 123 456 789',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-            ]);
-            
-            $admin->assignRole('admin');
-            
-            $this->command->info("✓ Admin user created (email: {$adminEmail}, password: password)");
-        } else {
-            $this->command->info('✓ Admin user already exists');
         }
     }
     
@@ -137,7 +81,7 @@ class StagingSeeder extends Seeder
             }
             
             // Attach random services (3-10 services per profile)
-            $randomServices = fake()->randomElements($services, fake()->numberBetween(3, min(10, count($services))));
+            $randomServices = fake()->randomElements($services, fake()->numberBetween(3, min(10, \count($services))));
             $profile->services()->attach($randomServices);
             
             // Add profile images (2-6 images per profile)
