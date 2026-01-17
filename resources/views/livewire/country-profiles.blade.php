@@ -65,7 +65,7 @@
                     </div>
                     <!-- Clear Location Button -->
                     <button wire:click="clearLocation"
-                        class="flex-shrink-0 p-3 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                        class="flex-shrink-0 p-3 rounded-full bg-primary text-white hover:bg-primary-600 transition-all duration-200"
                         title="{{ __('front.profiles.list.clear_all_filters') }}">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
