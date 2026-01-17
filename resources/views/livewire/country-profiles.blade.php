@@ -52,27 +52,163 @@
         <div class="lg:col-span-3">
             <!-- Header -->
             <div class="mb-6">
-                @if($selectedCountry && $selectedCity)
-                    <h2 class="text-2xl font-bold text-gray-900">
-                        {{ __('front.countries.profiles_from') }} {{ $selectedCity }}, {{ __('codes.' . strtolower($selectedCountry->country_code)) }}
-                    </h2>
-                    <p class="text-gray-600 mt-1">
-                        {{ $profiles->total() }} {{ __('front.countries.profiles_found') }}
-                    </p>
-                @elseif($selectedCountry)
-                    <h2 class="text-2xl font-bold text-gray-900">
-                        {{ __('front.countries.profiles_from') }} {{ __('codes.' . strtolower($selectedCountry->country_code)) }}
-                    </h2>
-                    <p class="text-gray-600 mt-1">
-                        {{ $profiles->total() }} {{ __('front.countries.profiles_found') }}
-                    </p>
-                @else
-                    <h2 class="text-2xl font-bold text-gray-900">
-                        {{ __('front.countries.all_profiles') }}
-                    </h2>
-                    <p class="text-gray-600 mt-1">
-                        {{ $profiles->total() }} {{ __('front.countries.profiles_found') }}
-                    </p>
+                @if($selectedCountry || $selectedCity)
+                <div class="flex items-center gap-4 px-6 py-4 border-2 border-gray-200 rounded-xl min-h-[120px]">
+                    <x-icons name="location" class="w-12 h-full text-primary-500 flex-shrink-0" />
+                    <div class="flex flex-col justify-center flex-1">
+                        <h2 class="text-2xl font-bold text-primary-600 leading-tight">
+                            {{ $selectedCountry ? __('codes.' . strtolower($selectedCountry->country_code)) : __('front.countries.all_profiles') }}
+                        </h2>
+                        @if($selectedCity)
+                        <p class="text-lg text-secondary-600 leading-tight">{{ $selectedCity }}</p>
+                        @endif
+                    </div>
+                    <!-- Clear Location Button -->
+                    <button wire:click="clearLocation"
+                        class="flex-shrink-0 p-3 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                        title="{{ __('front.profiles.list.clear_all_filters') }}">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                @endif
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="mb-8">
+                <!-- Age Group Filters -->
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <!-- All Girls Filter -->
+                    <button wire:click="toggleAgeGroup('')"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === '' ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleAgeGroup">
+                        <span wire:target="toggleAgeGroup">
+                            <x-icons name="users" class="w-4 h-4 mr-2 {{ $ageGroup === '' ? 'text-primary' : 'text-gray-500' }}" />
+                        </span>
+                        All Girls
+                    </button>
+
+                    @foreach(['18-25' => '18-25 yo', '26-30' => '26-30 yo', '31-35' => '31-35 yo', '36-40' => '36-40 yo', '40-50' => '40-50 yo', '50+' => '50 yo +'] as $value => $label)
+                    <button wire:click="toggleAgeGroup('{{ $value }}')"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === $value ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleAgeGroup">
+                        <span wire:target="toggleAgeGroup">{{ $label }}</span>
+                    </button>
+                    @endforeach
+                </div>
+
+                <!-- Feature Filters -->
+                <div class="flex flex-wrap gap-3">
+                    <!-- Recommendation Filter -->
+                    <button wire:click="toggleRecommendation"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $sortRecommendation !== '' ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleRecommendation">
+                        @if($sortRecommendation === 'desc')
+                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                            </svg>
+                        @elseif($sortRecommendation === 'asc')
+                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        @else
+                            <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                        @endif
+                        Recommendation
+                    </button>
+
+                    <!-- Verified Photo Filter -->
+                    <button wire:click="toggleVerifiedPhoto"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVerifiedPhoto ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleVerifiedPhoto">
+                        <svg wire:target="toggleVerifiedPhoto" class="w-4 h-4 mr-2 {{ $hasVerifiedPhoto ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Verified photo
+                    </button>
+
+                    <!-- Video Filter -->
+                    <button wire:click="toggleVideo"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVideo ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleVideo">
+                        <svg wire:target="toggleVideo" class="w-4 h-4 mr-2 {{ $hasVideo ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Video
+                    </button>
+
+                    <!-- Porn Actress Filter -->
+                    <button wire:click="togglePornActress"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isPornActress ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="togglePornActress">
+                        <svg wire:target="togglePornActress" class="w-4 h-4 mr-2 {{ $isPornActress ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                        Porno actress
+                    </button>
+
+                    <!-- New Filter -->
+                    <button wire:click="toggleNew"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $sortNew !== '' ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleNew">
+                        @if($sortNew === 'desc')
+                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                            </svg>
+                        @elseif($sortNew === 'asc')
+                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        @else
+                            <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        @endif
+                        New
+                    </button>
+
+                    <!-- Rating Filter -->
+                    <button wire:click="toggleRating"
+                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasRating ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        wire:loading.attr="disabled"
+                        wire:target="toggleRating">
+                        <svg wire:target="toggleRating" class="w-4 h-4 mr-2 {{ $hasRating ? 'text-primary' : 'text-gray-500' }}" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                        </svg>
+                        Rating
+                    </button>
+
+                    <!-- Clear All Filters Button -->
+                    @if($this->activeFiltersCount() > 0)
+                    <button wire:click="resetFilters"
+                        wire:loading.attr="disabled"
+                        wire:target="resetFilters"
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium transition-all duration-200 border-2 border-red-200 text-red-600 bg-white hover:border-red-300 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        title="{{ __('front.profiles.list.clear_all_filters') }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    @endif
+                </div>
+
+                <!-- Active Filters Count -->
+                @if($this->activeFiltersCount() > 0)
+                <div class="mt-4">
+                    <span class="text-sm text-gray-600">
+                        {{ $this->activeFiltersCount() }} filter(s) active
+                    </span>
+                </div>
                 @endif
             </div>
 
@@ -80,7 +216,7 @@
             @if($profiles && $profiles->count() > 0)
                 <div class="space-y-6 relative">
                     <!-- Loading Overlay -->
-                    <div wire:loading wire:target="selectCountry" 
+                    <div wire:loading wire:target="selectCountry,selectCity,toggleAgeGroup,toggleRecommendation,toggleVerifiedPhoto,toggleVideo,togglePornActress,toggleNew,toggleRating,resetFilters" 
                         class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center">
                         <div class="flex flex-col items-center">
                             <svg class="animate-spin h-12 w-12 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -237,7 +373,7 @@
                     <h3 class="text-gray-500 mb-2">{{ __('front.profiles.list.nofound') }}</h3>
                     <p class="text-gray-600 mb-6">{{ __('front.profiles.list.tryadjusting') }}</p>
 
-                    <button wire:click="selectCountry()" class="btn btn-primary">
+                    <button wire:click="resetFilters" class="btn btn-primary">
                         {{ __('front.profiles.list.showall') }}
                     </button>
                 </div>

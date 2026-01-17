@@ -12,7 +12,10 @@ use Illuminate\Support\Str;
 Route::get('/', [ProfileController::class, 'index'])->name('profiles.index');
 Route::get('/profiles/{id}', [ProfileController::class, 'show'])->name('profiles.show');
 Route::get('/countries', function () {
-    return view('countries.index');
+    $girlsCount = \App\Models\User::where('gender', 'female')->count();
+    $gentsCount = \App\Models\User::where('gender', 'male')->count();
+    
+    return view('countries.index', compact('girlsCount', 'gentsCount'));
 })->name('countries.index');
 
 // API routes for AJAX/Alpine.js

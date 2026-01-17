@@ -9,20 +9,17 @@ class SearchProfiles extends Component
 {
     // Search filters
     public $city = '';
-    public $age_min = '';
-    public $age_max = '';
+    public $age_range = '';
 
     // UI state
     public $showCityDropdown = false;
-    public $showAgeMinDropdown = false;
-    public $showAgeMaxDropdown = false;
+    public $showAgeRangeDropdown = false;
     public $allCities = [];
 
     public function mount()
     {
         $this->city = request('city', '');
-        $this->age_min = request('age_min', '');
-        $this->age_max = request('age_max', '');
+        $this->age_range = request('age', '');
 
         $this->loadCities();
     }
@@ -61,30 +58,17 @@ class SearchProfiles extends Component
         $this->showCityDropdown = true;
     }
 
-    // Age Min methods
-    public function clearAndShowAgeMinDropdown()
+    // Age Range methods
+    public function clearAndShowAgeRangeDropdown()
     {
-        $this->age_min = '';
-        $this->showAgeMinDropdown = true;
+        $this->age_range = '';
+        $this->showAgeRangeDropdown = true;
     }
 
-    public function selectAgeMin($age)
+    public function selectAgeRange($ageRange)
     {
-        $this->age_min = $age;
-        $this->showAgeMinDropdown = false;
-    }
-
-    // Age Max methods
-    public function clearAndShowAgeMaxDropdown()
-    {
-        $this->age_max = '';
-        $this->showAgeMaxDropdown = true;
-    }
-
-    public function selectAgeMax($age)
-    {
-        $this->age_max = $age;
-        $this->showAgeMaxDropdown = false;
+        $this->age_range = $ageRange;
+        $this->showAgeRangeDropdown = false;
     }
 
     public function getFilteredCitiesProperty()
@@ -99,37 +83,34 @@ class SearchProfiles extends Component
             ->toArray();
     }
 
-    public function getAgeMinOptionsProperty()
+    public function getAgeRangeOptionsProperty()
     {
-        $options = [];
-        for ($age = 20; $age <= 60; $age += 5) {
-            $options[$age] = $age . ' ' . __('front.profiles.list.years');
-        }
-        return $options;
-    }
-
-    public function getAgeMaxOptionsProperty()
-    {
-        $options = [];
-        for ($age = 25; $age <= 65; $age += 5) {
-            $options[$age] = $age . ' ' . __('front.profiles.list.years');
-        }
-        return $options;
+        return [
+            '18-25' => '18-25 yo',
+            '26-30' => '26-30 yo',
+            '31-35' => '31-35 yo',
+            '36-40' => '36-40 yo',
+            '40-50' => '40-50 yo',
+            '50+' => '50 yo +',
+        ];
     }
 
     /**
-     * Execute search - emit event to update profile list
+     * Execute search - redirect to countries page with filters
      */
     public function search()
     {
-        $filters = array_filter([
-            'city' => $this->city,
-            'age_min' => $this->age_min,
-            'age_max' => $this->age_max,
-        ]);
+        $params = [];
+        
+        if ($this->city) {
+            $params['city'] = $this->city;
+        }
+        
+        if ($this->age_range) {
+            $params['age'] = $this->age_range;
+        }
 
-        // Emit event to profile list component
-        $this->dispatch('profile-search-updated', $filters);
+        return $this->redirect(route('countries.index', $params));
     }
 
     public function render()

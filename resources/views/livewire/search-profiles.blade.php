@@ -32,17 +32,17 @@
                         {{ __('front.profiles.search.agerange') }}
                     </label>
                     <div class="">
-                        <!-- Max Age -->
+                        <!-- Age Range -->
                         <x-autocomplete-select
-                            name="age_max"
+                            name="age_range"
                             label=""
-                            :options="$this->ageMaxOptions"
-                            :value="$age_max"
-                            placeholder="{{ __('front.profiles.search.maxage') }}"
-                            wire-click="clearAndShowAgeMaxDropdown"
-                            dropdown-open="{{ $showAgeMaxDropdown }}"
-                            close-dropdown="$wire.set('showAgeMaxDropdown', false)"
-                            select-method="selectAgeMax"
+                            :options="$this->ageRangeOptions"
+                            :value="$age_range"
+                            placeholder="{{ __('front.profiles.search.selectage') }}"
+                            wire-click="clearAndShowAgeRangeDropdown"
+                            dropdown-open="{{ $showAgeRangeDropdown }}"
+                            close-dropdown="$wire.set('showAgeRangeDropdown', false)"
+                            select-method="selectAgeRange"
                             :searchable="false" />
                     </div>
                 </div>

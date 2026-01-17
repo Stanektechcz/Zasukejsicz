@@ -119,6 +119,17 @@
   height: 1em;
 }
 
+.icon-place {
+  mask-image: url("/images/icons/place.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
 .icon-search {
   mask-image: url("/images/icons/search.svg");
   mask-repeat: no-repeat;

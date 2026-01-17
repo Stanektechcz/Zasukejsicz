@@ -5,7 +5,9 @@ return [
         'wearecommunity' => 'Jsme komunita lidí co rádi',
         'fucking' => 'šukají',
         'girlsregisternow' => 'Dívky registrujte se ještě dnes a získejte nové zákazníky',
-        'findprofiles' => 'Najít profily'
+        'findprofiles' => 'Najít profily',
+        'girls_registered' => 'registrovaných dívek',
+        'gents_registered' => 'registrovaných pánů',
     ],
     'nav' => [
         'home' => 'Úvod',

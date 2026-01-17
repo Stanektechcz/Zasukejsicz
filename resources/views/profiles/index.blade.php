@@ -4,8 +4,8 @@
 
 @section('content')
 <!-- Hero Section  max-w-[1331px] -->
-<div class="max-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
-    <div class="container mx-auto px-4 pt-24">
+<div class="min-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
+    <div class="container mx-auto px-4 pt-24 pb-8 flex flex-col min-h-[620px]">
         <div class="max-w-2xl pl-16 py-16">
             <h1 class="text-secondary leading-tight  text-4xl md:text-6xl py-5">
                 {{ __('front.landing.wearecommunity') }}
@@ -16,9 +16,12 @@
                 {{ __('front.landing.girlsregisternow') }}
             </p>
         </div>
-        <!-- Search Card -->
-        <livewire:search-profiles />
-
+        
+        <div class="mt-auto">
+            
+            <!-- Search Card -->
+            <livewire:search-profiles />
+        </div>
     </div>
 </div>
 

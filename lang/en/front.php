@@ -5,7 +5,9 @@ return [
         'wearecommunity' => 'We are community of people who like to',
         'fucking' => 'fuck',
         'girlsregisternow' => 'Girls register now and get new customers.',
-        'findprofiles' => 'Find profiles'
+        'findprofiles' => 'Find profiles',
+        'girls_registered' => 'girls registered',
+        'gents_registered' => 'gents registered',
     ],
     'nav' => [
         'home' => 'Home',

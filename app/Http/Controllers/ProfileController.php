@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -24,7 +25,11 @@ class ProfileController extends Controller
             ->take(4)
             ->get();
 
-        return view('profiles.index', compact('profiles', 'blogPosts'));
+        // Get user counts by gender
+        $girlsCount = User::where('gender', 'female')->count();
+        $gentsCount = User::where('gender', 'male')->count();
+
+        return view('profiles.index', compact('profiles', 'blogPosts', 'girlsCount', 'gentsCount'));
     }
 
     /**

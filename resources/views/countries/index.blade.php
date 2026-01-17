@@ -4,8 +4,8 @@
 
 @section('content')
 <!-- Hero Section -->
-<div class="max-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
-    <div class="container mx-auto px-4 pt-24">
+<div class="min-h-[620px] mx-auto rounded-b-3xl" style="background-image: url('/images/header.png'); background-size: cover; background-position: center;">
+    <div class="container mx-auto px-4 pt-24 pb-8 flex flex-col min-h-[620px]">
         <div class="max-w-2xl pl-16 py-16">
             <h1 class="text-secondary leading-tight text-4xl md:text-6xl py-5">
                 {{ __('front.countries.browse_by') }}
@@ -16,6 +16,23 @@
                 {{ __('front.countries.subtitle') }}
             </p>
         </div>
+        
+        <div class="mt-auto">
+        {{-- User count pills --}}
+        <div class="flex gap-3 mb-6 pl-16">
+            <div class="inline-flex items-center px-4 py-2 bg-white backdrop-blur-sm text-gray-700 rounded-full text-sm font-medium shadow-lg">
+                <span class="w-3 h-3 mr-2 bg-green-500 rounded-full"></span>
+                {{ number_format($girlsCount) }}
+                {!! preg_replace('/\s(\S+)$/', ' <span class="text-gray-400">$1</span>', e(__('front.landing.girls_registered'))) !!}
+            </div>
+            <div class="inline-flex items-center px-4 py-2 bg-white backdrop-blur-sm text-gray-700 rounded-full text-sm font-medium shadow-lg">
+                <span class="w-3 h-3 mr-2 bg-green-500 rounded-full"></span>
+                {{ number_format($gentsCount) }}
+                {!! preg_replace('/\s(\S+)$/', ' <span class="text-gray-400">$1</span>', e(__('front.landing.gents_registered'))) !!}
+            </div>
+        </div>
+
+    </div>
     </div>
 </div>
 
