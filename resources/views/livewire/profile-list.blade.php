@@ -1,11 +1,11 @@
 <div>
-    <div class="mt-20 py-12 flex items-center gap-4">
+    <div class="mt-2 px-6 md:px-8 lg:px-12 py-9 flex items-center gap-4">
         <x-icons name="search" class="w-7 h-7 text-primary-600" />
         <h1 class="text-4xl font-bold text-secondary">{{ __('front.profiles.list.topresults') }}</h1>
     </div>
 
     <!-- Quick Filters -->
-    <div class="mb-8  px-6 md:px-8 lg:px-12">
+    <div class="mb-8 px-6 md:px-8 lg:px-12">
         <!-- Age Group Filters -->
         <div class="flex flex-wrap gap-3 mb-4">
             <!-- All Girls Filter -->

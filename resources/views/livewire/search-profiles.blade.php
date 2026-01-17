@@ -1,4 +1,4 @@
-<div class="card w-full shadow-3xl shadow p-8 overflow-visible">
+<div class="card w-full shadow-xl shadow p-8 overflow-visible translate-y-20">
     <div class="space-y-6">
         <!-- Heading -->
         <h4 class="mb-6 flex items-center">
