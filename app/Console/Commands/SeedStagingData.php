@@ -72,7 +72,7 @@ class SeedStagingData extends Command
         $this->newLine();
         $this->info('✅ Staging data seeded successfully!');
         $this->info('🔐 Default password for all users: password');
-        $this->info('👤 Admin login: admin@example.com / password');
+        $this->info('👤 Admin login: test@example.com / admin123');
         
         return self::SUCCESS;
     }
