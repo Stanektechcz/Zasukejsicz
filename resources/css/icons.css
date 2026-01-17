@@ -31,6 +31,17 @@
   height: 1em;
 } 
 
+.icon-photo {
+  mask-image: url("/images/icons/photo.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+} 
+
 .icon-calendar {
   mask-image: url("/images/icons/calendar.svg");
   mask-repeat: no-repeat;

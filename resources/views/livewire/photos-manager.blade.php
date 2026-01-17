@@ -27,7 +27,7 @@
     <div class="mb-10">
         <h2 class="text-xl font-bold text-gray-900 mb-6">{{ __('front.profiles.photos.main_photo') }}</h2>
         
-        <div class="flex flex-col lg:flex-row gap-6">
+        <div class="flex flex-col lg:flex-row gap-6 lg:items-stretch">
             <!-- Main Photo Display -->
             <div class="relative w-40 shrink-0">
                 @if($mainPhoto)
@@ -47,14 +47,14 @@
                         </button>
                     </div>
                 @else
-                    <div class="w-40 aspect-[3/4] bg-gray-100 rounded-2xl flex items-center justify-center border-2 border-dashed border-gray-300">
-                        <div class="text-center text-gray-400">
+                    <label for="photo-upload-input" class="w-40 aspect-[3/4] bg-gray-100 rounded-2xl !flex items-center justify-center border-2 border-dashed border-gray-300 cursor-pointer hover:border-primary hover:bg-primary-50 hover:text-primary transition-colors group">
+                        <div class="text-center text-gray-400 group-hover:text-primary transition-colors">
                             <svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <p class="text-xs">{{ __('front.profiles.photos.no_main') }}</p>
                         </div>
-                    </div>
+                    </label>
                 @endif
 
                 <!-- Save Changes Button (under main photo) -->
@@ -75,7 +75,7 @@
             <div class="flex-1">
                 @if($this->isProfileVerified())
                     <!-- Verified Status -->
-                    <div class="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
+                    <div class="bg-green-50 border border-green-200 rounded-2xl p-6 text-center h-full flex flex-col justify-center">
                         <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -92,7 +92,7 @@
                     </div>
                 @elseif($this->isVerificationPending())
                     <!-- Pending Status -->
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center">
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center h-full flex flex-col justify-center">
                         <div class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
@@ -109,7 +109,7 @@
                     </div>
                 @elseif($this->isVerificationRejected())
                     <!-- Rejected Status -->
-                    <div class="bg-red-50 border border-red-200 rounded-2xl p-6">
+                    <div class="bg-red-50 border border-red-200 rounded-2xl p-6 h-full flex flex-col justify-center">
                         <div class="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
@@ -131,7 +131,7 @@
                     </div>
                 @elseif($mainPhoto)
                     <!-- Not Verified - Can Request -->
-                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 h-full flex flex-col justify-center">
                         <h3 class="text-lg font-bold text-gray-800 mb-2">{{ __('front.profiles.photos.verify_title') }}</h3>
                         <p class="text-sm text-gray-600 mb-6">{{ __('front.profiles.photos.verify_desc') }}</p>
                         <button
@@ -149,7 +149,7 @@
                     </div>
                 @else
                     <!-- No Main Photo - Upload First -->
-                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-center">
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-center h-full flex flex-col justify-center">
                         <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
                             <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -198,20 +198,21 @@
             @endforeach
 
             <!-- Add Photo Button -->
-            <label class="relative w-full aspect-[3/4] bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary-50 transition-colors">
+            <label class="relative w-full aspect-[3/4]  border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary-50 transition-colors">
                 <input 
+                    id="photo-upload-input"
                     type="file" 
                     wire:model="images" 
                     multiple 
                     accept="image/*"
-                    class="hidden">
-                <div class="text-center">
-                    <div class="w-12 h-12 mx-auto mb-2 bg-gray-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
+                    class="!hidden">
+                <div class="text-center absolute inset-0 flex items-center justify-center">
+                    <div>
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white rounded-full flex items-center justify-center shadow-md">
+                            <x-icons name="photo" class="w-6 h-6 text-primary" strokeWidth="2" />
+                        </div>
+                        <span class="text-sm font-bold text-secondary">{{ __('front.profiles.photos.add_more') }}</span>
                     </div>
-                    <span class="text-sm font-medium text-primary">{{ __('front.profiles.photos.add_more') }}</span>
                 </div>
                 <div wire:loading wire:target="images" class="absolute inset-0 bg-white/80 rounded-2xl flex items-center justify-center">
                     <svg class="animate-spin h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24">
@@ -267,34 +268,6 @@
                 <span wire:loading.remove wire:target="uploadImages">{{ __('front.profiles.photos.upload_button') }}</span>
                 <span wire:loading wire:target="uploadImages">{{ __('front.profiles.photos.uploading') }}</span>
             </button>
-        </div>
-    </div>
-    @endif
-
-    <!-- No Photos Message -->
-    @if((!$existingImages || $existingImages->count() === 0) && empty($images))
-    <div class="card p-6">
-        <div class="text-center py-8">
-            <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('front.profiles.photos.nophotos') }}</h3>
-            <p class="text-sm text-gray-500 mb-6">{{ __('front.profiles.photos.nophotos_desc') }}</p>
-            
-            <label class="inline-flex items-center justify-center gap-2 py-3 px-6 bg-primary hover:bg-primary-600 text-white rounded-xl font-semibold transition-colors cursor-pointer">
-                <input 
-                    type="file" 
-                    wire:model="images" 
-                    multiple 
-                    accept="image/*"
-                    class="hidden">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                {{ __('front.profiles.photos.upload_first') }}
-            </label>
         </div>
     </div>
     @endif
