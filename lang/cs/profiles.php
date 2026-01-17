@@ -46,6 +46,8 @@ return [
         'is_public' => 'Zveřejnit',
         'gender' => 'Pohlaví',
         'profile_images' => 'Profilové obrázky',
+        'profile_video' => 'Profilové video',
+        'profile_video_helper' => 'Nahrajte krátké úvodní video (max 150MB). Podporované formáty: MP4, WebM, MOV.',
         'incall' => 'InCall',
         'outcall' => 'OutCall',
         'profile_content_builder' => 'Tvůrce obsahu profilu',

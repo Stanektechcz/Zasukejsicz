@@ -227,7 +227,8 @@ return [
             'cm' => 'cm',
             'kg' => 'kg',
             'lbs' => 'lbs',
-            'contact' => 'Contact'
+            'contact' => 'Contact',
+            'intro_video' => 'Intro Video'
         ],
         'search' => [
             'city' => 'City',
@@ -370,6 +371,24 @@ return [
             'rejected_title' => 'Verification rejected',
             'rejected_desc' => 'Your verification request was rejected. Please upload a different photo and try again.',
             'try_again' => 'Try again',
+            // Video section
+            'video_title' => 'Profile Video',
+            'video_upload' => 'Upload video',
+            'video_formats' => 'MP4, WebM, MOV. Max 150MB.',
+            'video_delete_confirm' => 'Are you sure you want to delete this video?',
+            'video_success' => 'Your video has been uploaded successfully.',
+            'video_deleted' => 'Video has been successfully deleted!',
+            'video_preview' => 'Preview uploaded video:',
+            'video_upload_button' => 'Upload Video',
+            'video_too_large' => 'The video is too large. Maximum file size is 150MB. Please compress your video or use a shorter clip.',
+            'video_invalid_format' => 'Invalid video format. Please upload MP4, WebM, or MOV files only.',
+            'video_required' => 'Please select a video to upload.',
+            'video_upload_failed' => 'Video upload failed. The file may be too large for your server. Please try a smaller file or contact support.',
+            'video_info_title' => 'Add a short intro video',
+            'video_info_desc' => 'A short video can help potential clients get to know you better and increase engagement.',
+            'video_tip_1' => 'Keep it short (15-60 seconds)',
+            'video_tip_2' => 'Good lighting and clear audio',
+            'video_tip_3' => 'Show your personality',
         ],
         'rating' => [
             'no_ratings' => 'No ratings yet',

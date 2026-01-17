@@ -273,79 +273,144 @@
                 </div>
 
                 <!-- Prices Section -->
-                <!-- Debug: Profile Local Prices -->
+                
 
                 @if(!empty($profile->local_prices) && is_array($profile->local_prices) && count($profile->local_prices) > 0)
                 <div class="mt-8">
                     <h2 class="text-2xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.my_prices') }}</h2>
                     
-                    <div class="overflow-hidden">
-                        <table class="w-full">
-                            <thead>
-                                <tr>
-                                    <th class="w-1/4 px-1 py-3 text-left text-sm font-semibold text-gray-700">
-                                        <div class="text-center text-gray-700 bg-gray-100 rounded-lg py-3 px-4">
-                                            {{ __('front.profiles.detail_page.time') }}
-                                        </div>
-                                    </th>
-                                    <th class="px-1 py-3 text-center text-sm font-semibold">
-                                        <div class="flex items-center justify-center gap-2 {{ $profile->incall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
-                                            <span class="w-5 h-5 {{ $profile->incall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
-                                                @if($profile->incall)
-                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
-                                                    </svg>
-                                                @else
-                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
-                                                    </svg>
-                                                @endif
-                                            </span>
-                                            {{ __('front.profiles.detail_page.incall') }}
-                                        </div>
-                                    </th>
-                                    <th class="px-1 py-3 text-center text-sm font-semibold">
-                                        <div class="flex items-center justify-center gap-2 {{ $profile->outcall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
-                                            <span class="w-5 h-5 {{ $profile->outcall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
-                                                @if($profile->outcall)
-                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
-                                                    </svg>
-                                                @else
-                                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                                                        <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
-                                                    </svg>
-                                                @endif
-                                            </span>
-                                            {{ __('front.profiles.detail_page.outcall') }}
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($profile->local_prices as $price)
-                                <tr class="border-b border-gray-200">
-                                    <td class="px-4 py-4 text-pink-500 font-semibold">
-                                        {{ $price['time_hours'] ?? '' }} h
-                                    </td>
-                                    <td class="px-4 py-4 text-center text-gray-900 font-medium">
-                                        @if(!empty($price['incall_price']) && $profile->incall)
-                                            {{ number_format($price['incall_price'], 0, ',', ' ') }} Kč
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-4 py-4 text-center text-gray-900 font-medium">
-                                        @if(!empty($price['outcall_price']) && $profile->outcall)
-                                            {{ number_format($price['outcall_price'], 0, ',', ' ') }} Kč
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <!-- Prices Table -->
+                        <div class="flex-1 overflow-hidden">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="w-1/4 px-1 py-3 text-left text-sm font-semibold text-gray-700">
+                                            <div class="text-center text-gray-700 bg-gray-100 rounded-lg py-3 px-4">
+                                                {{ __('front.profiles.detail_page.time') }}
+                                            </div>
+                                        </th>
+                                        <th class="px-1 py-3 text-center text-sm font-semibold">
+                                            <div class="flex items-center justify-center gap-2 {{ $profile->incall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
+                                                <span class="w-5 h-5 {{ $profile->incall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
+                                                    @if($profile->incall)
+                                                        <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                                        </svg>
+                                                    @else
+                                                        <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                                        </svg>
+                                                    @endif
+                                                </span>
+                                                {{ __('front.profiles.detail_page.incall') }}
+                                            </div>
+                                        </th>
+                                        <th class="px-1 py-3 text-center text-sm font-semibold">
+                                            <div class="flex items-center justify-center gap-2 {{ $profile->outcall ? 'text-pink-500' : 'text-gray-400' }} bg-gray-100 rounded-lg py-3">
+                                                <span class="w-5 h-5 {{ $profile->outcall ? 'bg-green-500' : 'bg-red-500' }} rounded-full flex items-center justify-center text-white">
+                                                    @if($profile->outcall)
+                                                        <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.707 5.293l-8 8-4-4" />
+                                                        </svg>
+                                                    @else
+                                                        <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4.293 4.293l11.414 11.414M15.707 4.293L4.293 15.707" />
+                                                        </svg>
+                                                    @endif
+                                                </span>
+                                                {{ __('front.profiles.detail_page.outcall') }}
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($profile->local_prices as $price)
+                                    <tr class="border-b border-gray-200">
+                                        <td class="px-4 py-4 text-pink-500 font-semibold">
+                                            {{ $price['time_hours'] ?? '' }} h
+                                        </td>
+                                        <td class="px-4 py-4 text-center text-gray-900 font-medium">
+                                            @if(!empty($price['incall_price']) && $profile->incall)
+                                                {{ number_format($price['incall_price'], 0, ',', ' ') }} Kč
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-4 text-center text-gray-900 font-medium">
+                                            @if(!empty($price['outcall_price']) && $profile->outcall)
+                                                {{ number_format($price['outcall_price'], 0, ',', ' ') }} Kč
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Profile Video -->
+                        @if($profile->hasVideo())
+                        <div class="lg:w-48 shrink-0">
+                            <div class="relative w-full aspect-[9/16] bg-black rounded-2xl overflow-hidden shadow-lg">
+                                <video 
+                                    id="profile-detail-video"
+                                    src="{{ $profile->getVideoUrl() }}" 
+                                    class="w-full h-full object-cover"
+                                    preload="metadata"
+                                    playsinline>
+                                </video>
+                                <!-- Custom Play Button Overlay -->
+                                <button 
+                                    type="button"
+                                    onclick="toggleProfileVideo()"
+                                    id="profile-video-play-btn"
+                                    class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-all duration-200 cursor-pointer">
+                                    <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-primary-600 hover:scale-110 transition-all duration-200">
+                                        <svg id="play-icon" class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                        <svg id="pause-icon" class="w-7 h-7 text-white hidden" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
+                            <p class="text-center text-sm text-gray-500 mt-2">{{ __('front.profiles.detail_page.intro_video') }}</p>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @elseif($profile->hasVideo())
+                <!-- Only Video, No Prices -->
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.intro_video') }}</h2>
+                    <div class="w-64 mx-auto">
+                        <div class="relative w-full aspect-[9/16] bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <video 
+                                id="profile-detail-video"
+                                src="{{ $profile->getVideoUrl() }}" 
+                                class="w-full h-full object-cover"
+                                preload="metadata"
+                                playsinline>
+                            </video>
+                            <!-- Custom Play Button Overlay -->
+                            <button 
+                                type="button"
+                                onclick="toggleProfileVideo()"
+                                id="profile-video-play-btn"
+                                class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-all duration-200 cursor-pointer">
+                                <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-primary-600 hover:scale-110 transition-all duration-200">
+                                    <svg id="play-icon" class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                    <svg id="pause-icon" class="w-7 h-7 text-white hidden" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 @endif
@@ -630,6 +695,62 @@
                 }
             });
         });
+    });
+
+    // Profile Video Playback Control
+    function toggleProfileVideo() {
+        const video = document.getElementById('profile-detail-video');
+        const playBtn = document.getElementById('profile-video-play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        
+        if (!video) return;
+        
+        if (video.paused) {
+            video.play();
+            if (playBtn) playBtn.style.opacity = '0';
+            if (playIcon) playIcon.classList.add('hidden');
+            if (pauseIcon) pauseIcon.classList.remove('hidden');
+        } else {
+            video.pause();
+            if (playBtn) playBtn.style.opacity = '1';
+            if (playIcon) playIcon.classList.remove('hidden');
+            if (pauseIcon) pauseIcon.classList.add('hidden');
+        }
+    }
+
+    // Video event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('profile-detail-video');
+        const playBtn = document.getElementById('profile-video-play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        
+        if (video) {
+            video.addEventListener('ended', function() {
+                if (playBtn) playBtn.style.opacity = '1';
+                if (playIcon) playIcon.classList.remove('hidden');
+                if (pauseIcon) pauseIcon.classList.add('hidden');
+            });
+            
+            video.addEventListener('pause', function() {
+                if (playBtn) playBtn.style.opacity = '1';
+                if (playIcon) playIcon.classList.remove('hidden');
+                if (pauseIcon) pauseIcon.classList.add('hidden');
+            });
+
+            video.addEventListener('play', function() {
+                if (playBtn) playBtn.style.opacity = '0';
+                if (playIcon) playIcon.classList.add('hidden');
+                if (pauseIcon) pauseIcon.classList.remove('hidden');
+            });
+
+            // Click on video to toggle playback
+            video.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleProfileVideo();
+            });
+        }
     });
 </script>
 @endpush

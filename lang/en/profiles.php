@@ -47,6 +47,8 @@ return [
         'is_public' => 'Make Public',
         'gender' => 'Gender',
         'profile_images' => 'Profile Images',
+        'profile_video' => 'Profile Video',
+        'profile_video_helper' => 'Upload a short intro video (max 150MB). Supported formats: MP4, WebM, MOV.',
         'incall' => 'InCall',
         'outcall' => 'OutCall',
         'profile_content_builder' => 'Profile Content Builder',

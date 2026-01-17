@@ -59,6 +59,14 @@ class ProfileForm
                     ->imageEditor()
                     ->columnSpanFull(),
 
+                SpatieMediaLibraryFileUpload::make('video')
+                    ->label(__('profiles.form.profile_video'))
+                    ->collection('profile-video')
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+                    ->maxSize(153600) // 150MB max
+                    ->columnSpanFull()
+                    ->helperText(__('profiles.form.profile_video_helper')),
+
                 // Current locale translatable fields
                 TextInput::make('display_name')
                     ->label(__('profiles.form.display_name') . ' (' . strtoupper(app()->getLocale()) . ')')

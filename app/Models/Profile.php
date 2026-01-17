@@ -317,13 +317,43 @@ class Profile extends Model implements HasMedia
     }
 
     /**
-     * Register media collections for profile images.
+     * Register media collections for profile images and videos.
      */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('profile-images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
             ->useDisk('public');
+
+        $this->addMediaCollection('profile-video')
+            ->acceptsMimeTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+            ->singleFile()
+            ->useDisk('public');
+    }
+
+    /**
+     * Get the profile video.
+     */
+    public function getVideo(): ?\Spatie\MediaLibrary\MediaCollections\Models\Media
+    {
+        return $this->getFirstMedia('profile-video');
+    }
+
+    /**
+     * Get the profile video URL.
+     */
+    public function getVideoUrl(): ?string
+    {
+        $video = $this->getVideo();
+        return $video ? $video->getUrl() : null;
+    }
+
+    /**
+     * Check if profile has a video.
+     */
+    public function hasVideo(): bool
+    {
+        return $this->getMedia('profile-video')->isNotEmpty();
     }
 
     /**

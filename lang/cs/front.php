@@ -241,7 +241,8 @@ return [
             'cm' => 'cm',
             'kg' => 'kg',
             'lbs' => 'lbs',
-            'contact' => 'Kontakt'
+            'contact' => 'Kontakt',
+            'intro_video' => 'Úvodní video'
         ],
         'search' => [
             'city' => 'Město',
@@ -384,6 +385,24 @@ return [
             'rejected_title' => 'Ověření zamítnuto',
             'rejected_desc' => 'Vaše žádost o ověření byla zamítnuta. Nahrajte prosím jinou fotografii a zkuste to znovu.',
             'try_again' => 'Zkusit znovu',
+            // Video section
+            'video_title' => 'Video profilu',
+            'video_upload' => 'Nahrát video',
+            'video_formats' => 'MP4, WebM, MOV. Max 150MB.',
+            'video_delete_confirm' => 'Opravdu chcete smazat toto video?',
+            'video_success' => 'Vaše video bylo úspěšně nahráno.',
+            'video_deleted' => 'Video bylo úspěšně smazáno!',
+            'video_preview' => 'Náhled nahraného videa:',
+            'video_upload_button' => 'Nahrát video',
+            'video_too_large' => 'Video je příliš velké. Maximální velikost souboru je 150MB. Prosím zkomprimujte video nebo použijte kratší klip.',
+            'video_invalid_format' => 'Neplatný formát videa. Nahrajte prosím pouze soubory MP4, WebM nebo MOV.',
+            'video_required' => 'Prosím vyberte video k nahrání.',
+            'video_upload_failed' => 'Nahrávání videa selhalo. Soubor může být příliš velký pro váš server. Zkuste menší soubor nebo kontaktujte podporu.',
+            'video_info_title' => 'Přidejte krátké úvodní video',
+            'video_info_desc' => 'Krátké video může pomoci potenciálním klientům lépe vás poznat a zvýšit zájem.',
+            'video_tip_1' => 'Udržujte video krátké (15-60 sekund)',
+            'video_tip_2' => 'Dobré osvětlení a čistý zvuk',
+            'video_tip_3' => 'Ukažte svou osobnost',
         ],
         'rating' => [
             'no_ratings' => 'Zatím žádné hodnocení',

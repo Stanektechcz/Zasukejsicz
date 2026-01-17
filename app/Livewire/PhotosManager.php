@@ -17,6 +17,10 @@ class PhotosManager extends Component
     public $images = [];
     public $existingImages = [];
 
+    // Video upload properties
+    public $video = null;
+    public $existingVideo = null;
+
     // Profile state
     public $hasProfile = false;
 
@@ -43,6 +47,7 @@ class PhotosManager extends Component
         // Load existing images if profile exists
         if ($profile) {
             $this->loadImages($profile);
+            $this->loadVideo($profile);
         }
     }
 
@@ -210,6 +215,67 @@ class PhotosManager extends Component
             $this->loadImages($profile->fresh());
             
             session()->flash('message', __('front.profiles.photos.success'));
+        }
+    }
+
+    protected function loadVideo($profile)
+    {
+        $this->existingVideo = $profile->getFirstMedia('profile-video');
+    }
+
+    public function uploadVideo()
+    {
+        $this->validate([
+            'video' => 'required|mimes:mp4,webm,mov|max:153600', // Max 150MB
+        ], [
+            'video.max' => __('front.profiles.photos.video_too_large'),
+            'video.mimes' => __('front.profiles.photos.video_invalid_format'),
+            'video.required' => __('front.profiles.photos.video_required'),
+        ]);
+
+        $user = Auth::user();
+        
+        // Ensure user has a profile
+        if (!$user->profile) {
+            // Create basic profile if it doesn't exist
+            $profile = new Profile([
+                'display_name' => $user->name,
+                'status' => 'pending',
+                'is_public' => false,
+            ]);
+            $profile->user_id = $user->id;
+            $profile->save();
+            
+            $this->hasProfile = true;
+        } else {
+            $profile = $user->profile;
+        }
+
+        // Remove existing video first (singleFile collection handles this, but let's be explicit)
+        $profile->clearMediaCollection('profile-video');
+
+        // Add the new video
+        $profile->addMedia($this->video->path())
+            ->usingName($this->video->getClientOriginalName())
+            ->usingFileName($this->video->hashName())
+            ->toMediaCollection('profile-video');
+
+        // Clear uploaded video after saving
+        $this->video = null;
+        
+        // Refresh existing video
+        $this->loadVideo($profile->fresh());
+        
+        session()->flash('message', __('front.profiles.photos.video_success'));
+    }
+
+    public function removeVideo()
+    {
+        $user = Auth::user();
+        if ($user->profile) {
+            $user->profile->clearMediaCollection('profile-video');
+            $this->existingVideo = null;
+            session()->flash('message', __('front.profiles.photos.video_deleted'));
         }
     }
 
