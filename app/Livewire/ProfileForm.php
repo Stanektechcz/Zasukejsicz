@@ -46,6 +46,9 @@ class ProfileForm extends Component
     #[Rule('boolean')]
     public $outcall = false;
 
+    #[Rule('boolean')]
+    public $is_porn_actress = false;
+
     #[Rule('nullable|string')]
     public $availability_hours = '';
 
@@ -94,6 +97,7 @@ class ProfileForm extends Component
             $this->about = $profile->about ?? '';
             $this->incall = $profile->incall ?? false;
             $this->outcall = $profile->outcall ?? false;
+            $this->is_porn_actress = $profile->is_porn_actress ?? false;
             $this->availability_hours = is_array($profile->availability_hours) 
                 ? implode(', ', $profile->availability_hours) 
                 : ($profile->availability_hours ?? '');
@@ -295,6 +299,7 @@ class ProfileForm extends Component
             'about' => $this->about ?: null,
             'incall' => $this->incall,
             'outcall' => $this->outcall,
+            'is_porn_actress' => $this->is_porn_actress,
             'availability_hours' => $this->availability_hours ? explode(', ', $this->availability_hours) : null,
             'local_prices' => $this->local_prices ?: null,
             'global_prices' => $this->global_prices ?: null,

@@ -54,5 +54,22 @@
                 </a>
             </li>
         </ul>
+
+        <!-- Advert for VIP -->
+        <div class="mt-6 relative">
+            <!-- VIP Image -->
+            <img src="{{ asset('images/vip-advert.png') }}" alt="VIP" class="w-full rounded-t-xl">
+            
+            <!-- Golden Background Section -->
+            <div class="relative p-5 rounded-b-xl border-b-3 border-gold-light" style="background: linear-gradient(180deg, #F5E4B8 0%, #FFFFFF 100%);">
+            <!-- Gold Star - Absolutely Positioned -->
+            <img src="{{ asset('images/gold-star.png') }}" alt="Gold Star" class="absolute -top-10 left-1/2 -translate-x-1/2 w-16 h-16">
+            
+            <h3 class="text-3xl py-3font-bold text-gold mb-2 text-center">{{ __('front.account.sidebar.vip_title') }}</h3>
+            <a href="#" class="btn-gold w-full text-center">
+                {{ __('front.account.sidebar.vip_button') }}
+            </a>
+            </div>
+        </div>
     </nav>
 </aside>

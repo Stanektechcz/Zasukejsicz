@@ -46,6 +46,7 @@ class Profile extends Model implements HasMedia
         'verified_at',
         'status',
         'is_public',
+        'is_porn_actress',
     ];
 
     /**
@@ -63,6 +64,7 @@ class Profile extends Model implements HasMedia
             'contacts' => 'array',
             'verified_at' => 'datetime',
             'is_public' => 'boolean',
+            'is_porn_actress' => 'boolean',
             'incall' => 'boolean',
             'outcall' => 'boolean',
         ];
@@ -327,7 +329,7 @@ class Profile extends Model implements HasMedia
     /**
      * Register media conversions for different image sizes.
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->width(300)

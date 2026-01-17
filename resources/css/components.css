@@ -50,6 +50,12 @@ label {
   transform: translateY(0);
 }
 
+.btn-gold {
+  @apply cursor-pointer py-3 px-4 lg:py-4 md:px-6 text-sm md:text-base text-white inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-in-out outline-none hover:shadow-xl hover:-translate-y-px;
+  background: linear-gradient(90deg, #A07613 0%, #B9A143 100%);
+  border: none;
+}
+
 .btn-small {
   @apply py-3 px-5 rounded-md text-sm;
 }

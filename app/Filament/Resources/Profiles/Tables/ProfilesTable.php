@@ -55,14 +55,6 @@ class ProfilesTable
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make('city')
-                    ->label(__('profiles.table.city'))
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-
-              
-
                 TextColumn::make('status')
                     ->label(__('profiles.table.status'))
                     ->badge()
@@ -77,13 +69,6 @@ class ProfilesTable
                 IconColumn::make('is_public')
                     ->label(__('profiles.table.public'))
                     ->boolean(),
-
-                IconColumn::make('verified_at')
-                    ->label(__('profiles.table.verified'))
-                    ->boolean()
-                    ->getStateUsing(fn ($record) => !is_null($record->verified_at))
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-mark'),
 
                 TextColumn::make('created_at')
                     ->label(__('profiles.table.created_at'))
@@ -140,20 +125,6 @@ class ProfilesTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                Action::make('verify')
-                    ->label(__('profiles.actions.verify'))
-                    ->icon('heroicon-o-check-badge')
-                    ->color('success')
-                    ->action(fn ($record) => $record->markAsVerified())
-                    ->visible(fn ($record) => !$record->isVerified())
-                    ->requiresConfirmation(),
-                
-                Action::make('unverify')
-                    ->label(__('profiles.actions.unverify'))
-                    ->color('danger')
-                    ->action(fn ($record) => $record->markAsUnverified())
-                    ->visible(fn ($record) => $record->isVerified())
-                    ->requiresConfirmation(),
                 EditAction::make()
             ])
             ->toolbarActions([

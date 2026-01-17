@@ -14,7 +14,8 @@ class SeedStagingData extends Command
      */
     protected $signature = 'staging:seed 
                             {--count=20 : Number of users with profiles to create}
-                            {--fresh : Wipe all existing data before seeding}';
+                            {--fresh : Wipe all existing data before seeding}
+                            {--force : Skip confirmation prompt (for automated deployments)}';
 
     /**
      * The console command description.
@@ -30,12 +31,13 @@ class SeedStagingData extends Command
     {
         $count = (int) $this->option('count');
         $fresh = $this->option('fresh');
+        $force = $this->option('force');
         
         $this->info('🚀 Staging Data Seeder');
         $this->info('=====================');
         
         if ($fresh) {
-            if (!$this->confirm('⚠️  This will DELETE ALL existing data. Are you sure?', false)) {
+            if (!$force && !$this->confirm('⚠️  This will DELETE ALL existing data. Are you sure?', false)) {
                 $this->info('Operation cancelled.');
                 return self::SUCCESS;
             }

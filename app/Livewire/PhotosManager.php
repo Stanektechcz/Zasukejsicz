@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\UploadedFile;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PhotosManager extends Component
 {
@@ -19,6 +20,17 @@ class PhotosManager extends Component
     // Profile state
     public $hasProfile = false;
 
+    // Main photo (first photo or selected main)
+    public $mainPhoto = null;
+
+    // Other photos (all except main)
+    public $otherPhotos = [];
+
+    // Verification status constants
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_VERIFIED = 'verified';
+    public const STATUS_REJECTED = 'rejected';
+
     public function mount()
     {
         // Get user with profile relationship loaded
@@ -30,8 +42,101 @@ class PhotosManager extends Component
 
         // Load existing images if profile exists
         if ($profile) {
-            $this->existingImages = $profile->getMedia('profile-images');
+            $this->loadImages($profile);
         }
+    }
+
+    protected function loadImages($profile)
+    {
+        $allImages = $profile->getMedia('profile-images');
+        $this->existingImages = $allImages;
+
+        // Find main photo (marked as main or first image)
+        $this->mainPhoto = $allImages->first(function ($media) {
+            return $media->getCustomProperty('is_main', false);
+        }) ?? $allImages->first();
+
+        // Other photos are all except main
+        $this->otherPhotos = $allImages->filter(function ($media) {
+            return $this->mainPhoto ? $media->id !== $this->mainPhoto->id : true;
+        });
+    }
+
+    public function setAsMainPhoto($mediaId)
+    {
+        $user = Auth::user();
+        if (!$user->profile) {
+            return;
+        }
+
+        // Remove main flag from all photos
+        $user->profile->getMedia('profile-images')->each(function ($media) {
+            $media->setCustomProperty('is_main', false);
+            $media->save();
+        });
+
+        // Set new main photo
+        $media = $user->profile->getMedia('profile-images')->where('id', $mediaId)->first();
+        if ($media) {
+            $media->setCustomProperty('is_main', true);
+            $media->save();
+        }
+
+        // Reload images
+        $this->loadImages($user->profile->fresh());
+        session()->flash('message', __('front.profiles.photos.main_set'));
+    }
+
+    public function requestVerification()
+    {
+        $user = Auth::user();
+        if (!$user->profile || !$this->mainPhoto) {
+            return;
+        }
+
+        // Check if main photo is already verified or pending
+        $currentStatus = $this->mainPhoto->getCustomProperty('verification_status');
+        if ($currentStatus === self::STATUS_VERIFIED) {
+            session()->flash('info', __('front.profiles.photos.already_verified'));
+            return;
+        }
+
+        if ($currentStatus === self::STATUS_PENDING) {
+            session()->flash('info', __('front.profiles.photos.verification_pending'));
+            return;
+        }
+
+        // Set verification status to pending
+        $this->mainPhoto->setCustomProperty('verification_status', self::STATUS_PENDING);
+        $this->mainPhoto->setCustomProperty('verification_requested_at', now()->toISOString());
+        $this->mainPhoto->save();
+
+        // Reload images
+        $this->loadImages($user->profile->fresh());
+        session()->flash('message', __('front.profiles.photos.verification_requested'));
+    }
+
+    public function getVerificationStatus(): ?string
+    {
+        if (!$this->mainPhoto) {
+            return null;
+        }
+        return $this->mainPhoto->getCustomProperty('verification_status');
+    }
+
+    public function isProfileVerified(): bool
+    {
+        return $this->getVerificationStatus() === self::STATUS_VERIFIED;
+    }
+
+    public function isVerificationPending(): bool
+    {
+        return $this->getVerificationStatus() === self::STATUS_PENDING;
+    }
+
+    public function isVerificationRejected(): bool
+    {
+        return $this->getVerificationStatus() === self::STATUS_REJECTED;
     }
 
     public function removeExistingImage($mediaId)
@@ -41,8 +146,9 @@ class PhotosManager extends Component
             $media = $user->profile->getMedia('profile-images')->where('id', $mediaId)->first();
             if ($media) {
                 $media->delete();
-            // Refresh existing images
-            $this->existingImages = $user->profile->fresh()->getMedia('profile-images');                session()->flash('message', 'Fotografie byla úspěšně smazána!');
+                // Refresh existing images
+                $this->loadImages($user->profile->fresh());
+                session()->flash('message', __('front.profiles.photos.deleted'));
             }
         }
     }
@@ -81,12 +187,18 @@ class PhotosManager extends Component
 
         // Handle image uploads
         if (!empty($this->images)) {
-            foreach ($this->images as $image) {
+            $isFirst = $profile->getMedia('profile-images')->isEmpty();
+            
+            foreach ($this->images as $index => $image) {
                 if ($image instanceof UploadedFile) {
                     // Add each file individually to the media collection
-                    $profile->addMedia($image->path())
+                    $media = $profile->addMedia($image->path())
                         ->usingName($image->getClientOriginalName())
                         ->usingFileName($image->hashName())
+                        ->withCustomProperties([
+                            'verification_status' => null,
+                            'is_main' => $isFirst && $index === 0,
+                        ])
                         ->toMediaCollection('profile-images');
                 }
             }
@@ -95,9 +207,9 @@ class PhotosManager extends Component
             $this->images = [];
             
             // Refresh existing images
-            $this->existingImages = $profile->fresh()->getMedia('profile-images');
+            $this->loadImages($profile->fresh());
             
-            session()->flash('message', 'Fotografie byly úspěšně nahrány!');
+            session()->flash('message', __('front.profiles.photos.success'));
         }
     }
 

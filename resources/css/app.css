@@ -47,6 +47,8 @@
   --color-gold-400: rgb(251, 191, 36);
   --color-gold-500: rgb(245, 158, 11);
   --color-gold-600: rgb(217, 119, 6);
+  --color-gold: #A07613;
+  --color-gold-light: #F5E4B8;
 
   /* Specific Colors */
   --color-light-bg: rgb(248, 249, 249);

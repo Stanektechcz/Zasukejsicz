@@ -13,7 +13,7 @@ class ProfileList extends Component
     use WithPagination;
 
     public $loading = false;
-    public $perPage = 10;
+    public $perPage = 20;
     
     // Current filters (synced with search component)
     public $city = '';
@@ -23,10 +23,11 @@ class ProfileList extends Component
     
     // Quick filter properties
     public $ageGroup = ''; // '18-25', '26-30', '31-35', '36-40', '40-50', '50+'
+    public $sortRecommendation = ''; // '', 'desc' (best first), 'asc' (worst first)
     public $hasVerifiedPhoto = false;
     public $hasVideo = false;
     public $isPornActress = false;
-    public $isNew = false; // profiles created in last 7 days
+    public $sortNew = ''; // '', 'desc' (newest first), 'asc' (oldest first)
     public $hasRating = false; // profiles with rating/reviews
     
     protected $queryString = [
@@ -35,10 +36,11 @@ class ProfileList extends Component
         'ageMax' => ['except' => '', 'as' => 'age_max'],
         'verified' => ['except' => false],
         'ageGroup' => ['except' => '', 'as' => 'age'],
+        'sortRecommendation' => ['except' => '', 'as' => 'recommend'],
         'hasVerifiedPhoto' => ['except' => false, 'as' => 'verified_photo'],
         'hasVideo' => ['except' => false, 'as' => 'video'],
         'isPornActress' => ['except' => false, 'as' => 'actress'],
-        'isNew' => ['except' => false, 'as' => 'new'],
+        'sortNew' => ['except' => '', 'as' => 'new'],
         'hasRating' => ['except' => false, 'as' => 'rated'],
     ];
 
@@ -52,10 +54,11 @@ class ProfileList extends Component
         
         // Set quick filters from URL
         $this->ageGroup = request('age', '');
+        $this->sortRecommendation = request('recommend', '');
         $this->hasVerifiedPhoto = request()->boolean('verified_photo');
         $this->hasVideo = request()->boolean('video');
         $this->isPornActress = request()->boolean('actress');
-        $this->isNew = request()->boolean('new');
+        $this->sortNew = request('new', '');
         $this->hasRating = request()->boolean('rated');
     }
 
@@ -81,7 +84,7 @@ class ProfileList extends Component
 
     public function resetFilters()
     {
-        $this->reset(['city', 'ageMin', 'ageMax', 'verified', 'ageGroup', 'hasVerifiedPhoto', 'hasVideo', 'isPornActress', 'isNew', 'hasRating']);
+        $this->reset(['city', 'ageMin', 'ageMax', 'verified', 'ageGroup', 'sortRecommendation', 'hasVerifiedPhoto', 'hasVideo', 'isPornActress', 'sortNew', 'hasRating']);
         $this->resetPage();
     }
 
@@ -91,6 +94,19 @@ class ProfileList extends Component
     public function toggleAgeGroup($group)
     {
         $this->ageGroup = $this->ageGroup === $group ? '' : $group;
+        $this->resetPage();
+    }
+
+    public function toggleRecommendation()
+    {
+        // Cycle through: '' -> 'desc' -> 'asc' -> ''
+        if ($this->sortRecommendation === '') {
+            $this->sortRecommendation = 'desc';
+        } elseif ($this->sortRecommendation === 'desc') {
+            $this->sortRecommendation = 'asc';
+        } else {
+            $this->sortRecommendation = '';
+        }
         $this->resetPage();
     }
 
@@ -114,7 +130,14 @@ class ProfileList extends Component
 
     public function toggleNew()
     {
-        $this->isNew = !$this->isNew;
+        // Cycle through: '' -> 'desc' -> 'asc' -> ''
+        if ($this->sortNew === '') {
+            $this->sortNew = 'desc';
+        } elseif ($this->sortNew === 'desc') {
+            $this->sortNew = 'asc';
+        } else {
+            $this->sortNew = '';
+        }
         $this->resetPage();
     }
 
@@ -132,10 +155,11 @@ class ProfileList extends Component
     {
         $count = 0;
         if ($this->ageGroup) $count++;
+        if ($this->sortRecommendation) $count++;
         if ($this->hasVerifiedPhoto) $count++;
         if ($this->hasVideo) $count++;
         if ($this->isPornActress) $count++;
-        if ($this->isNew) $count++;
+        if ($this->sortNew) $count++;
         if ($this->hasRating) $count++;
         return $count;
     }
@@ -171,29 +195,44 @@ class ProfileList extends Component
             $this->applyAgeGroupFilter($query, $this->ageGroup);
         }
 
+        if ($this->sortRecommendation) {
+            // Sort by: 1) VIP status, 2) average rating, 3) newest
+            $sortDirection = $this->sortRecommendation === 'desc' ? 'desc' : 'asc';
+            $reverseSortDirection = $this->sortRecommendation === 'desc' ? 'asc' : 'desc';
+            
+            $query->withAvg('ratings', 'rating')
+                  ->withExists('activeSubscription as is_vip')
+                  ->orderBy('is_vip', $sortDirection)
+                  ->orderBy('ratings_avg_rating', $sortDirection)
+                  ->orderBy('created_at', $reverseSortDirection);
+        }
+
         if ($this->hasVerifiedPhoto) {
             $query->verified();
         }
 
         if ($this->hasVideo) {
-            // Assuming videos are stored as media with specific collection
+            // Filter profiles that have video media in their profile-images collection
             $query->whereHas('media', function($q) {
-                $q->where('collection_name', 'videos');
+                $q->where('collection_name', 'profile-images')
+                  ->where('mime_type', 'like', 'video/%');
             });
         }
 
-        // if ($this->isPornActress) {
-        //     // This could be a profile field or tag system
-        //     $query->where('is_porn_actress', true);
-        // }
+        if ($this->isPornActress) {
+            $query->where('is_porn_actress', true);
+        }
 
-        if ($this->isNew) {
-            $query->where('created_at', '>=', now()->subDays(7));
+        if ($this->sortNew) {
+            // Sort by created_at (newest/oldest)
+            $query->orderBy('created_at', $this->sortNew === 'desc' ? 'desc' : 'asc');
         }
 
         if ($this->hasRating) {
-            // Assuming there's a reviews/ratings relationship
-            $query->whereHas('reviews');
+            // Filter profiles that have at least one rating and order by most rated (rating count)
+            $query->withCount('ratings')
+                  ->whereHas('ratings')
+                  ->orderBy('ratings_count', 'desc');
         }
 
         return $query->paginate($this->perPage);

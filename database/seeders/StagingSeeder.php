@@ -35,6 +35,9 @@ class StagingSeeder extends Seeder
         // Create regular users with profiles
         $this->createUsersWithProfiles($count);
         
+        // Seed VIP subscriptions for some profiles
+        $this->call(SubscriptionSeeder::class);
+        
         // Seed pages (blog posts, FAQ, etc.)
         $this->seedPages();
         

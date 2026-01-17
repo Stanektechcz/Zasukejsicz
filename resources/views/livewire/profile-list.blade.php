@@ -31,6 +31,27 @@
 
         <!-- Feature Filters -->
         <div class="flex flex-wrap gap-3">
+            <!-- Recommendation Filter -->
+            <button wire:click="toggleRecommendation"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $sortRecommendation !== '' ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                wire:loading.attr="disabled"
+                wire:target="toggleRecommendation">
+                @if($sortRecommendation === 'desc')
+                    <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                    </svg>
+                @elseif($sortRecommendation === 'asc')
+                    <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                @else
+                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                    </svg>
+                @endif
+                Recommendation
+            </button>
+
             <!-- Verified Photo Filter -->
             <button wire:click="toggleVerifiedPhoto"
                 class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $hasVerifiedPhoto ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -66,12 +87,22 @@
 
             <!-- New Filter -->
             <button wire:click="toggleNew"
-                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $isNew ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $sortNew !== '' ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 wire:loading.attr="disabled"
                 wire:target="toggleNew">
-                <svg wire:target="toggleNew" class="w-4 h-4 mr-2 {{ $isNew ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
+                @if($sortNew === 'desc')
+                    <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                    </svg>
+                @elseif($sortNew === 'asc')
+                    <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                @else
+                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                @endif
                 New
             </button>
 
@@ -114,7 +145,7 @@
     <!-- Profiles Grid -->
     <div class="space-y-6 relative px-6 md:px-8 lg:px-12">
         <!-- Loading Overlay -->
-        <div wire:loading wire:target="toggleAgeGroup,toggleVerifiedPhoto,toggleVideo,togglePornActress,toggleNew,toggleRating,resetFilters,updateFilters"
+        <div wire:loading wire:target="toggleAgeGroup,toggleRecommendation,toggleVerifiedPhoto,toggleVideo,togglePornActress,toggleNew,toggleRating,resetFilters,updateFilters"
             class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center pt-12">
             <div class="flex flex-col items-center">
                 <svg class="animate-spin h-12 w-12 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -127,11 +158,24 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             @foreach($this->profiles() as $profile)
             
-            {{-- Insert Advert Hero after first row (5 items on xl screens) --}}
+            {{-- Insert Advert Hero after second row (10 items on xl screens) --}}
             @if($loop->iteration === 6)
-            <div class="col-span-full hidden lg:block -my-20 -mx-6 md:-mx-8 lg:-mx-12 relative z-0">
-                <x-advert-hero />
-            </div>
+                <div class="col-span-full my-4">
+                    <div class="bg-green-100 rounded-2xl py-3 px-6 mx-auto">
+                        <div class="flex items-center justify-center gap-3 text-center">
+                            <x-icons name="eco" class="w-5 h-5 text-green-600 flex-shrink-0" />
+                            <p class="text-sm font-medium text-green-600">
+                                <span class="font-semibold text-green-700">Our project is eco-friendly</span> – Thanks to the girl verification system, you won't travel anywhere unnecessarily.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if($loop->iteration === 11)
+                <div class="col-span-full hidden lg:block -my-20 -mx-6 md:-mx-8 lg:-mx-12 relative z-0">
+                    <x-advert-hero />
+                </div>
             @endif
             
             <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer group relative z-10">

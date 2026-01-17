@@ -193,7 +193,7 @@
                 </div>
 
                 <!-- InCall & OutCall Toggles -->
-                <div class="grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <label for="incall" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.incall') }}</label>
@@ -216,6 +216,18 @@
                             id="outcall"
                             wire-model="outcall"
                             :checked="$outcall" />
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label for="is_porn_actress" class="text-sm font-medium text-gray-700">{{ __('front.profiles.form.porn_actress') }}</label>
+                            <p class="text-xs text-gray-500">{{ __('front.profiles.form.porn_actress_desc') }}</p>
+                        </div>
+                        <x-toggle-switch
+                            name="is_porn_actress"
+                            id="is_porn_actress"
+                            wire-model="is_porn_actress"
+                            :checked="$is_porn_actress" />
                     </div>
                 </div>
 
