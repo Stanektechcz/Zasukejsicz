@@ -235,6 +235,7 @@ return [
             'agerange' => 'Age',
             'minage' => 'Min Age',
             'maxage' => 'Max Age',
+            'selectage' => 'Select age range',
             'search' => 'Search',
             'searching' => 'Searching...'
         ],
@@ -253,7 +254,20 @@ return [
             'nofound' => 'No therapists found',
             'tryadjusting' => 'Try adjusting your search criteria or browse all available therapists.',
             'showall' => 'Show All Therapists',
-            'clear_all_filters' => 'Clear all filters'
+            'clear_all_filters' => 'Clear all filters',
+            'all_girls' => 'All Girls',
+            'age_18_25' => '18-25 yo',
+            'age_26_30' => '26-30 yo',
+            'age_31_35' => '31-35 yo',
+            'age_36_40' => '36-40 yo',
+            'age_40_50' => '40-50 yo',
+            'age_50_plus' => '50 yo +',
+            'recommendation' => 'Recommendation',
+            'verified_photo' => 'Verified photo',
+            'video' => 'Video',
+            'porn_actress' => 'Porno actress',
+            'new' => 'New',
+            'filters_active' => ':count filter(s) active'
         ],
         'form' => [
             'personal' => 'Personal Information',

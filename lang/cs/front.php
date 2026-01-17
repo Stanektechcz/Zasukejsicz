@@ -249,6 +249,7 @@ return [
             'agerange' => 'Věk dívky',
             'minage' => 'Minimální věk',
             'maxage' => 'Maximální věk',
+            'selectage' => 'Vyberte věkovou skupinu',
             'search' => 'Hledat',
             'searching' => 'Vyhledávání...'
         ],
@@ -267,7 +268,20 @@ return [
             'nofound' => 'Žádné masérky nenalezeny',
             'tryadjusting' => 'Zkuste upravit vyhledávací kritéria nebo procházet všechny dostupné masérky.',
             'showall' => 'Zobrazit všechny masérky',
-            'clear_all_filters' => 'Vymazat všechny filtry'
+            'clear_all_filters' => 'Vymazat všechny filtry',
+            'all_girls' => 'Všechny dívky',
+            'age_18_25' => '18-25 let',
+            'age_26_30' => '26-30 let',
+            'age_31_35' => '31-35 let',
+            'age_36_40' => '36-40 let',
+            'age_40_50' => '40-50 let',
+            'age_50_plus' => '50 let +',
+            'recommendation' => 'Doporučení',
+            'verified_photo' => 'Ověřená fotka',
+            'video' => 'Video',
+            'porn_actress' => 'Porno herečka',
+            'new' => 'Nové',
+            'filters_active' => ':count filtr(ů) aktivních'
         ],
         'form' => [
             'personal' => 'Osobní údaje',
