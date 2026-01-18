@@ -43,7 +43,12 @@ composer install --no-dev --optimize-autoloader --no-interaction
 # Install/update npm dependencies (includes devDependencies needed for build)
 echo ""
 echo "📦 Installing npm dependencies..."
-npm ci
+if [ -f "package-lock.json" ]; then
+    npm ci
+else
+    echo "⚠️  No package-lock.json found, using npm install instead..."
+    npm install
+fi
 
 # Build frontend assets (production)
 echo ""
