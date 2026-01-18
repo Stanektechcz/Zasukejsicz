@@ -73,6 +73,25 @@ echo "🎯 Final cache optimization..."
 php artisan optimize
 php artisan icons:cache 2>/dev/null || true
 
+# Fix permissions
+echo ""
+echo "🔧 Fixing storage and cache permissions..."
+chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo "⚠️  Could not change owner (may need sudo)"
+
+# Clear OPcache
+echo ""
+echo "🧹 Clearing OPcache..."
+php artisan opcache:clear 2>/dev/null || echo "⚠️  OPcache not available or already cleared"
+
+# Restart PHP-FPM (try common service names)
+echo ""
+echo "🔄 Restarting PHP-FPM..."
+sudo systemctl restart php8.3-fpm 2>/dev/null || \
+sudo systemctl restart php8.2-fpm 2>/dev/null || \
+sudo systemctl restart php-fpm 2>/dev/null || \
+echo "⚠️  Could not restart PHP-FPM (may need manual restart)"
+
 # Restart queue workers if using supervisor/horizon
 echo ""
 echo "🔄 Restarting queue workers..."
