@@ -24,10 +24,7 @@ git pull
 # echo "📦 Installing npm dependencies..."
 # npm ci
 
-# Build frontend assets
-echo ""
-echo "🔨 Building frontend assets..."
-npm run build
+
 
 # Clear all caches
 echo ""
