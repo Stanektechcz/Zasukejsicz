@@ -42,7 +42,7 @@
         </div>
     @endif
     
-    <div class="max-w-7xl mx-auto px-4 py-8 pt-3">
+    <div class="max-w-7xl mx-auto px-4 py-8 pt-28">
         <!-- Page Heading -->
         <h1 class="text-4xl font-bold text-gray-900 mb-6">
             {{ $page->title }}

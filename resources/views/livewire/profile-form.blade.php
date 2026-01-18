@@ -709,14 +709,50 @@
                     </div>
 
                     <!-- City -->
-                    <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.city') }}</label>
-                        <input
-                            type="text"
-                            id="city"
-                            wire:model="city"
-                            class="input-control mt-1 @error('city') border-red-500 @enderror"
-                            placeholder="{{ __('front.profiles.form.city') }}">
+                    <div x-data="{ open: @entangle('cityDropdownOpen') }" class="relative">
+                        <label for="city_new" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.city') }}</label>
+                        <div class="relative">
+                            <input
+                                type="text"
+                                id="city_new"
+                                wire:model.live.debounce.300ms="citySearchTerm"
+                                @focus="open = true"
+                                @click="open = true"
+                                :disabled="!$wire.country_code"
+                                class="input-control mt-1 @error('city') border-red-500 @enderror"
+                                :class="{ 'bg-gray-100 cursor-not-allowed': !$wire.country_code }"
+                                placeholder="{{ __('front.profiles.form.city') }}">
+                            @if(!$country_code)
+                                <p class="mt-1 text-xs text-gray-500">{{ __('front.profiles.form.select_country_first') }}</p>
+                            @endif
+                        </div>
+                        
+                        <!-- City Suggestions Dropdown -->
+                        <div
+                            x-show="open && $wire.citySuggestions.length > 0"
+                            @click.away="open = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto"
+                            style="display: none;">
+                            @foreach($citySuggestions as $suggestion)
+                                <button
+                                    type="button"
+                                    wire:click="selectCity('{{ addslashes($suggestion) }}')"
+                                    class="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2"
+                                    :class="{ 'bg-pink-50': '{{ addslashes($suggestion) }}' === '{{ addslashes($city) }}' }">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    <span>{{ $suggestion }}</span>
+                                </button>
+                            @endforeach
+                        </div>
                         @error('city') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>

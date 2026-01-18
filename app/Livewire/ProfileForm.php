@@ -75,6 +75,11 @@ class ProfileForm extends Component
     // Dropdown states
     public $countryDropdownOpen = false;
     public $countrySearchTerm = '';
+    
+    // City autocomplete states
+    public $cityDropdownOpen = false;
+    public $citySearchTerm = '';
+    public $citySuggestions = [];
 
     // Options arrays
     public $countries = [];
@@ -188,6 +193,50 @@ class ProfileForm extends Component
         $this->country_code = $countryCode;
         $this->countryDropdownOpen = false;
         $this->countrySearchTerm = '';
+        
+        // Clear city when country changes (city must match country)
+        $this->city = '';
+        $this->citySearchTerm = '';
+        $this->citySuggestions = [];
+    }
+
+    /**
+     * Search cities based on country and search term
+     */
+    public function updatedCitySearchTerm($value)
+    {
+        if (empty($this->country_code) || strlen($value) < 2) {
+            $this->citySuggestions = [];
+            return;
+        }
+        
+        $this->citySuggestions = \App\Models\City::autocomplete(
+            $this->country_code,
+            $value,
+            10
+        )->toArray();
+    }
+
+    /**
+     * Select a city from suggestions
+     */
+    public function selectCity($cityName)
+    {
+        $this->city = $cityName;
+        $this->citySearchTerm = $cityName;
+        $this->citySuggestions = [];
+        $this->cityDropdownOpen = false;
+    }
+
+    /**
+     * Toggle city dropdown
+     */
+    public function toggleCityDropdown()
+    {
+        if (empty($this->country_code)) {
+            return; // Don't open if no country selected
+        }
+        $this->cityDropdownOpen = !$this->cityDropdownOpen;
     }
 
     public function getFilteredCountriesProperty()

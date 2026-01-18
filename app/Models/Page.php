@@ -59,7 +59,12 @@ class Page extends Model implements HasMedia
 
         static::creating(function ($page) {
             if (empty($page->slug)) {
-                $page->slug = Str::slug($page->title);
+                // Get title in current locale or first available
+                $title = is_array($page->title) 
+                    ? ($page->title[app()->getLocale()] ?? array_values($page->title)[0] ?? '') 
+                    : $page->title;
+                    
+                $page->slug = Str::slug($title);
             }
         });
     }

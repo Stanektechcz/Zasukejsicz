@@ -293,7 +293,10 @@ return [
             'video' => 'Video',
             'porn_actress' => 'Porno herečka',
             'new' => 'Nové',
-            'filters_active' => ':count filtr(ů) aktivních'
+            'filters_active' => ':count filtr(ů) aktivních',
+            'rating' => 'Hodnocení',
+            'eco_friendly' => 'Náš projekt je ekologický',
+            'eco_friendly_desc' => '– Díky systému ověření dívek nepojedete nikam zbytečně.'
         ],
         'form' => [
             'personal' => 'Osobní údaje',

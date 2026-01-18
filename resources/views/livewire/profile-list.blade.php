@@ -16,10 +16,17 @@
                 <span wire:target="toggleAgeGroup">
                     <x-icons name="users" class="w-4 h-4 mr-2 {{ $ageGroup === '' ? 'text-primary' : 'text-gray-500' }}" />
                 </span>
-                All Girls
+                {{ __('front.profiles.list.all_girls') }}
             </button>
 
-            @foreach(['18-25' => '18-25 yo', '26-30' => '26-30 yo', '31-35' => '31-35 yo', '36-40' => '36-40 yo', '40-50' => '40-50 yo', '50+' => '50 yo +'] as $value => $label)
+            @foreach([
+                '18-25' => __('front.profiles.list.age_18_25'),
+                '26-30' => __('front.profiles.list.age_26_30'),
+                '31-35' => __('front.profiles.list.age_31_35'),
+                '36-40' => __('front.profiles.list.age_36_40'),
+                '40-50' => __('front.profiles.list.age_40_50'),
+                '50+' => __('front.profiles.list.age_50_plus')
+            ] as $value => $label)
             <button wire:click="toggleAgeGroup('{{ $value }}')"
                 class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 {{ $ageGroup === $value ? 'border-primary text-gray-700 bg-white' : 'border-gray-100 text-gray-700 bg-white' }} hover:border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 wire:loading.attr="disabled"
@@ -49,7 +56,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
                     </svg>
                 @endif
-                Recommendation
+                {{ __('front.profiles.list.recommendation') }}
             </button>
 
             <!-- Verified Photo Filter -->
@@ -60,7 +67,7 @@
                 <svg wire:target="toggleVerifiedPhoto" class="w-4 h-4 mr-2 {{ $hasVerifiedPhoto ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                Verified photo
+                {{ __('front.profiles.list.verified_photo') }}
             </button>
 
             <!-- Video Filter -->
@@ -71,7 +78,7 @@
                 <svg wire:target="toggleVideo" class="w-4 h-4 mr-2 {{ $hasVideo ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
-                Video
+                {{ __('front.profiles.list.video') }}
             </button>
 
             <!-- Porn Actress Filter -->
@@ -82,7 +89,7 @@
                 <svg wire:target="togglePornActress" class="w-4 h-4 mr-2 {{ $isPornActress ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                 </svg>
-                Porno actress
+                {{ __('front.profiles.list.porn_actress') }}
             </button>
 
             <!-- New Filter -->
@@ -103,7 +110,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                 @endif
-                New
+                {{ __('front.profiles.list.new') }}
             </button>
 
             <!-- Rating Filter -->
@@ -114,7 +121,7 @@
                 <svg wire:target="toggleRating" class="w-4 h-4 mr-2 {{ $hasRating ? 'text-primary' : 'text-gray-500' }}" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                 </svg>
-                Rating
+                {{ __('front.profiles.list.rating') }}
             </button>
 
             <!-- Clear All Filters Button -->
@@ -135,7 +142,7 @@
         @if($this->activeFiltersCount() > 0)
         <div class="mt-4">
             <span class="text-sm text-gray-600">
-                {{ $this->activeFiltersCount() }} filter(s) active
+                {{ __('front.profiles.list.filters_active', ['count' => $this->activeFiltersCount()]) }}
             </span>
         </div>
         @endif
@@ -165,7 +172,7 @@
                         <div class="flex items-center justify-center gap-3 text-center">
                             <x-icons name="eco" class="w-5 h-5 text-green-600 flex-shrink-0" />
                             <p class="text-sm font-medium text-green-600">
-                                <span class="font-semibold text-green-700">Our project is eco-friendly</span> – Thanks to the girl verification system, you won't travel anywhere unnecessarily.
+                                <span class="font-semibold text-green-700">{{ __('front.profiles.list.eco_friendly') }}</span> {{ __('front.profiles.list.eco_friendly_desc') }}
                             </p>
                         </div>
                     </div>

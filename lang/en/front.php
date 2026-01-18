@@ -277,7 +277,10 @@ return [
             'video' => 'Video',
             'porn_actress' => 'Porno actress',
             'new' => 'New',
-            'filters_active' => ':count filter(s) active'
+            'filters_active' => ':count filter(s) active',
+            'rating' => 'Rating',
+            'eco_friendly' => 'Our project is eco-friendly',
+            'eco_friendly_desc' => '– Thanks to the girl verification system, you won\'t travel anywhere unnecessarily.'
         ],
         'form' => [
             'personal' => 'Personal Information',
