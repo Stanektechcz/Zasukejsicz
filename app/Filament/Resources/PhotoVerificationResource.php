@@ -6,16 +6,13 @@ use App\Filament\Resources\PhotoVerificationResource\Pages;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
-use Filament\Actions\ViewAction;
-use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\TextEntry;
+use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -64,9 +61,9 @@ class PhotoVerificationResource extends Resource
     {
         return parent::getEloquentQuery()
             ->where('collection_name', 'profile-images')
-            ->whereJsonContains('custom_properties->verification_status', 'pending')
+            ->whereRaw("JSON_EXTRACT(custom_properties, '$.verification_status') IS NOT NULL")
             ->with(['model.user'])
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
     }
 
     public static function table(Table $table): Table
@@ -98,61 +95,42 @@ class PhotoVerificationResource extends Resource
                     ->label(__('filament.pages.photo_verifications.requested_at'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
+
+                TextColumn::make('custom_properties.verification_status')
+                    ->label(__('filament.pages.photo_verifications.verification_status'))
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => __('filament.pages.photo_verifications.status.' . ($state ?? 'pending')))
+                    ->color(fn ($state) => match ($state) {
+                        'verified' => 'success',
+                        'rejected' => 'danger',
+                        default => 'warning',
+                    })
+                    ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('verification_status')
+                    ->label(__('filament.pages.photo_verifications.verification_status'))
+                    ->options([
+                        'pending' => __('filament.pages.photo_verifications.status.pending'),
+                        'verified' => __('filament.pages.photo_verifications.status.verified'),
+                        'rejected' => __('filament.pages.photo_verifications.status.rejected'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (! $data['value']) {
+                            return $query;
+                        }
+                        return $query->whereJsonContains('custom_properties->verification_status', $data['value']);
+                    })
+                    ->default('pending'),
             ])
             ->actions([
-                Action::make('approve')
-                    ->label(__('filament.pages.photo_verifications.approve'))
-                    ->icon(Heroicon::OutlinedCheckCircle)
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->modalHeading(__('filament.pages.photo_verifications.approve_confirm_title'))
-                    ->modalDescription(__('filament.pages.photo_verifications.approve_confirm_desc'))
-                    ->action(function (Media $record): void {
-                        $record->setCustomProperty('verification_status', 'verified');
-                        $record->setCustomProperty('verified_at', now()->toISOString());
-                        $record->setCustomProperty('verified_by', auth()->id());
-                        $record->save();
-
-                        // Update profile verified_at if this is the main photo
-                        if ($record->getCustomProperty('is_main', false) && $record->model) {
-                            $record->model->update(['verified_at' => now()]);
-                        }
-
-                        Notification::make()
-                            ->title(__('filament.pages.photo_verifications.approved'))
-                            ->success()
-                            ->send();
-                    }),
-
-                Action::make('reject')
-                    ->label(__('filament.pages.photo_verifications.reject'))
-                    ->icon(Heroicon::OutlinedXCircle)
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->modalHeading(__('filament.pages.photo_verifications.reject_confirm_title'))
-                    ->modalDescription(__('filament.pages.photo_verifications.reject_confirm_desc'))
-                    ->action(function (Media $record): void {
-                        $record->setCustomProperty('verification_status', 'rejected');
-                        $record->setCustomProperty('rejected_at', now()->toISOString());
-                        $record->setCustomProperty('rejected_by', auth()->id());
-                        $record->save();
-
-                        // Clear profile verified_at if this is the main photo
-                        if ($record->getCustomProperty('is_main', false) && $record->model) {
-                            $record->model->update(['verified_at' => null]);
-                        }
-
-                        Notification::make()
-                            ->title(__('filament.pages.photo_verifications.rejected'))
-                            ->warning()
-                            ->send();
-                    }),
-
-                ViewAction::make()
-                    ->modalHeading(__('filament.pages.photo_verifications.review_photo')),
+                Action::make('review')
+                    ->label(__('filament.pages.photo_verifications.review'))
+                    ->icon(Heroicon::OutlinedEye)
+                    ->color('primary')
+                    ->url(fn (Media $record): string => static::getUrl('view', ['record' => $record])),
+                EditAction::make()
+                    ->label(__('filament.actions.edit')),
             ])
             ->bulkActions([
                 BulkAction::make('approveSelected')
@@ -203,47 +181,16 @@ class PhotoVerificationResource extends Resource
             ])
             ->emptyStateHeading(__('filament.pages.photo_verifications.no_pending'))
             ->emptyStateDescription(__('filament.pages.photo_verifications.no_pending_desc'))
-            ->emptyStateIcon(Heroicon::OutlinedCheckCircle);
-    }
-
-    public static function infolist(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                Section::make(__('filament.pages.photo_verifications.photo'))
-                    ->schema([
-                        ImageEntry::make('url')
-                            ->label('')
-                            ->getStateUsing(fn (Media $record): string => $record->getUrl())
-                            ->height(400),
-                    ]),
-
-                Section::make(__('filament.pages.photo_verifications.profile_info'))
-                    ->schema([
-                        TextEntry::make('model.display_name')
-                            ->label(__('filament.pages.photo_verifications.profile_name')),
-
-                        TextEntry::make('model.user.email')
-                            ->label(__('filament.attributes.email')),
-
-                        TextEntry::make('custom_properties.is_main')
-                            ->label(__('filament.pages.photo_verifications.main_photo'))
-                            ->formatStateUsing(fn ($state) => $state ? __('filament.values.yes') : __('filament.values.no'))
-                            ->badge()
-                            ->color(fn ($state) => $state ? 'warning' : 'gray'),
-
-                        TextEntry::make('created_at')
-                            ->label(__('filament.pages.photo_verifications.requested_at'))
-                            ->dateTime('d.m.Y H:i'),
-                    ])
-                    ->columns(2),
-            ]);
+            ->emptyStateIcon(Heroicon::OutlinedCheckCircle)
+            ->recordUrl(fn (Media $record): string => static::getUrl('view', ['record' => $record]));
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListPhotoVerifications::route('/'),
+            'view' => Pages\ViewPhotoVerification::route('/{record}'),
+            'edit' => Pages\EditPhotoVerification::route('/{record}/edit'),
         ];
     }
 
@@ -254,7 +201,7 @@ class PhotoVerificationResource extends Resource
 
     public static function canEdit($record): bool
     {
-        return false;
+        return auth()->user()?->hasRole('admin') ?? false;
     }
 
     public static function canDelete($record): bool

@@ -1,7 +1,8 @@
 <div x-data="{ show: false, closing: false }"
-    x-on:show-login-modal.window="console.log('Login modal event received'); show = true"
+    x-on:show-login-modal.window="console.log('Login modal event received'); show = true; $wire.show()"
     x-on:hide-login-modal.window="show = false; closing = false"
-    x-init="console.log('Login modal Alpine initialized'); $watch('show', v => document.body.style.overflow = v ? 'hidden' : '')">
+    x-init="console.log('Login modal Alpine initialized'); $watch('show', v => document.body.style.overflow = v ? 'hidden' : '')"
+    x-on:keydown.escape.window="if (show) { closing = true; show = false; $wire.hide() }">
     <!-- Login Modal -->
     <div x-show="show"
         x-transition.opacity.duration.300ms
@@ -10,12 +11,12 @@
 
         <!-- Modal Backdrop -->
         <div class="modal-backdrop"
-            @click="closing = true; show = false"></div>
+            @click="closing = true; show = false; $wire.hide()"></div>
 
         <!-- Modal Content -->
         <div class="modal-container">
             <!-- Close Button -->
-            <button @click="closing = true; show = false"
+            <button @click="closing = true; show = false; $wire.hide()"
                 class="modal-close-btn">
                 <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -63,7 +64,7 @@
                 <!-- Forgot Password -->
                 <div class="text-left">
                     <button type="button" 
-                        @click="show = false; $dispatch('show-reset-modal')"
+                        @click="show = false; $wire.hide(); $dispatch('show-reset-modal')"
                         class="text-xs sm:text-sm text-gray-500 hover:text-gray-700">{{ __('auth.login.forgot_password') }}</button>
                 </div>
 
@@ -82,7 +83,7 @@
             <div class="mt-6 sm:mt-8 text-center px-4 sm:px-6">
                 <p class="text-base sm:text-lg font-semibold text-secondary mb-3 sm:mb-4">{{ __('auth.unknown_text') }}</p>
                 <button type="button"
-                    @click="show = false; $dispatch('show-register-modal')"
+                    @click="show = false; $wire.hide(); $dispatch('show-register-modal')"
                     x-bind:disabled="closing"
                     class="modal-btn-outline">
                     {{ __('auth.switch_to_register') }}

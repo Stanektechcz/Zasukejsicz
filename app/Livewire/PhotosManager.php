@@ -169,7 +169,7 @@ class PhotosManager extends Component
     public function uploadImages()
     {
         $this->validate([
-            'images.*' => 'image|max:10240', // Max 10MB per image
+            'images.*' => 'image|max:20480', // Max 20MB per image
         ]);
 
         $user = Auth::user();

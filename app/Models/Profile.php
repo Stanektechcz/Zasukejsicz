@@ -105,6 +105,30 @@ class Profile extends Model implements HasMedia
     }
 
     /**
+     * Get the profile views for this profile.
+     */
+    public function views()
+    {
+        return $this->hasMany(ProfileView::class);
+    }
+
+    /**
+     * Get click views for this profile.
+     */
+    public function clickViews()
+    {
+        return $this->hasMany(ProfileView::class)->where('type', ProfileView::TYPE_CLICK);
+    }
+
+    /**
+     * Get impression views for this profile.
+     */
+    public function impressionViews()
+    {
+        return $this->hasMany(ProfileView::class)->where('type', ProfileView::TYPE_IMPRESSION);
+    }
+
+    /**
      * Get all subscriptions for this profile.
      */
     public function subscriptions()

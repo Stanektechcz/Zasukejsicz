@@ -13,11 +13,13 @@ class Notification extends Model
         'type',
         'is_global',
         'read_at',
+        'archived_at',
     ];
 
     protected $casts = [
         'is_global' => 'boolean',
         'read_at' => 'datetime',
+        'archived_at' => 'datetime',
     ];
 
     public function user()
@@ -30,9 +32,24 @@ class Notification extends Model
         $this->update(['read_at' => now()]);
     }
 
+    public function archive()
+    {
+        $this->update(['archived_at' => now()]);
+    }
+
     public function scopeUnread($query)
     {
         return $query->whereNull('read_at');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereNull('archived_at');
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereNotNull('archived_at');
     }
 
     public function scopeForUser($query, $userId)

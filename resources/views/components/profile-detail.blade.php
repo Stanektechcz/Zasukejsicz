@@ -415,6 +415,7 @@
                 </div>
                 @endif
 
+
                 <!-- Services Section -->
                 @if($profile->services && $profile->services->count() > 0)
                 <div class="mt-8">
@@ -428,10 +429,56 @@
                     </div>
                 </div>
                 @endif
-
             </div>
         </div>
+
     </div>
+    
+    {{-- Best rated profiles this month --}}
+    <div class="mt-12 mb-7 flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary">
+                {{ __('Nejlépe hodnocené dívky') }}
+            </h2>
+            <h3 class="text-2xl md:text-4xl font-bold text-primary">
+                {{ __('tento měsíc') }}
+            </h3>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gold-500 -translate-y-1.5">
+            <x-icons name="diamond" class="w-5 h-5 translate-y-px" />
+            <span class="text-sm md:text-base font-medium text-primary underline">{{ __('Premium účet vám odemkne hodnocení') }}</span>
+        </div>
+    </div>
+    
+    <livewire:profile-slider 
+        sort-by="rating_this_month"
+        sort-direction="desc"
+        :limit="10" 
+    />
+
+
+    {{-- Best rated profiles all time --}}
+    <div class="mt-12 mb-7 flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary">
+                {{ __('Nejlépe hodnocené dívky') }}
+            </h2>
+            <h3 class="text-2xl md:text-4xl font-bold text-primary">
+                {{ __('celkově') }}
+            </h3>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gold-500 -translate-y-1.5">
+            <x-icons name="diamond" class="w-5 h-5 translate-y-px" />
+            <span class="text-sm md:text-base font-medium text-primary underline">{{ __('Premium účet vám odemkne hodnocení') }}</span>
+        </div>
+    </div>
+    
+    <livewire:profile-slider 
+        sort-by="rating"
+        sort-direction="desc"
+        :limit="10" 
+    />
+
 </div>
 
 <!-- Lightbox Modal -->

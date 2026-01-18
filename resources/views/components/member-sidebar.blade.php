@@ -1,6 +1,40 @@
-<aside class="w-80">
+{{-- Mobile Menu Button --}}
+<button 
+    @click="$store.memberSidebar.toggle()"
+    class="fixed top-20 left-4 z-50 md:hidden bg-primary text-white p-3 rounded-lg shadow-lg hover:bg-primary-600 transition-colors"
+    aria-label="Toggle menu"
+>
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+</button>
+
+{{-- Overlay for mobile --}}
+<div 
+    x-show="$store.memberSidebar.isOpen" 
+    @click="$store.memberSidebar.close()"
+    x-transition.opacity
+    class="fixed inset-0 bg-black/50 z-40 md:hidden"
+></div>
+
+{{-- Sidebar --}}
+<aside 
+    class="w-80 md:relative fixed top-0 left-0 h-full z-40 bg-white transition-transform duration-300 md:translate-x-0"
+    :class="$store.memberSidebar.isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+>
+    {{-- Close button for mobile --}}
+    <button 
+        @click="$store.memberSidebar.close()"
+        class="absolute top-4 right-4 md:hidden text-gray-500 hover:text-gray-700"
+        aria-label="Close menu"
+    >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+
     <!-- Navigation Menu -->
-    <nav class="p-6">
+    <nav class="p-6 pt-16 md:pt-6">
         <ul class="space-y-3">
             {{-- User Settings Section --}}
             <li>
@@ -71,3 +105,17 @@
         </ul>
     </nav>
 </aside>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('memberSidebar', {
+            isOpen: false,
+            toggle() {
+                this.isOpen = !this.isOpen;
+            },
+            close() {
+                this.isOpen = false;
+            }
+        });
+    });
+</script>

@@ -18,6 +18,15 @@ class ProfileForm extends Component
     #[Rule('nullable|string|max:20|unique:users,phone')]
     public $phone = '';
 
+    // Password change fields
+    public $current_password = '';
+    public $new_password = '';
+    public $new_password_confirmation = '';
+
+    // Email change fields
+    public $new_email = '';
+    public $email_change_password = '';
+
     #[Rule('nullable|string|max:255')]
     public $country = '';
 
@@ -272,22 +281,54 @@ class ProfileForm extends Component
             $validationRules['status'] = 'nullable|in:pending,approved,rejected';
         }
 
+        // Add password validation rules if user is changing password
+        if (!empty($this->current_password) || !empty($this->new_password) || !empty($this->new_password_confirmation)) {
+            $validationRules['current_password'] = 'required|current_password';
+            $validationRules['new_password'] = 'required|string|min:8|confirmed';
+        }
+
+        // Add email change validation rules if user is changing email
+        if (!empty($this->new_email)) {
+            $validationRules['new_email'] = 'required|email|max:255|unique:users,email,' . $user->id;
+            $validationRules['email_change_password'] = 'required|current_password';
+        }
+
         $this->validate($validationRules);
 
         // Track email change before update
-        $emailChanged = $user->email !== $this->email;
+        $emailChanged = !empty($this->new_email) && $user->email !== $this->new_email;
 
         // Update user data
         $user->name = $this->name;
-        $user->email = $this->email;
+        if ($emailChanged) {
+            $user->email = $this->new_email;
+        }
         $user->phone = $this->phone;
 
-        // Mark email as unverified if changed
+        // Mark email as unverified if changed and send verification notification
         if ($emailChanged) {
             $user->email_verified_at = null;
+            // Clear email change fields
+            $this->email = $this->new_email;
+            $this->new_email = '';
+            $this->email_change_password = '';
+        }
+
+        // Update password if provided
+        if (!empty($this->new_password)) {
+            $user->password = bcrypt($this->new_password);
+            // Clear password fields after update
+            $this->current_password = '';
+            $this->new_password = '';
+            $this->new_password_confirmation = '';
         }
 
         $user->save();
+
+        // Send email verification notification after save if email changed
+        if ($emailChanged) {
+            $user->sendEmailVerificationNotification();
+        }
 
         // Update or create profile
         $profileData = [

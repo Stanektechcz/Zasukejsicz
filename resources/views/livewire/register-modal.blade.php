@@ -1,7 +1,8 @@
 <div x-data="{ show: false, closing: false }"
-    x-on:show-register-modal.window="show = true"
+    x-on:show-register-modal.window="show = true; $wire.show()"
     x-on:hide-register-modal.window="show = false; closing = false"
-    x-init="$watch('show', v => document.body.style.overflow = v ? 'hidden' : '')">
+    x-init="$watch('show', v => document.body.style.overflow = v ? 'hidden' : '')"
+    x-on:keydown.escape.window="if (show) { closing = true; show = false; $wire.hide() }">
     <!-- Registration Modal -->
     <div x-show="show"
         x-transition.opacity.duration.300ms
@@ -10,7 +11,7 @@
 
         <!-- Modal Backdrop -->
         <div class="modal-backdrop"
-            @click="closing = true; show = false"></div>
+            @click="closing = true; show = false; $wire.hide()"></div>
 
         <!-- Modal Content -->
         <div class="modal-container pb-5 sm:pb-7">
@@ -26,14 +27,14 @@
 
             <!-- Close Button (hide on success step or show with different behavior) -->
             @if($currentStep !== 3)
-            <button @click="closing = true; show = false"
+            <button @click="closing = true; show = false; $wire.hide()"
                 class="modal-close-btn">
                 <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
             @else
-            <button @click="closing = true; show = false"
+            <button @click="closing = true; show = false; $wire.hide()"
                 class="modal-close-btn">
                 <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -205,7 +206,7 @@
 
                 <!-- Action Button -->
                 <div class="mt-4 sm:mt-5">
-                    <button @click="closing = true; show = false"
+                    <button @click="closing = true; show = false; $wire.hide()"
                         class="modal-btn-primary">
                         {{ __('auth.register.success.close_button') }}
                     </button>

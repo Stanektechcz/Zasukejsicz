@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\Profile;
+use App\Models\ProfileView;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -17,6 +18,9 @@ class ProfileController extends Controller
     public function index(Request $request): View
     {
         $profiles = $this->getPublicProfiles($request);
+        
+        // Record impressions for profiles shown in listing (don't track for authenticated female users viewing their own)
+        $this->recordListingImpressions($profiles);
         
         // Get published blog posts
         $blogPosts = Page::blog()
@@ -38,6 +42,9 @@ class ProfileController extends Controller
     public function api(Request $request): JsonResponse
     {
         $profiles = $this->getPublicProfiles($request, true);
+        
+        // Record impressions for profiles shown in API response
+        $this->recordListingImpressions($profiles);
         
         return response()->json([
             'success' => true,
@@ -66,6 +73,11 @@ class ProfileController extends Controller
             ->with(['user:id,name', 'services'])
             ->select($this->getPublicProfileColumns())
             ->findOrFail($id);
+        
+        // Record profile click view (don't track own profile views)
+        if (!auth()->check() || auth()->id() !== $profile->user_id) {
+            ProfileView::recordClick($profile->id);
+        }
             
         return view('profiles.show', compact('profile'));
     }
@@ -168,5 +180,24 @@ class ProfileController extends Controller
             'created_at' => $profile->created_at->format('Y-m-d'),
             'profile_url' => route('profiles.show', $profile),
         ];
+    }
+
+    /**
+     * Record impressions for profiles shown in a listing.
+     * Excludes own profile for authenticated female users.
+     */
+    private function recordListingImpressions($profiles): void
+    {
+        $profileIds = collect($profiles->items())->pluck('id')->toArray();
+        
+        // If user is authenticated and female, exclude their own profile
+        if (auth()->check() && auth()->user()->isFemale() && auth()->user()->profile) {
+            $ownProfileId = auth()->user()->profile->id;
+            $profileIds = array_filter($profileIds, fn($id) => $id !== $ownProfileId);
+        }
+        
+        if (!empty($profileIds)) {
+            ProfileView::recordImpressions($profileIds);
+        }
     }
 }

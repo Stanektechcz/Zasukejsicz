@@ -116,9 +116,11 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 // Notifications Routes
-Route::middleware('auth')->group(function () {
-    Route::delete('/notifications/{notification}', [App\Http\Controllers\NotificationController::class, 'delete'])->name('notifications.delete');
-    Route::post('/notifications/{notification}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::middleware('auth')->prefix('notifications')->name('notifications.')->group(function () {
+    Route::get('/archived', [App\Http\Controllers\NotificationController::class, 'archived'])->name('archived');
+    Route::post('/{notification}/archive', [App\Http\Controllers\NotificationController::class, 'archive'])->name('archive');
+    Route::delete('/{notification}', [App\Http\Controllers\NotificationController::class, 'delete'])->name('delete');
+    Route::post('/{notification}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('read');
 });
 
 // Messages Routes

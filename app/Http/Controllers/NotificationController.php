@@ -17,12 +17,23 @@ class NotificationController extends Controller implements HasMiddleware
         ];
     }
 
+    public function archive(Notification $notification)
+    {
+        // Check if user owns this notification or if it's a global notification
+        if ($notification->user_id === Auth::id() || $notification->is_global) {
+            $notification->archive();
+            return back()->with('success', __('front.notifications.notification_archived'));
+        }
+
+        abort(403);
+    }
+
     public function delete(Notification $notification)
     {
         // Check if user owns this notification or if it's a global notification
         if ($notification->user_id === Auth::id() || $notification->is_global) {
             $notification->delete();
-            return back()->with('success', 'Notification deleted');
+            return back()->with('success', __('front.notifications.notification_deleted'));
         }
 
         abort(403);
@@ -36,5 +47,15 @@ class NotificationController extends Controller implements HasMiddleware
         }
 
         abort(403);
+    }
+
+    public function archived()
+    {
+        $notifications = Notification::forUser(Auth::id())
+            ->archived()
+            ->latest()
+            ->paginate(20);
+
+        return view('account.notifications.archived', compact('notifications'));
     }
 }

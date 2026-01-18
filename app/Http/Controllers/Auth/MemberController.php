@@ -108,19 +108,36 @@ class MemberController extends Controller
     {
         $user = Auth::user();
 
-        $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'phone' => ['nullable', 'string', 'max:20', 'unique:users,phone,' . $user->id],
-        ]);
+        ];
 
-        $user->fill($request->only(['name', 'email', 'phone']));
+        // Add email change validation if new_email is provided
+        if ($request->filled('new_email')) {
+            $rules['new_email'] = ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id];
+            $rules['email_change_password'] = ['required', 'current_password'];
+        }
 
-        if ($user->isDirty('email')) {
+        $request->validate($rules);
+
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+
+        // Handle email change
+        $emailChanged = false;
+        if ($request->filled('new_email') && $user->email !== $request->new_email) {
+            $user->email = $request->new_email;
             $user->email_verified_at = null;
+            $emailChanged = true;
         }
 
         $user->save();
+
+        // Send email verification notification after save
+        if ($emailChanged) {
+            $user->sendEmailVerificationNotification();
+        }
 
         return redirect()->route('account.member.dashboard')->with('status', 'settings-updated');
     }

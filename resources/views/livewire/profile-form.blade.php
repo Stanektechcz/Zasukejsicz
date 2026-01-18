@@ -38,10 +38,10 @@
                     <input
                         type="email"
                         id="email"
-                        wire:model="email"
-                        class="input-control mt-1 @error('email') border-red-500 @enderror"
+                        value="{{ $email }}"
+                        disabled
+                        class="input-control mt-1 bg-gray-50 text-gray-500 cursor-not-allowed"
                         placeholder="{{ __('front.profiles.form.email_placeholder') }}">
-                    @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Phone -->
@@ -54,6 +54,147 @@
                         class="input-control mt-1 @error('phone') border-red-500 @enderror"
                         placeholder="+420 123 456 789">
                     @error('phone') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
+            <!-- Email Change Section -->
+            <div x-data="{ expanded: false }" class="mt-6">
+                <button
+                    type="button"
+                    @click="expanded = !expanded"
+                    class="w-full flex items-center justify-between py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        {{ __('front.profiles.form.change_email') }}
+                    </span>
+                    <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div
+                    x-show="expanded"
+                    x-collapse
+                    x-cloak
+                    class="mt-4 space-y-4 px-1">
+                    <!-- New Email -->
+                    <div>
+                        <label for="new_email" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.new_email') }}</label>
+                        <input
+                            type="email"
+                            id="new_email"
+                            wire:model="new_email"
+                            class="input-control mt-1 @error('new_email') border-red-500 @enderror"
+                            placeholder="{{ __('front.profiles.form.email_placeholder') }}">
+                        @error('new_email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <!-- Password Confirmation for Email Change -->
+                    <div>
+                        <label for="email_change_password" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.password_to_confirm') }}</label>
+                        <input
+                            type="password"
+                            id="email_change_password"
+                            wire:model="email_change_password"
+                            class="input-control mt-1 @error('email_change_password') border-red-500 @enderror"
+                            placeholder="••••••••">
+                        @error('email_change_password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        <p class="mt-2 text-xs text-gray-500">{{ __('front.profiles.form.email_change_notice') }}</p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-end pt-4">
+                        <button
+                            type="submit"
+                            wire:loading.attr="disabled"
+                            wire:loading.class="opacity-50 cursor-not-allowed"
+                            class="btn-primary btn-small justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span wire:loading.remove>{{ __('front.profiles.form.savechanges') }}</span>
+                            <span wire:loading>{{ __('front.profiles.form.saving') }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Reset Section -->
+            <div x-data="{ expanded: false }" class="mt-6">
+                <button
+                    type="button"
+                    @click="expanded = !expanded"
+                    class="w-full flex items-center justify-between py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                        {{ __('front.profiles.form.change_password') }}
+                    </span>
+                    <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div
+                    x-show="expanded"
+                    x-collapse
+                    x-cloak
+                    class="mt-4 space-y-4 px-1">
+                    <!-- Current Password -->
+                    <div>
+                        <label for="current_password" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.current_password') }}</label>
+                        <input
+                            type="password"
+                            id="current_password"
+                            wire:model="current_password"
+                            class="input-control mt-1 @error('current_password') border-red-500 @enderror"
+                            placeholder="••••••••">
+                        @error('current_password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- New Password -->
+                        <div>
+                            <label for="new_password" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.new_password') }}</label>
+                            <input
+                                type="password"
+                                id="new_password"
+                                wire:model="new_password"
+                                class="input-control mt-1 @error('new_password') border-red-500 @enderror"
+                                placeholder="••••••••">
+                            @error('new_password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div>
+                            <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front.profiles.form.confirm_password') }}</label>
+                            <input
+                                type="password"
+                                id="new_password_confirmation"
+                                wire:model="new_password_confirmation"
+                                class="input-control mt-1 @error('new_password_confirmation') border-red-500 @enderror"
+                                placeholder="••••••••">
+                            @error('new_password_confirmation') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Submit Button -->
+                <div class="flex justify-end pt-4">
+                    <button
+                        type="submit"
+                        wire:loading.attr="disabled"
+                        wire:loading.class="opacity-50 cursor-not-allowed"
+                        class="btn-primary btn-small justify-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span wire:loading.remove>{{ __('front.profiles.form.savechanges') }}</span>
+                        <span wire:loading>{{ __('front.profiles.form.saving') }}</span>
+                    </button>
                 </div>
             </div>
         </div>
