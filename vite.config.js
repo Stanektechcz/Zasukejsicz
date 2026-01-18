@@ -10,4 +10,25 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        // Production optimizations
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true, // Remove console.logs in production
+                drop_debugger: true,
+            },
+        },
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'vendor': ['alpinejs'],
+                    'swiper': ['swiper'],
+                },
+            },
+        },
+        cssMinify: true,
+        reportCompressedSize: false, // Faster builds
+        chunkSizeWarningLimit: 1000,
+    },
 });

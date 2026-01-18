@@ -24,3 +24,6 @@ Homestead.yaml
 Thumbs.db
 copilot-instructions.md
 copilot-instructions copy.md
+
+.env.production
+.env.staging
