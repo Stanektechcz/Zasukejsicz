@@ -29,6 +29,9 @@ class StagingSeeder extends Seeder
         // Run DatabaseSeeder first (roles, permissions, basic data)
         $this->call(DatabaseSeeder::class);
         
+        // Seed cities for autocomplete
+        $this->call(CitySeeder::class);
+        
         // Get count from container or use default
         $count = app()->bound('staging.user.count') ? app('staging.user.count') : 20;
         

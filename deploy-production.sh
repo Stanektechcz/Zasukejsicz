@@ -69,6 +69,11 @@ echo ""
 echo "🗄️  Running database migrations..."
 php artisan migrate --force
 
+# Create storage symlink
+echo ""
+echo "🔗 Creating storage symlink..."
+php artisan storage:link --force
+
 # Optimize application
 echo ""
 echo "⚡ Optimizing application..."
@@ -92,8 +97,11 @@ php artisan icons:cache 2>/dev/null || true
 # Fix permissions
 echo ""
 echo "🔧 Fixing storage and cache permissions..."
-chmod -R 775 storage bootstrap/cache
-chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo "⚠️  Could not change owner (may need sudo)"
+chmod -R 775 storage bootstrap/cache public/storage 2>/dev/null || true
+chown -R www-data:www-data storage bootstrap/cache public/storage 2>/dev/null || echo "⚠️  Could not change owner (may need sudo)"
+
+# Also ensure public directory is readable
+chmod -R 755 public 2>/dev/null || true
 
 # Restart PHP-FPM (try common service names)
 echo ""

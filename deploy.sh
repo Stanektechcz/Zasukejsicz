@@ -42,7 +42,7 @@ php artisan view:clear
 # Remove --fresh if you only want to add more data without wiping
 echo ""
 echo "🌱 Running staging seeder..."
-php artisan staging:seed --fresh --count=40 --force
+php artisan staging:seed --fresh --count=30 --force
 
 echo ""
 echo "✅ Deployment completed successfully!"
