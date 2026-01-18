@@ -69,6 +69,17 @@ echo ""
 echo "🗄️  Running database migrations..."
 php artisan migrate --force
 
+# Seed pages if none exist (safe for production)
+echo ""
+echo "📄 Ensuring pages exist..."
+PAGE_COUNT=$(php artisan tinker --execute="echo App\Models\Page::count();" 2>/dev/null || echo "0")
+if [ "$PAGE_COUNT" == "0" ]; then
+    echo "⚠️  No pages found, seeding pages..."
+    php artisan db:seed --class=PageSeeder --force
+else
+    echo "✅ Pages exist ($PAGE_COUNT pages)"
+fi
+
 # Create storage symlink
 echo ""
 echo "🔗 Creating storage symlink..."

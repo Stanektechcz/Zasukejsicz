@@ -50,7 +50,8 @@ php artisan config:clear
 php artisan cache:clear
 php artisan route:clear
 php artisan view:clear
-php artisan event:clearphp artisan permission:cache-resetecho "✅ Caches cleared"
+php artisan event:clear
+echo "✅ Caches cleared"
 
 # 5. Rebuild caches
 echo ""
@@ -61,13 +62,7 @@ php artisan view:cache
 php artisan event:cache
 echo "✅ Caches rebuilt"
 
-# 7. Setup Filament Shield permissions
-echo ""
-echo "🛡️  Setting up permissions..."
-php artisan shield:generate --all --ignore-existing 2>/dev/null || echo "  ⚠️  Shield generation skipped"
-echo "  ✓ Permissions setup complete"
-
-# 8. Check storage structure
+# 6. Check storage structure
 echo ""
 echo "📁 Verifying storage structure..."
 required_dirs=(
@@ -117,21 +112,8 @@ echo ""
 echo "✅ Fix completed!"
 echo "================"
 echo ""
-echo "Troubleshooting checklist:"
-echo "  1. Admin Panel 403 Error:"
-echo "     • Ensure you're logged in with admin account"
-echo "     • Run: php artisan shield:generate --all"
-echo "     • Check: php artisan tinker --execute=\"\\App\\Models\\User::role('admin')->count()\""
-echo "  "
-echo "  2. Pages 500 Error:"
-echo "     • Check if pages exist: php artisan tinker --execute=\"\\App\\Models\\Page::count()\""
-echo "     • Run seeders if needed: php artisan db:seed --class=PageSeeder"
-echo "     • Check logs: tail -f storage/logs/laravel.log"
-echo "  "
-echo "  3. Permission Issues:"
-echo "     • Run: sudo chown -R www-data:www-data storage bootstrap/cache public/storage"
-echo "     • Restart services: sudo systemctl restart php-fpm nginx"
-echo "  "
-echo "  4. Still having issues?"
-echo "     • Clear browser cache and cookies"
-echo "     • Check web server error logs: tail -f /var/log/nginx/error.log"
+echo "Next steps:"
+echo "  1. If ownership warnings appeared, run: sudo chown -R www-data:www-data storage bootstrap/cache public/storage"
+echo "  2. Restart PHP-FPM: sudo systemctl restart php-fpm"
+echo "  3. Restart web server: sudo systemctl restart nginx (or apache2)"
+echo "  4. Check Laravel logs: tail -f storage/logs/laravel.log"
