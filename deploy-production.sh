@@ -95,11 +95,6 @@ echo "🔧 Fixing storage and cache permissions..."
 chmod -R 775 storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo "⚠️  Could not change owner (may need sudo)"
 
-# Clear OPcache
-echo ""
-echo "🧹 Clearing OPcache..."
-php artisan opcache:clear 2>/dev/null || echo "⚠️  OPcache not available or already cleared"
-
 # Restart PHP-FPM (try common service names)
 echo ""
 echo "🔄 Restarting PHP-FPM..."

@@ -131,10 +131,31 @@ class PageSeeder extends Seeder
             // Add header image from picsum
             try {
                 $randomSeed = 'blog-' . $post['slug'] . '-' . uniqid();
-                $page->addMediaFromUrl("https://picsum.photos/seed/{$randomSeed}/1200/400")
-                    ->toMediaCollection('header-image');
+                $imageUrl = "https://picsum.photos/seed/{$randomSeed}/1200/400";
+                
+                // Try to download with retry logic
+                $maxRetries = 3;
+                $retry = 0;
+                $success = false;
+                
+                while ($retry < $maxRetries && !$success) {
+                    try {
+                        $page->addMediaFromUrl($imageUrl)
+                            ->toMediaCollection('header-image');
+                        $success = true;
+                    } catch (\Exception $retryException) {
+                        $retry++;
+                        if ($retry < $maxRetries) {
+                            usleep(500000); // Wait 0.5s before retry
+                        }
+                    }
+                }
+                
+                if (!$success) {
+                    $this->command->warn("  ⚠️  Could not download header image for: {$post['slug']}");
+                }
             } catch (\Exception $e) {
-                // Skip if image fails to download
+                $this->command->warn("  ⚠️  Failed to add header image: {$e->getMessage()}");
             }
         }
         

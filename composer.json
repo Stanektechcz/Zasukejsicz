@@ -9,6 +9,7 @@
         "php": "^8.2",
         "bezhansalleh/filament-language-switch": "^4.0",
         "bezhansalleh/filament-shield": "dev-feature/4.x-stable",
+        "fakerphp/faker": "^1.23",
         "filament/filament": "^4.0",
         "filament/spatie-laravel-media-library-plugin": "^4.0",
         "laravel/framework": "^12.0",
@@ -17,7 +18,6 @@
         "spatie/laravel-translatable": "^6.11"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",

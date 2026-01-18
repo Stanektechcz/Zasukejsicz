@@ -14,23 +14,27 @@ class SearchProfiles extends Component
     // UI state
     public $showCityDropdown = false;
     public $showAgeRangeDropdown = false;
-    public $allCities = [];
 
     public function mount()
     {
         $this->city = request('city', '');
         $this->age_range = request('age', '');
-
-        $this->loadCities();
     }
 
-    public function loadCities()
+    /**
+     * Get all available cities from approved, public, and verified profiles
+     * Similar to CountryProfiles implementation
+     */
+    public function getAllCitiesProperty()
     {
-        $this->allCities = Profile::approved()
-            ->public()
+        return Profile::query()
+            ->where('status', 'approved')
+            ->where('is_public', true)
+            ->whereNotNull('verified_at')
             ->whereNotNull('city')
+            ->where('city', '!=', '')
+            ->distinct()
             ->pluck('city')
-            ->unique()
             ->sort()
             ->values()
             ->toArray();
@@ -38,7 +42,7 @@ class SearchProfiles extends Component
 
     public function updatedCity()
     {
-        $this->showCityDropdown = !empty($this->city);
+        $this->showCityDropdown = true;
     }
 
     public function selectCity($city)
@@ -73,11 +77,13 @@ class SearchProfiles extends Component
 
     public function getFilteredCitiesProperty()
     {
+        $cities = $this->allCities;
+        
         if (empty($this->city)) {
-            return $this->allCities;
+            return $cities;
         }
 
-        return collect($this->allCities)
+        return collect($cities)
             ->filter(fn($cityOption) => str_contains(strtolower($cityOption), strtolower($this->city)))
             ->values()
             ->toArray();

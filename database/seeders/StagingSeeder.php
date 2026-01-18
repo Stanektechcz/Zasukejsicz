@@ -123,24 +123,42 @@ class StagingSeeder extends Seeder
      */
     private function addProfileImages(Profile $profile, int $count): void
     {
-        for ($i = 0; $i < $count; $i++) {
+        $successCount = 0;
+        $maxAttempts = $count * 2; // Allow retries
+        $attempt = 0;
+        
+        while ($successCount < $count && $attempt < $maxAttempts) {
             try {
-                // Use different placeholder services
-                $imageUrl = $this->getRandomPlaceholderImage($i);
+                $imageUrl = $this->getRandomPlaceholderImage($attempt);
                 
-                // Download and attach image
+                // Add timeout and user agent to avoid 403 errors
                 $profile->addMediaFromUrl($imageUrl)
+                    ->withResponsiveImages()
                     ->toMediaCollection('profile-images');
                     
+                $successCount++;
+                    
             } catch (\Exception $e) {
-                // If image download fails, try alternative method
-                try {
-                    $this->addFallbackImage($profile, $i);
-                } catch (\Exception $fallbackException) {
-                    // Silently continue if both methods fail
-                    continue;
+                // Log the error but continue
+                $this->command->warn("  ⚠️  Failed to download image (attempt {$attempt}): {$e->getMessage()}");
+                
+                // If we've tried enough times, stop trying for this profile
+                if ($attempt >= $maxAttempts - 1) {
+                    $this->command->warn("  ⚠️  Skipping remaining images for profile {$profile->id}");
+                    break;
                 }
             }
+            
+            $attempt++;
+            
+            // Small delay to avoid rate limiting
+            if ($attempt % 3 === 0) {
+                usleep(500000); // 0.5 second delay every 3 attempts
+            }
+        }
+        
+        if ($successCount === 0) {
+            $this->command->warn("  ⚠️  Could not add any images to profile {$profile->id}");
         }
     }
     

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as FakerFactory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profile>
@@ -19,8 +20,15 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
-        $firstName = fake()->firstName('female');
-        $lastName = fake()->lastName();
+        // Ensure Faker is available (important for production)
+        if (!function_exists('fake')) {
+            $faker = FakerFactory::create();
+        } else {
+            $faker = fake();
+        }
+        
+        $firstName = $faker->firstName('female');
+        $lastName = $faker->lastName();
         
         // Generate realistic cities from Czech Republic and nearby regions
         $cities = [
@@ -34,9 +42,9 @@ class ProfileFactory extends Factory
         $weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $availabilityHours = [];
         foreach ($weekdays as $day) {
-            if (fake()->boolean(70)) { // 70% chance of being available
-                $startHour = fake()->numberBetween(8, 14);
-                $endHour = fake()->numberBetween($startHour + 4, 23);
+            if ($faker->boolean(70)) { // 70% chance of being available
+                $startHour = $faker->numberBetween(8, 14);
+                $endHour = $faker->numberBetween($startHour + 4, 23);
                 $availabilityHours[$day] = sprintf('%02d:00-%02d:00', $startHour, $endHour);
             }
         }
@@ -45,52 +53,52 @@ class ProfileFactory extends Factory
         $localPrices = [];
         $priceOptions = ['30min', '1hour', '2hours', 'overnight'];
         foreach ($priceOptions as $option) {
-            if (fake()->boolean(80)) {
-                $basePrice = fake()->numberBetween(1000, 5000);
+            if ($faker->boolean(80)) {
+                $basePrice = $faker->numberBetween(1000, 5000);
                 $localPrices[$option] = $basePrice;
             }
         }
         
         $globalPrices = [];
         foreach ($priceOptions as $option) {
-            if (fake()->boolean(70)) {
-                $basePrice = fake()->numberBetween(50, 500);
+            if ($faker->boolean(70)) {
+                $basePrice = $faker->numberBetween(50, 500);
                 $globalPrices[$option] = $basePrice;
             }
         }
         
         // Generate rich content for Filament blocks
-        $content = $this->generateBlockContent();
+        $content = $this->generateBlockContent($faker);
 
         return [
             'display_name' => [
                 'en' => $firstName . ' ' . $lastName,
                 'cs' => $firstName . ' ' . $lastName,
             ],
-            'age' => fake()->numberBetween(18, 55),
-            'city' => fake()->randomElement($cities),
-            'address' => fake()->streetAddress(),
-            'country_code' => fake()->randomElement(['CZ', 'SK', 'PL', 'AT', 'DE']),
+            'age' => $faker->numberBetween(18, 55),
+            'city' => $faker->randomElement($cities),
+            'address' => $faker->streetAddress(),
+            'country_code' => $faker->randomElement(['CZ', 'SK', 'PL', 'AT', 'DE']),
             'about' => [
-                'en' => $this->generateAboutText('en'),
-                'cs' => $this->generateAboutText('cs'),
+                'en' => $this->generateAboutText('en', $faker),
+                'cs' => $this->generateAboutText('cs', $faker),
             ],
-            'incall' => fake()->boolean(80),
-            'outcall' => fake()->boolean(60),
+            'incall' => $faker->boolean(80),
+            'outcall' => $faker->boolean(60),
             'content' => $content,
             'availability_hours' => $availabilityHours,
             'local_prices' => $localPrices,
             'global_prices' => $globalPrices,
-            'status' => fake()->randomElement(['draft', 'pending', 'approved', 'rejected']),
-            'is_public' => fake()->boolean(80),
-            'verified_at' => fake()->boolean(60) ? now()->subDays(fake()->numberBetween(1, 30)) : null,
+            'status' => $faker->randomElement(['draft', 'pending', 'approved', 'rejected']),
+            'is_public' => $faker->boolean(80),
+            'verified_at' => $faker->boolean(60) ? now()->subDays($faker->numberBetween(1, 30)) : null,
         ];
     }
     
     /**
      * Generate realistic about text
      */
-    private function generateAboutText(string $locale): string
+    private function generateAboutText(string $locale, $faker): string
     {
         if ($locale === 'cs') {
             $intros = [
@@ -138,13 +146,13 @@ class ProfileFactory extends Factory
             ];
         }
         
-        $text = fake()->randomElement($intros) . ' ';
-        $text .= fake()->randomElement($qualities) . ' ';
-        $text .= fake()->randomElement($qualities) . ' ';
-        $text .= fake()->randomElement($services) . ' ';
+        $text = $faker->randomElement($intros) . ' ';
+        $text .= $faker->randomElement($qualities) . ' ';
+        $text .= $faker->randomElement($qualities) . ' ';
+        $text .= $faker->randomElement($services) . ' ';
         
-        if (fake()->boolean(50)) {
-            $text .= fake()->sentence();
+        if ($faker->boolean(50)) {
+            $text .= $faker->sentence();
         }
         
         return $text;
@@ -153,38 +161,38 @@ class ProfileFactory extends Factory
     /**
      * Generate block content for Filament blocks
      */
-    private function generateBlockContent(): array
+    private function generateBlockContent($faker): array
     {
         $blocks = [];
         
         // Add some random blocks
-        if (fake()->boolean(60)) {
+        if ($faker->boolean(60)) {
             $blocks[] = [
                 'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
-                    'content' => fake()->paragraphs(2, true),
+                    'content' => $faker->paragraphs(2, true),
                 ],
             ];
         }
         
-        if (fake()->boolean(40)) {
+        if ($faker->boolean(40)) {
             $blocks[] = [
                 'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Heading',
                 'data' => [
-                    'content' => fake()->sentence(3),
+                    'content' => $faker->sentence(3),
                     'level' => 'h2',
                 ],
             ];
         }
         
-        if (fake()->boolean(50)) {
+        if ($faker->boolean(50)) {
             $blocks[] = [
                 'type' => 'SkyRaptor\\FilamentBlocksBuilder\\Blocks\\Typography\\Paragraph',
                 'data' => [
                     'content' => '• ' . implode("\n• ", [
-                        fake()->sentence(),
-                        fake()->sentence(),
-                        fake()->sentence(),
+                        $faker->sentence(),
+                        $faker->sentence(),
+                        $faker->sentence(),
                     ]),
                 ],
             ];

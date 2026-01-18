@@ -1,12 +1,13 @@
 @php
     $selectMethod = $attributes->get('select-method');
     $optionsJson = json_encode($options);
+    $optionsHash = md5($optionsJson);
+    $dropdownOpen = $attributes->get('dropdown-open');
 @endphp
 <div x-data="{ 
-        open: false,
+        open: {{ $dropdownOpen ? 'true' : 'false' }},
         selectedValue: @js($value),
         selectedLabel: @js($value && isset($options[$value]) ? $options[$value] : ($value ?: '')),
-        options: {{ $optionsJson }},
         isSearchable: {{ $searchable ? 'true' : 'false' }},
         selectOption(value, label) {
             this.selectedValue = value;
@@ -24,7 +25,31 @@
             // Sync with backend without blocking UI
             $wire.{{ $selectMethod }}(value);
         }
-     }" 
+     }"
+     x-init="
+        // Preserve focus after Livewire updates
+        let wasFocused = false;
+        let cursorPos = 0;
+        
+        Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
+            const input = $refs.searchInput;
+            if (input && document.activeElement === input) {
+                wasFocused = true;
+                cursorPos = input.selectionStart;
+            }
+            
+            succeed(({ snapshot, effect }) => {
+                if (wasFocused && input) {
+                    $nextTick(() => {
+                        input.focus();
+                        input.setSelectionRange(cursorPos, cursorPos);
+                        open = true;
+                    });
+                    wasFocused = false;
+                }
+            });
+        });
+     "
      x-on:click.outside="open = false"
      class="relative">
     <label for="{{ $name }}">{{ $label }}</label>
@@ -36,11 +61,11 @@
                 id="{{ $name }}"
                 x-ref="searchInput"
                 wire:model.live.debounce.300ms="{{ $wireModel }}"
+                @input="open = true"
                 @click="open = true"
                 @focus="open = true"
                 placeholder="{{ $placeholder }}"
                 autocomplete="off"
-                wire:key="{{ $name }}-input-{{ md5($value ?? '') }}"
                 class="input-control !pr-12">
         @else
             <!-- Non-searchable (readonly input) -->
@@ -67,7 +92,7 @@
         </button>
 
         <!-- Dropdown -->
-        <div x-show="open && {{ count($options) }} > 0"
+        <div x-show="open"
              x-transition:enter="transition ease-out duration-100"
              x-transition:enter-start="opacity-0 scale-95"
              x-transition:enter-end="opacity-100 scale-100"
@@ -76,13 +101,17 @@
              x-transition:leave-end="opacity-0 scale-95"
              x-cloak
              class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
-            @foreach($options as $optionValue => $optionLabel)
+            @forelse($options as $optionValue => $optionLabel)
                 <div 
                     @click="selectOption('{{ $optionValue }}', '{{ addslashes($optionLabel) }}')"
                     class="px-4 py-2 hover:bg-primary-50 cursor-pointer text-text-default hover:text-primary-600 transition-colors">
                     {{ $optionLabel }}
                 </div>
-            @endforeach
+            @empty
+                <div class="px-4 py-2 text-gray-500 text-sm">
+                    {{ __('No results found') }}
+                </div>
+            @endforelse
         </div>
     </div>
 </div>
