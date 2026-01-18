@@ -8,7 +8,7 @@ echo "====================="
 # Try to access a page via artisan
 php artisan tinker --execute="
 try {
-    \$request = Illuminate\Http\Request::create('/welcome-to-our-platform', 'GET');
+    \$request = Illuminate\Http\Request::create('/admin', 'GET');
     \$response = app()->handle(\$request);
     echo 'Status: ' . \$response->getStatusCode() . PHP_EOL;
 } catch (Exception \$e) {
@@ -25,4 +25,4 @@ try {
 
 echo ""
 echo "Checking last 20 lines of production log..."
-tail -20 storage/logs/laravel.log | grep -A 10 "production.ERROR" || echo "No recent production errors"
+tail -50 storage/logs/laravel.log | grep -A 10 "production.ERROR" || echo "No recent production errors"
