@@ -9,6 +9,17 @@ set -e  # Exit on any error
 echo "🚀 Starting PRODUCTION deployment..."
 echo "===================================="
 
+# Check Node.js version (Vite 7 requires Node 20+)
+echo ""
+echo "🔍 Checking Node.js version..."
+NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+if [ "$NODE_VERSION" -lt 20 ]; then
+    echo "❌ ERROR: Node.js 20+ required for Vite 7 (current: $(node -v))"
+    echo "   Upgrade Node.js: https://nodejs.org/"
+    exit 1
+fi
+echo "✅ Node.js $(node -v) is compatible"
+
 # Automatically switch to production environment
 echo ""
 echo "🔄 Switching to production environment..."
@@ -29,10 +40,10 @@ echo ""
 echo "📦 Installing composer dependencies..."
 composer install --no-dev --optimize-autoloader --no-interaction
 
-# Install/update npm dependencies
+# Install/update npm dependencies (includes devDependencies needed for build)
 echo ""
 echo "📦 Installing npm dependencies..."
-npm ci --production
+npm ci
 
 # Build frontend assets (production)
 echo ""
