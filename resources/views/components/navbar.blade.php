@@ -23,8 +23,8 @@
             <!-- Right Side: Register, Login, Language Switcher -->
             <div class="flex items-center space-x-1 md:space-x-2">
                 @auth
-                    <!-- Icon Buttons -->
-                    <div class="flex items-center space-x-2">
+                    <!-- Icon Buttons - Desktop Only -->
+                    <div class="hidden lg:flex items-center space-x-2">
                         <!-- Notifications Button -->
                         @livewire('notifications-dropdown')
                         
@@ -57,7 +57,7 @@
                         </button>
                         
                         <div x-show="userMenuOpen" @click.outside="userMenuOpen = false" x-transition 
-                            class="absolute -right-15 top-16 w-48 bg-primary rounded-lg shadow-lg z-40 p-4 px-5 border-t-1 border-l-1 border-r-1 border-primary">
+                            class="absolute right-0 lg:-right-15 top-10 md:top-16 w-48 bg-primary rounded-lg shadow-lg z-40 p-4 px-5 border-t-1 border-l-1 border-r-1 border-primary">
                             <div>
                                <a href="{{ route('account.dashboard') }}" class="block p-5 py-3 text-sm text-white hover:bg-secondary-500 rounded-lg transition-colors">
                                   {{ __('front.nav.myaccount') }}
@@ -133,6 +133,29 @@
         <div class="lg:hidden hidden" id="mobile-menu">
             <div class="flex flex-wrap p-4 py-5 pt-6 space-y-2 bg-white rounded-2xl">
                 
+                @auth
+                    <!-- Icon Buttons - Mobile Only -->
+                    <div class="w-full flex items-center justify-center gap-3 pb-4 border-b border-gray-200 mb-2">
+                        <!-- Notifications Button -->
+                        @livewire('notifications-dropdown')
+                        
+                        <!-- Mail Button -->
+                        <a href="{{ route('messages.index') }}" class="btn nav-button bg-gray-50 !px-4 !py-4 !border-1 !text-primary !border-primary relative rounded-lg" title="{{ __('front.nav.mail') }}">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            @php
+                                $unreadMessages = Auth::user()->receivedMessages()->unread()->count();
+                            @endphp
+                            @if($unreadMessages > 0)
+                                <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                                    {{ $unreadMessages > 9 ? '9+' : $unreadMessages }}
+                                </span>
+                            @endif
+                        </a>
+                        
+                    </div>
+                @endauth
                 
                 @foreach($navPages ?? [] as $page)
                     <a href="{{ url('/' . $page->slug) }}" class="nav-link-mobile group">

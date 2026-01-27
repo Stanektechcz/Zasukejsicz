@@ -309,6 +309,7 @@ return [
             'selectgender' => 'Vyberte pohlaví',
             'age' => 'Věk',
             'city' => 'Město',
+            'select_country_first' => 'Nejprve vyberte zemi',
             'country' => 'Země',
             'selectcountry' => 'Vyberte zemi',
             'searchcountry' => 'Hledat zemi...',

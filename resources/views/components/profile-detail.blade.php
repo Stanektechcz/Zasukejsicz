@@ -52,10 +52,10 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
         <!-- Left Sidebar - Profile Info -->
-        <div class="lg:col-span-1">
-            <div class="p-6">
+        <div class="lg:col-span-1 order-2 lg:order-1">
+            <div class="py-4 md:p-6">
                 <!-- Profile Header -->
                 <div class="text-center mb-6">
                     <h1 class="text-3xl font-bold text-secondary mb-2">{{ $profile->display_name ?? 'Alexandrina' }}</h1>
@@ -202,8 +202,8 @@
         </div>
 
         <!-- Right Side - Photo Gallery and Content -->
-        <div class="lg:col-span-2">
-            <div class="p-6">
+        <div class="lg:col-span-2 order-1 lg:order-2">
+            <div class="py-4 md:p-6">
                 <!-- Photo Gallery -->
                 @if($profile->getAllImages()->count() > 0)
                 <div class="mb-6">
@@ -223,13 +223,13 @@
                         </div>
 
                         <!-- Custom Navigation buttons -->
-                        <div class="swiper-button-next-custom absolute top-1/2 -right-5 transform -translate-y-1/2 z-10 cursor-pointer">
-                            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                        <div class="swiper-button-next-custom absolute top-1/2 -right-3 md:-right-5 transform -translate-y-1/2 z-10 cursor-pointer">
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-md md:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm md:text-base">
                                 ⏵
                             </div>
                         </div>
-                        <div class="swiper-button-prev-custom absolute top-1/2 -left-5 transform -translate-y-1/2 z-10 cursor-pointer">
-                            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center  hover:shadow-lg transition-all duration-200">
+                        <div class="swiper-button-prev-custom absolute top-1/2 -left-3 md:-left-5 transform -translate-y-1/2 z-10 cursor-pointer">
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-md md:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm md:text-base">
                                 ⏴
                             </div>
                         </div>
@@ -273,8 +273,6 @@
                 </div>
 
                 <!-- Prices Section -->
-                
-
                 @if(!empty($profile->local_prices) && is_array($profile->local_prices) && count($profile->local_prices) > 0)
                 <div class="mt-8">
                     <h2 class="text-2xl font-bold text-secondary mb-4">{{ __('front.profiles.detail_page.my_prices') }}</h2>
@@ -484,11 +482,11 @@
 <!-- Lightbox Modal -->
 @if($profile->getAllImages()->count() > 0)
 <div id="lightbox-modal" class="fixed inset-0 z-50 backdrop-blur-lg hidden items-center justify-center" style="background-color: rgba(255, 255, 255, 0.7);">
-    <div class="relative w-full h-full flex items-center justify-center p-4">
+    <div class="relative w-full h-full flex items-center justify-center p-2 sm:p-4">
         <!-- Close Button -->
-        <button id="lightbox-close" class="absolute top-12 right-12 z-60 cursor-pointer">
-            <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="lightbox-close" class="absolute top-3 right-3 sm:top-6 sm:right-6 md:top-12 md:right-12 z-60 cursor-pointer">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 bg-primary text-white rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200">
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
@@ -502,7 +500,7 @@
                 <div class="swiper-slide !flex items-center justify-center w-full h-full">
                     <img src="{{ $image->getUrl() }}"
                         alt="{{ $profile->display_name }}"
-                        class="max-w-[90vw] max-h-[90vh] rounded-2xl object-contain mx-auto"
+                        class="max-w-[95vw] max-h-[85vh] sm:max-w-[90vw] sm:max-h-[90vh] rounded-lg sm:rounded-2xl object-contain mx-auto"
                         data-index="{{ $index }}">
                 </div>
                 @endforeach
@@ -510,25 +508,25 @@
         </div>
 
         <!-- Navigation Buttons -->
-        <div class="lightbox-button-prev absolute left-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
-            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+        <div class="lightbox-button-prev absolute left-0.5 sm:left-6 md:left-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-primary text-white rounded-md sm:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                 ⏴
             </div>
         </div>
 
-        <div class="lightbox-button-next absolute right-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
-            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+        <div class="lightbox-button-next absolute right-0.5 sm:right-6 md:right-16 top-1/2 transform -translate-y-1/2 z-60 cursor-pointer">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-primary text-white rounded-md sm:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                 ⏵
             </div>
         </div>
 
         <!-- Thumbnail Navigation -->
-        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-60 w-full max-w-md px-4">
+        <div class="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-60 w-full max-w-xs sm:max-w-md px-2 sm:px-4">
             <div class="swiper lightbox-thumbs-swiper">
                 <div class="swiper-wrapper">
                     @foreach($profile->getAllImages() as $index => $image)
                     <div class="swiper-slide">
-                        <div class="lightbox-thumb w-16 h-18 rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-white transition-all duration-200" data-index="{{ $index }}">
+                        <div class="lightbox-thumb w-12 h-14 sm:w-16 sm:h-18 rounded-md sm:rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-white transition-all duration-200" data-index="{{ $index }}">
                             <img src="{{ $image->getUrl() }}"
                                 alt="{{ $profile->display_name }}"
                                 class="w-full h-full object-cover">

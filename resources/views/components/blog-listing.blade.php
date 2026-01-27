@@ -11,7 +11,7 @@
         @foreach($posts as $post)
         <article class="group">
             <!-- Header Image with Overlay Pills -->
-            <a href="{{ route('pages.show', $post->slug) }}" class="block relative mb-4 rounded-xl overflow-hidden">
+            <a href="{{ route('pages.show', $post->slug) }}" class="block relative mb-4 rounded-none md:rounded-xl overflow-hidden -mx-4 md:mx-0">
                 @if($post->hasMedia('header-image'))
                     <img src="{{ $post->getFirstMediaUrl('header-image') }}" 
                          alt="{{ $post->title }}"
@@ -27,18 +27,18 @@
                 @endif
                 
                 <!-- Info Pills - Bottom Left Corner -->
-                <div class="absolute bottom-4 left-4 flex gap-2">
+                <div class="absolute bottom-2 md:bottom-4 left-2 md:left-4 flex flex-wrap gap-1.5 md:gap-2">
                     <time datetime="{{ $post->created_at->format('Y-m-d') }}" 
-                          class="inline-flex items-center px-3 py-2 bg-white/90 backdrop-blur-sm text-gray-700 rounded-full text-xs font-medium shadow-lg">
-                        <svg class="w-4 h-4 mr-1.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          class="inline-flex items-center px-2 py-1 md:px-3 md:py-2 bg-white/90 backdrop-blur-sm text-gray-700 rounded-full text-[10px] md:text-xs font-medium shadow-lg">
+                        <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-1.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         {{ $post->created_at->format('j. n. Y') }}
                     </time>
                     
                     @if($post->aproximateReadingTime() > 0)
-                        <div class="inline-flex items-center px-3 py-2 bg-white/90 backdrop-blur-sm text-gray-700 rounded-full text-xs font-medium shadow-lg">
-                            <svg class="w-4 h-4 mr-1.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center px-2 py-1 md:px-3 md:py-2 bg-white/90 backdrop-blur-sm text-gray-700 rounded-full text-[10px] md:text-xs font-medium shadow-lg">
+                            <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-1.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ $post->aproximateReadingTime() }} {{ __('min') }}

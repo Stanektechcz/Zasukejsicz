@@ -293,6 +293,7 @@ return [
             'selectgender' => 'Select gender',
             'age' => 'Age',
             'city' => 'City',
+            'select_country_first' => 'Please select a country first',
             'country' => 'Country',
             'selectcountry' => 'Select country',
             'searchcountry' => 'Search country...',

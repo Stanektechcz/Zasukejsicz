@@ -1,15 +1,15 @@
-<div class="card w-full shadow-lg p-4 md:p-8 overflow-visible translate-y-20 rounded-lg">
-    <div class="space-y-3 md:space-y-6">
+<div class="card w-full shadow-lg p-3 md:p-8 overflow-visible translate-y-20 rounded-lg">
+    <div class="space-y-2 md:space-y-6">
         <!-- Heading -->
-        <h4 class="mb-3 md:mb-6 flex items-center text-base md:text-xl">
-            <x-icons name="heart" class="w-5 h-5 md:w-6 md:h-6 inline-block mr-2 md:mr-3 text-primary-500" />
+        <h4 class="mb-2 md:mb-6 flex items-center text-base md:text-xl">
+            <x-icons name="heart" class="w-5 h-5 md:w-6 md:h-6 inline-block mr-1.5 md:mr-3 text-primary-500" />
             {{ __('front.landing.findprofiles') }}
         </h4>
 
         <!-- Search Form -->
-        <form wire:submit.prevent="search" class="space-y-3 md:space-y-6">
+        <form wire:submit.prevent="search" class="space-y-2 md:space-y-6">
             <!-- Search Controls Row -->
-            <div class="flex flex-wrap items-end gap-2 md:gap-4">
+            <div class="flex flex-wrap items-end gap-1.5 md:gap-4">
                 <!-- City Picker -->
                 <div class="flex-1">
                     <x-autocomplete-select
@@ -48,10 +48,10 @@
                 </div>
 
                 <!-- Search Button -->
-                <div class="pt-3 md:pt-6 flex-shrink-0 w-full md:w-auto">
+                <div class="pt-2 md:pt-6 flex-shrink-0 w-full md:w-auto">
                     <button
                         type="submit"
-                        class="btn-primary w-full text-base md:text-lg py-3 px-4 md:py-5 md:px-8 flex items-center justify-center"
+                        class="btn-primary w-full text-base md:text-lg py-2.5 px-3 md:py-5 md:px-8 flex items-center justify-center"
                         wire:loading.attr="disabled"
                         wire:loading.class="opacity-75">
 

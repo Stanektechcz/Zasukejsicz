@@ -1,17 +1,17 @@
 <div class="relative" x-data="{ notificationsOpen: false }" wire:poll.3s>
-    <button @click="notificationsOpen = !notificationsOpen" class="btn nav-button bg-gray-50 !px-2 !py-2 md:!px-4 md:!py-4 !border-1 !text-primary !border-primary relative rounded md:rounded-lg" title="{{ __('front.nav.notifications') }}">
-        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <button @click="notificationsOpen = !notificationsOpen" class="btn nav-button bg-gray-50 !px-4 !py-4 !border-1 !text-primary !border-primary relative rounded-lg" title="{{ __('front.nav.notifications') }}">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         @if($this->unreadCount > 0)
-            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center text-xs">
                 {{ $this->unreadCount > 9 ? '9+' : $this->unreadCount }}
             </span>
         @endif
     </button>
     
     <div x-show="notificationsOpen" @click.outside="notificationsOpen = false" x-transition 
-         class="absolute right-0 mt-2 w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto border border-gray-200 shadow-lg">
+         class="fixed left-4 right-4 top-38 lg:absolute lg:left-auto lg:right-0 lg:top-auto mt-2 w-auto lg:w-80 bg-white rounded-lg z-50 max-h-96 overflow-y-auto border border-gray-200 shadow-lg">
         
         @if($this->notifications->isEmpty())
             <div class="p-6 text-center text-gray-500">

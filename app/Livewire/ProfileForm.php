@@ -106,6 +106,7 @@ class ProfileForm extends Component
             $this->display_name = $profile->display_name ?? '';
             $this->age = $profile->age ?? '';
             $this->city = $profile->city ?? '';
+            $this->citySearchTerm = $profile->city ?? ''; // Initialize city search with existing value
             $this->country_code = $profile->country_code ?? '';
             $this->address = $profile->address ?? '';
             $this->about = $profile->about ?? '';

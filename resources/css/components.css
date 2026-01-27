@@ -3,13 +3,11 @@
 input,
 textarea,
 select {
-  @apply block w-full px-5 py-3 text-base leading-5 rounded-lg bg-white outline-none transition-all duration-200 ease-in-out;
+  @apply block w-full px-4 py-2.5 text-sm leading-5 rounded-lg bg-white outline-none transition-all duration-200 ease-in-out md:px-5 md:py-3 md:text-base;
   border: 2px solid var(--color-gray-100);
   color: var(--color-gray-600);
   font-weight: 600;
 }
-
-
 
 
 select {

@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
                 'en' => 'https://flagcdn.com/w20/gb.png',
                 'cs' => 'https://flagcdn.com/w20/cz.png',
             ])
-            ->displayLocale('en')
+            ->displayLocale('cs')
             ->visible(insidePanels: true, outsidePanels: false)
             ->renderHook('panels::global-search.after');
 

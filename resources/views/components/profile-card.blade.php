@@ -33,10 +33,10 @@
             @if($profile->getAllImages()->count() > 0)
             @if($profile->hasMultipleImages())
             <!-- Swiper for multiple images -->
-            <div class="swiper profile-swiper-{{ $profile->id }} w-full h-full">
-                <div class="swiper-wrapper">
+            <div class="swiper profile-swiper-{{ $profile->id }} h-full w-full" style="margin-left: 0 !important;">
+                <div class="swiper-wrapper" style="transform: translate3d(0, 0, 0) !important;">
                     @foreach($profile->getAllImages() as $image)
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" style="width: 100% !important; flex-shrink: 0;">
                         <img src="{{ $image->getUrl() }}" alt="{{ $profile->display_name }}"
                             class="w-full h-full object-cover">
                     </div>

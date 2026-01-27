@@ -8,20 +8,20 @@
     @if($this->profiles->count() > 0)
     <div class="relative">
         <!-- Custom Navigation buttons -->
-        <div class="swiper-button-next-{{ $sliderId }} absolute top-38 -right-5 transform -translate-y-1/2 z-10 cursor-pointer">
-            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+        <div class="swiper-button-next-{{ $sliderId }} absolute top-1/2 -right-2 sm:-right-3 md:-right-5 transform -translate-y-1/2 z-10 cursor-pointer">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-primary text-white rounded-md sm:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                 ⏵
             </div>
         </div>
-        <div class="swiper-button-prev-{{ $sliderId }} absolute top-38 -left-5 transform -translate-y-1/2 z-10 cursor-pointer">
-            <div class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200">
+        <div class="swiper-button-prev-{{ $sliderId }} absolute top-1/2 -left-2 sm:-left-3 md:-left-5 transform -translate-y-1/2 z-10 cursor-pointer">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-primary text-white rounded-md sm:rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                 ⏴
             </div>
         </div>
 
         <!-- Swiper Container -->
         <div class="swiper {{ $sliderId }} overflow-visible">
-            <div class="swiper-wrapper py-4 px-1">
+            <div class="swiper-wrapper py-4">
                 @foreach($this->profiles as $profile)
                 <div class="swiper-slide h-auto">
                     <x-profile-card :profile="$profile" />
@@ -106,7 +106,13 @@
 
                 // Initialize new Swiper instance for profile images
                 new Swiper(innerSwiperEl, {
-                    loop: true,
+                    loop: false,
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    centeredSlides: false,
+                    slidesOffsetBefore: 0,
+                    slidesOffsetAfter: 0,
+                    initialSlide: 0,
                     pagination: {
                         el: '.swiper-pagination-' + profileId,
                         clickable: true,
